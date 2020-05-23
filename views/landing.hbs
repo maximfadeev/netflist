@@ -1,0 +1,14 @@
+<h2>Welcome to Netflist!</h2>
+<p>Browse playlists:</p>
+<ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+</ul>
+{{#if user}}
+<a href="/logout">logout</a>
+<a href="/dashboard">profile</a>
+{{else}}
+<a href="/login">login</a>
+<a href="/register">register</a>
+{{/if}}

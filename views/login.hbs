@@ -1,0 +1,13 @@
+{{#if error}}
+<h2>{{error}}</h2>
+
+{{/if}}
+<h2>{{success_msg}}</h2>
+<div class="login">
+    <form action="login" method="POST">
+        <input type="email" id="email" name="email" placeholder="Enter email" value={{email}}>
+        <input type="password" id="password1" name="password1" placeholder="Enter password">
+        <input type="submit">
+    </form>
+</div>
+<p>Don't have an account? <a href='/register'>Register</a></p>
