@@ -3,6 +3,11 @@ input {
     margin: 10px;
 }
 
-.options {
-    display: block;
-}
+/* .nItem {
+    border-style: solid;
+    margin: 
+} */
+
+/* .disabled {
+    pointer-events: none;
+} */

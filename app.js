@@ -3,12 +3,12 @@ const bcrypt = require("bcryptjs");
 const flash = require("connect-flash");
 const session = require("express-session");
 const passport = require("passport");
+const exphbs = require("express-handlebars");
+require("./config/passport")(passport);
 
 // express
 const express = require("express");
 const app = express();
-
-require("./config/passport")(passport);
 
 // static files
 const path = require("path");
@@ -17,7 +17,27 @@ app.use(express.static(publicPath));
 
 // body parser
 app.use(express.urlencoded({ extended: true }));
-app.set("view engine", "hbs");
+
+// handlebars
+const hbs = exphbs.create({
+    helpers: {
+        isMovie: function (value, options) {
+            if (value.vtype === "movie") {
+                return options.fn(this);
+            } else {
+                return options.inverse(this);
+            }
+        },
+    },
+});
+
+app.engine("handlebars", hbs.engine);
+app.set("view engine", "handlebars");
+
+// handlebars helpers
+// Handlebars.registerHelper("ismovie", function (value) {
+//     return value === "movie";
+// });
 
 // database
 const mongoose = require("mongoose");
@@ -159,7 +179,9 @@ app.get("/search/show/:nfid", (req, res) => {
         },
     })
         .then((response) => response.json())
-        .then((data) => res.render("search-show", { results: data }))
+        .then((data) =>
+            res.render("search-show", { results: data, stringResults: JSON.stringify(data) })
+        )
         .catch((err) => {
             console.log(err);
         });

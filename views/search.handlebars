@@ -1,0 +1,14 @@
+{{#each results}}
+<div class="nItem">
+    <h3>{{title}}</h3>
+    <img src={{img}}>
+
+    {{#isMovie this}}
+    <a href="/add/{{nfid}}">Add movie</a>
+    {{else}}
+    <a href="/add/{{nfid}}">Add show</a>
+    <a href="/search/show/{{nfid}}">Search episodes</a>
+    {{/isMovie}}
+    <hr>
+</div>
+{{/each}}
