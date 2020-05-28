@@ -19,30 +19,27 @@ app.use(express.static(publicPath));
 app.use(express.urlencoded({ extended: true }));
 
 // handlebars
-const hbs = exphbs.create({
-    helpers: {
-        isMovie: function (value, options) {
-            if (value.vtype === "movie") {
-                return options.fn(this);
-            } else {
-                return options.inverse(this);
-            }
-        },
-    },
-});
-
-app.engine("handlebars", hbs.engine);
-app.set("view engine", "handlebars");
-
-// handlebars helpers
-// Handlebars.registerHelper("ismovie", function (value) {
-//     return value === "movie";
+// const hbs = exphbs.create({
+//     helpers: {
+//         isMovie: function (value, options) {
+//             if (value.vtype === "movie") {
+//                 return options.fn(this);
+//             } else {
+//                 return options.inverse(this);
+//             }
+//         },
+//     },
 // });
+// app.engine("handlebars", hbs.engine);
+app.engine("handlebars", exphbs());
+app.set("view engine", "handlebars");
 
 // database
 const mongoose = require("mongoose");
 require("./public/db.js");
 const User = mongoose.model("User");
+const List = mongoose.model("List");
+mongoose.set("useFindAndModify", false);
 
 // express session
 app.use(
@@ -68,6 +65,9 @@ app.use((req, res, next) => {
 
     next();
 });
+
+// json
+app.use(express.json());
 
 app.get("/", (req, res) => {
     res.render("landing", { user: req.user });
@@ -149,44 +149,56 @@ app.get("/logout", (req, res) => {
     res.redirect("/login");
 });
 
-app.get("/create", (req, res) => {
-    res.render("create");
+app.post("/create", ensureAuthenticated, (req, res) => {
+    let newList = new List({
+        createdBy: req.user.id,
+    });
+    newList.save(function (err) {
+        if (err) {
+            console.log(err);
+        }
+    });
+    console.log(req.user.id);
+    User.findOneAndUpdate({ _id: req.user.id }, { $push: { lists: newList.id } }, function (
+        err,
+        data
+    ) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(data);
+        }
+    });
+    res.redirect(`list/edit/${newList.id}`);
 });
 
-app.get("/search", (req, res) => {
-    fetch(`https://unogsng.p.rapidapi.com/search?query=${req.query.search}`, {
-        method: "GET",
-        headers: {
-            "x-rapidapi-host": "unogsng.p.rapidapi.com",
-            "x-rapidapi-key": "b517c955a2msh5cffdf9da2a3cbep1f65c4jsnfe65e7cbba07",
-        },
-    })
-        .then((response) => response.json())
-        .then((data) => res.render("search", { results: data.results }))
-        .catch((err) => {
-            console.log(err);
-        });
+app.get("/list/edit/:listId", ensureAuthenticated, (req, res) => {
+    res.render("edit-list");
 });
 
-app.get("/search/show/:nfid", (req, res) => {
-    // console.log(req.params.nfid);
-
-    fetch(`https://unogsng.p.rapidapi.com/episodes?netflixid=${req.params.nfid}`, {
-        method: "GET",
-        headers: {
-            "x-rapidapi-host": "unogsng.p.rapidapi.com",
-            "x-rapidapi-key": "b517c955a2msh5cffdf9da2a3cbep1f65c4jsnfe65e7cbba07",
+app.post("/list/edit/:listId", ensureAuthenticated, (req, res) => {
+    List.findOneAndUpdate(
+        { _id: req.params.listId },
+        {
+            $push: {
+                titles: {
+                    title: req.body.title,
+                    netflixId: req.body.nfid,
+                    synopsis: req.body.synopsis,
+                    image: req.body.img,
+                },
+            },
         },
-    })
-        .then((response) => response.json())
-        .then((data) =>
-            res.render("search-show", { results: data, stringResults: JSON.stringify(data) })
-        )
-        .catch((err) => {
-            console.log(err);
-        });
-
-    // res.render("search", { title: req.query.search });
+        function (err, data) {
+            if (err) {
+                console.log("err", err);
+            } else {
+                console.log("data", data);
+            }
+        }
+    );
+    // const email = req.user.email;
+    // User.findOne({ email: email }).then(function (user) {});
 });
 
 const PORT = process.env.PORT || 5000;

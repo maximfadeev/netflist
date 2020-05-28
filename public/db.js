@@ -5,9 +5,28 @@ const UserSchema = new mongoose.Schema({
     email: { type: String, required: true },
     password: { type: String, required: true },
     date: { type: Date, default: Date.now },
+    lists: [{ type: mongoose.ObjectId, ref: "List" }],
 });
 
 mongoose.model("User", UserSchema);
+
+const ListSchema = new mongoose.Schema({
+    name: { type: String, required: true, default: "untitled" },
+    createdBy: { type: mongoose.ObjectId, ref: "User" },
+    date: { type: Date, default: Date.now },
+    titles: [
+        {
+            title: { type: String, required: true },
+            netflixId: { type: String, required: true },
+            synopsis: { type: String, required: true },
+            image: String,
+            season: String,
+            episode: String,
+        },
+    ],
+});
+
+mongoose.model("List", ListSchema);
 
 const db = require("../config/keys.js").MongoURI;
 
