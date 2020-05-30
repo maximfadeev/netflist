@@ -173,20 +173,42 @@ app.post("/create", ensureAuthenticated, (req, res) => {
 });
 
 app.get("/list/edit/:listId", ensureAuthenticated, (req, res) => {
-    res.render("edit-list");
+    List.findById(req.params.listId, function (err, data) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("edit-list", data);
+        }
+    });
 });
 
 app.post("/list/edit/:listId", ensureAuthenticated, (req, res) => {
+    console.log(req.body);
+    let nItem = {};
+
+    if (Object.keys(req.body).length <= 7) {
+        nItem = {
+            title: req.body.title,
+            netflixId: req.body.epid,
+            synopsis: req.body.synopsis,
+            image: req.body.img,
+            season: req.body.seasnum,
+            episode: req.body.epnum,
+        };
+    } else {
+        nItem = {
+            title: req.body.title,
+            netflixId: req.body.nfid,
+            synopsis: req.body.synopsis,
+            image: req.body.img,
+        };
+    }
+
     List.findOneAndUpdate(
         { _id: req.params.listId },
         {
             $push: {
-                titles: {
-                    title: req.body.title,
-                    netflixId: req.body.nfid,
-                    synopsis: req.body.synopsis,
-                    image: req.body.img,
-                },
+                titles: nItem,
             },
         },
         function (err, data) {
@@ -197,8 +219,6 @@ app.post("/list/edit/:listId", ensureAuthenticated, (req, res) => {
             }
         }
     );
-    // const email = req.user.email;
-    // User.findOne({ email: email }).then(function (user) {});
 });
 
 const PORT = process.env.PORT || 5000;

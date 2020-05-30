@@ -41,7 +41,7 @@ function search(evt) {
                 imageEl.src = image;
                 searchResult.appendChild(imageEl);
 
-                // add buttons
+                // add button
                 let addBtn = document.createElement("input");
                 addBtn.type = "button";
                 addBtn.value = "add";
@@ -121,6 +121,20 @@ function showEpisodes(evt, id) {
                     let episodeImage = document.createElement("img");
                     episodeImage.src = episode.img;
                     episodeEl.appendChild(episodeImage);
+
+                    // add button
+                    let addBtn = document.createElement("input");
+                    addBtn.type = "button";
+                    addBtn.value = "add";
+                    addBtn.addEventListener(
+                        "click",
+                        (function (titleObject) {
+                            return function (e) {
+                                titleObject.show = addTitle(e, titleObject);
+                            };
+                        })(episode)
+                    );
+                    episodeEl.appendChild(addBtn);
 
                     seasonEl.appendChild(episodeEl);
                 }
