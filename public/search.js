@@ -53,22 +53,24 @@ function search(evt) {
                         };
                     })(result)
                 );
-
-                let showBtn = document.createElement("input");
-                showBtn.type = "button";
-                showBtn.value = "show episodes";
-                // pass object into event listener
-                showBtn.addEventListener(
-                    "click",
-                    (function (id) {
-                        return function (e) {
-                            showEpisodes(e, id);
-                        };
-                    })(netflixId)
-                );
-
                 searchResult.appendChild(addBtn);
-                searchResult.appendChild(showBtn);
+
+                // show episdoes button
+                if (type === "series") {
+                    let showBtn = document.createElement("input");
+                    showBtn.type = "button";
+                    showBtn.value = "show episodes";
+                    // pass object into event listener
+                    showBtn.addEventListener(
+                        "click",
+                        (function (id) {
+                            return function (e) {
+                                showEpisodes(e, id);
+                            };
+                        })(netflixId)
+                    );
+                    searchResult.appendChild(showBtn);
+                }
 
                 // add to all searches
                 searchResults.appendChild(searchResult);
@@ -87,70 +89,77 @@ function search(evt) {
 
 function showEpisodes(evt, id) {
     evt.preventDefault();
-    fetch(`https://unogsng.p.rapidapi.com/episodes?netflixid=${id}`, {
-        method: "GET",
-        headers: {
-            "x-rapidapi-host": "unogsng.p.rapidapi.com",
-            "x-rapidapi-key": "b517c955a2msh5cffdf9da2a3cbep1f65c4jsnfe65e7cbba07",
-        },
-    })
-        .then((response) => response.json())
-        .then(function (data) {
-            console.log(data);
-            const parentEl = evt.path[1];
-            let allSeasonsEl = document.createElement("div");
-            allSeasonsEl.classList.add("seasons");
-            for (const season of data) {
-                // add season number
-                let seasonEl = document.createElement("div");
-                seasonEl.classList.add("season");
-                let seasonTitle = document.createElement("h2");
-                seasonTitle.textContent = "Season " + season.season;
-                seasonEl.appendChild(seasonTitle);
-                // add epsiodes
-                for (const episode of season.episodes) {
-                    let episodeEl = document.createElement("div");
-                    episodeEl.classList.add("episode");
-
-                    // add episode title
-                    let episodeTitle = document.createElement("h3");
-                    episodeTitle.textContent = episode.title;
-                    episodeEl.appendChild(episodeTitle);
-
-                    // add episode image
-                    let episodeImage = document.createElement("img");
-                    episodeImage.src = episode.img;
-                    episodeEl.appendChild(episodeImage);
-
-                    // add button
-                    let addBtn = document.createElement("input");
-                    addBtn.type = "button";
-                    addBtn.value = "add";
-                    addBtn.addEventListener(
-                        "click",
-                        (function (titleObject) {
-                            return function (e) {
-                                titleObject.show = addTitle(e, titleObject);
-                            };
-                        })(episode)
-                    );
-                    episodeEl.appendChild(addBtn);
-
-                    seasonEl.appendChild(episodeEl);
-                }
-                allSeasonsEl.appendChild(seasonEl);
-            }
-            parentEl.appendChild(allSeasonsEl);
-            evt.path[0].disabled = true;
+    if (evt.path[1].querySelector("#seasons") == null) {
+        fetch(`https://unogsng.p.rapidapi.com/episodes?netflixid=${id}`, {
+            method: "GET",
+            headers: {
+                "x-rapidapi-host": "unogsng.p.rapidapi.com",
+                "x-rapidapi-key": "b517c955a2msh5cffdf9da2a3cbep1f65c4jsnfe65e7cbba07",
+            },
         })
-        .catch((err) => {
-            console.log(err);
-        });
+            .then((response) => response.json())
+            .then(function (data) {
+                const parentEl = evt.path[1];
+                let allSeasonsEl = document.createElement("div");
+                allSeasonsEl.classList.add("seasons");
+                allSeasonsEl.setAttribute("id", "seasons");
+                for (const season of data) {
+                    // add season number
+                    let seasonEl = document.createElement("div");
+                    seasonEl.classList.add("season");
+                    let seasonTitle = document.createElement("h2");
+                    seasonTitle.textContent = "Season " + season.season;
+                    allSeasonsEl.appendChild(seasonTitle);
+                    // add epsiodes
+                    for (const episode of season.episodes) {
+                        let episodeEl = document.createElement("div");
+                        episodeEl.classList.add("episode");
+
+                        // add episode title
+                        let episodeTitle = document.createElement("h3");
+                        episodeTitle.textContent = episode.title;
+                        episodeEl.appendChild(episodeTitle);
+
+                        // add episode image
+                        let episodeImage = document.createElement("img");
+                        episodeImage.src = episode.img;
+                        episodeEl.appendChild(episodeImage);
+
+                        // add button
+                        let addBtn = document.createElement("input");
+                        addBtn.type = "button";
+                        addBtn.value = "add";
+                        addBtn.addEventListener(
+                            "click",
+                            (function (titleObject) {
+                                return function (e) {
+                                    titleObject.show = addTitle(e, titleObject);
+                                };
+                            })(episode)
+                        );
+                        episodeEl.appendChild(addBtn);
+
+                        seasonEl.appendChild(episodeEl);
+                    }
+                    allSeasonsEl.appendChild(seasonEl);
+                }
+                parentEl.appendChild(allSeasonsEl);
+                evt.path[0].value = "hide episodes";
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    } else if (evt.path[1].querySelector("#seasons").style.display === "none") {
+        evt.path[1].querySelector("#seasons").style.display = "block";
+        evt.path[0].value = "hide episodes";
+    } else {
+        evt.path[1].querySelector("#seasons").style.display = "none";
+        evt.path[0].value = "show episodes";
+    }
 }
 
 function addTitle(evt, titleObject) {
     evt.preventDefault();
-    console.log(titleObject);
 
     const options = {
         method: "POST",

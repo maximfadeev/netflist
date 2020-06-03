@@ -172,7 +172,7 @@ app.post("/create", ensureAuthenticated, (req, res) => {
     res.redirect(`list/edit/${newList.id}`);
 });
 
-app.get("/list/edit/:listId", ensureAuthenticated, (req, res) => {
+app.get("/list/edit/:listId", (req, res) => {
     List.findById(req.params.listId, function (err, data) {
         if (err) {
             console.log(err);
@@ -182,7 +182,7 @@ app.get("/list/edit/:listId", ensureAuthenticated, (req, res) => {
     });
 });
 
-app.post("/list/edit/:listId", ensureAuthenticated, (req, res) => {
+app.post("/list/edit/:listId", (req, res) => {
     console.log(req.body);
     let nItem = {};
 
@@ -214,6 +214,8 @@ app.post("/list/edit/:listId", ensureAuthenticated, (req, res) => {
         function (err, data) {
             if (err) {
                 console.log("err", err);
+            } else if (data === null) {
+                console.log("no list exists");
             } else {
                 console.log("data", data);
             }

@@ -1,4 +1,26 @@
+body {
+    font-family: sans-serif;
+}
+
 input {
     display: block;
+    margin: 10px;
+}
+
+.season {
+    display: flex;
+    overflow: scroll;
+}
+
+.episode {
+    margin: 10px;
+}
+
+/* #searchResults {
+    display: flex;
+    flex-wrap: wrap;
+} */
+
+.searchResult {
     margin: 10px;
 }
