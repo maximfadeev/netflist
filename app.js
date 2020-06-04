@@ -4,6 +4,7 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const passport = require("passport");
 const exphbs = require("express-handlebars");
+require("./db");
 require("./config/passport")(passport);
 
 // express
@@ -36,7 +37,6 @@ app.set("view engine", "handlebars");
 
 // database
 const mongoose = require("mongoose");
-require("./public/db.js");
 const User = mongoose.model("User");
 const List = mongoose.model("List");
 mongoose.set("useFindAndModify", false);
@@ -69,11 +69,28 @@ app.use((req, res, next) => {
 // json
 app.use(express.json());
 
+// authentication
+const ensureAuthenticated = function (req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    req.flash("error", "Please log in to view this resource");
+    res.redirect("/login");
+};
+
+const ensureUnauthenticated = function (req, res, next) {
+    if (req.isAuthenticated()) {
+        res.redirect("/dashboard");
+    } else {
+        return next();
+    }
+};
+
 app.get("/", (req, res) => {
     res.render("landing", { user: req.user });
 });
 
-app.get("/register", (req, res) => {
+app.get("/register", ensureUnauthenticated, (req, res) => {
     res.render("register");
 });
 
@@ -125,7 +142,7 @@ app.post("/register", (req, res) => {
     }
 });
 
-app.get("/login", (req, res) => {
+app.get("/login", ensureUnauthenticated, (req, res) => {
     res.render("login");
 });
 
@@ -138,9 +155,8 @@ app.post(
     })
 );
 
-const { ensureAuthenticated } = require("./config/auth");
 app.get("/dashboard", ensureAuthenticated, (req, res) => {
-    res.render("dashboard", { name: req.user.name });
+    res.render("dashboard", { user: req.user });
 });
 
 app.get("/logout", (req, res) => {
@@ -177,7 +193,7 @@ app.get("/list/edit/:listId", (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            res.render("edit-list", data);
+            res.render("edit-list", { data: data, user: req.user });
         }
     });
 });

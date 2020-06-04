@@ -1,0 +1,75 @@
+@import url("https://fonts.googleapis.com/css2?family=Muli:wght@200;300;400&display=swap");
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-family: "Muli", sans-serif;
+}
+
+body {
+  background-color: #282828;
+}
+
+.navbar {
+  background: #141414;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10px 7%;
+}
+
+#logo {
+  width: 130px;
+  padding-top: 7px;
+}
+
+.nav-links {
+  list-style: none;
+}
+
+.nav-links li {
+  display: inline-block;
+  padding: 0px 15px;
+  font-size: 20px;
+  font-weight: 200;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+#content {
+  padding: 20px 7%;
+}
+
+input {
+  display: block;
+  margin: 10px;
+}
+
+.season {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: scroll;
+}
+
+.episode {
+  margin: 10px;
+}
+
+.searchResult {
+  margin: 10px;
+}

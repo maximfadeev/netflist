@@ -28,7 +28,7 @@ const ListSchema = new mongoose.Schema({
 
 mongoose.model("List", ListSchema);
 
-const db = require("../config/keys.js").MongoURI;
+const db = require("./config/keys.js").MongoURI;
 
 mongoose
     .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })

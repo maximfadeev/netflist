@@ -80,7 +80,7 @@ function search(evt) {
             if (document.getElementById("searchResults")) {
                 document.getElementById("searchResults").remove();
             }
-            document.body.appendChild(searchResults);
+            document.querySelector("#content").appendChild(searchResults);
         })
         .catch((err) => {
             console.log(err);
@@ -90,6 +90,7 @@ function search(evt) {
 function showEpisodes(evt, id) {
     evt.preventDefault();
     if (evt.path[1].querySelector("#seasons") == null) {
+        evt.path[0].disabled = true;
         fetch(`https://unogsng.p.rapidapi.com/episodes?netflixid=${id}`, {
             method: "GET",
             headers: {
@@ -144,6 +145,7 @@ function showEpisodes(evt, id) {
                     allSeasonsEl.appendChild(seasonEl);
                 }
                 parentEl.appendChild(allSeasonsEl);
+                evt.path[0].disabled = false;
                 evt.path[0].value = "hide episodes";
             })
             .catch((err) => {
@@ -160,6 +162,7 @@ function showEpisodes(evt, id) {
 
 function addTitle(evt, titleObject) {
     evt.preventDefault();
+    evt.path[0].disabled = true;
 
     const options = {
         method: "POST",

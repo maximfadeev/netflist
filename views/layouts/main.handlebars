@@ -2,27 +2,35 @@
 <html lang="en">
 
 <head>
-
+    <link href="/styles/css/main.css" type="text/css" rel="stylesheet" />
     <meta charset=" UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="/main.css" type="text/css" rel="stylesheet" />
-
+    <title>Netflist</title>
 </head>
 
 <body>
     <header class="navbar">
-        <a href="/"><img src="/netflist-logo.png" alt="netflist-logo" id="logo"></a>
+        <a href="/"><img src="https://fontmeme.com/permalink/200604/4b9d3388289ed7a8cb934ba49ff2299a.png" alt="netflist"
+                border="0" id="logo"></a>
+        {{!-- <a href="/"><img src="/netflist-logo.png" alt="netflist-logo" id="logo"></a> --}}
+        {{!-- <h1>Netflist</h1> --}}
         <nav>
             <ul class="nav-links">
-                <li><a href="/login">login</a></li>
+                {{#if user}}
+                <li><a href="/dashboard">profile</a></li>
+
+                <li><a href="/logout">logout</a></li>
+                {{else}}
                 <li><a href="/register">register</a></li>
+
+                <li><a href="/login">login</a></li>
+                {{/if}}
+
             </ul>
         </nav>
     </header>
-    <div class="content">
+    <div id="content">
         {{{body}}}
-
     </div>
 
 </body>

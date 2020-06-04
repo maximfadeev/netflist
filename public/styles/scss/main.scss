@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Muli:wght@200;300;400&display=swap");
 
+$horizontal-padding: 7%;
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -17,7 +19,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 5%;
+    padding: 10px $horizontal-padding;
 }
 
 #logo {
@@ -27,13 +29,12 @@ body {
 
 .nav-links {
     list-style: none;
-}
-
-.nav-links li {
-    display: inline-block;
-    padding: 0px 15px;
-    font-size: 20px;
-    font-weight: 200;
+    li {
+        display: inline-block;
+        padding: 0px 15px;
+        font-size: 20px;
+        font-weight: 200;
+    }
 }
 
 a:link {
@@ -44,8 +45,8 @@ a:visited {
     text-decoration: none;
 }
 
-.content {
-    padding: 20px 5%;
+#content {
+    padding: 20px $horizontal-padding;
 }
 
 input {
@@ -61,11 +62,6 @@ input {
 .episode {
     margin: 10px;
 }
-
-/* #searchResults {
-    display: flex;
-    flex-wrap: wrap;
-} */
 
 .searchResult {
     margin: 10px;
