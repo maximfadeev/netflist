@@ -86,8 +86,15 @@ const ensureUnauthenticated = function (req, res, next) {
     }
 };
 
+//////////////////////////////////
+//////////////////////////////////
+
 app.get("/", (req, res) => {
-    res.render("landing", { user: req.user });
+    let user;
+    if (req.user) {
+        user = req.user.toJSON();
+    }
+    res.render("landing", { user });
 });
 
 app.get("/register", ensureUnauthenticated, (req, res) => {
@@ -156,7 +163,11 @@ app.post(
 );
 
 app.get("/dashboard", ensureAuthenticated, (req, res) => {
-    res.render("dashboard", { user: req.user });
+    let user;
+    if (req.user) {
+        user = req.user.toJSON();
+    }
+    res.render("dashboard", { user });
 });
 
 app.get("/logout", (req, res) => {
@@ -189,11 +200,15 @@ app.post("/create", ensureAuthenticated, (req, res) => {
 });
 
 app.get("/list/edit/:listId", (req, res) => {
+    let user;
+    if (req.user) {
+        user = req.user.toJSON();
+    }
     List.findById(req.params.listId, function (err, data) {
         if (err) {
             console.log(err);
         } else {
-            res.render("edit-list", { data: data, user: req.user });
+            res.render("edit-list", { data: data, user });
         }
     });
 });

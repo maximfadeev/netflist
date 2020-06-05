@@ -3,11 +3,14 @@
 
 {{/if}}
 <h2>{{success_msg}}</h2>
-<div class="login">
+<div class="login float-box">
     <form action="login" method="POST">
+        <h2>Sign In</h2>
+
         <input type="email" id="email" name="email" placeholder="Enter email" value={{email}}>
         <input type="password" id="password1" name="password1" placeholder="Enter password">
         <input type="submit">
+        <p>Don't have an account? <a href='/register'>Register</a></p>
+
     </form>
 </div>
-<p>Don't have an account? <a href='/register'>Register</a></p>

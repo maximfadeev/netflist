@@ -1,6 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Muli:wght@200;300;400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Muli:wght@200;400;700&display=swap");
 
-$horizontal-padding: 7%;
+$horizontal-padding: 4%;
+$primary-color: rgb(219, 32, 44);
+$background-color: rgb(40, 40, 40);
+$navbar-color: rgb(0, 0, 0);
+
+@import "navbar";
+@import "register";
 
 * {
     box-sizing: border-box;
@@ -11,47 +17,16 @@ $horizontal-padding: 7%;
 }
 
 body {
-    background-color: rgb(40, 40, 40);
+    background-color: $background-color;
 }
 
-.navbar {
-    background: rgb(20, 20, 20);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px $horizontal-padding;
-}
-
-#logo {
-    width: 130px;
-    padding-top: 7px;
-}
-
-.nav-links {
-    list-style: none;
-    li {
-        display: inline-block;
-        padding: 0px 15px;
-        font-size: 20px;
-        font-weight: 200;
-    }
-}
-
-a:link {
-    text-decoration: none;
-}
-
-a:visited {
-    text-decoration: none;
+input[type="button"],
+input[type="submit"] {
+    cursor: pointer;
 }
 
 #content {
     padding: 20px $horizontal-padding;
-}
-
-input {
-    display: block;
-    margin: 10px;
 }
 
 .season {
