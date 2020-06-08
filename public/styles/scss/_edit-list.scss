@@ -1,0 +1,120 @@
+$list-width: 350px;
+
+#search-cart-lists {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    height: 100%;
+}
+
+#search-list,
+#list-element {
+    padding-top: 20px;
+}
+
+#search-list {
+    // flex: 72%;
+    // flex-grow: 1;
+    width: calc(100% - #{$list-width});
+    min-width: 300px;
+}
+
+.search {
+    width: 50%;
+    min-width: 250px;
+    position: relative;
+    display: flex;
+
+    input {
+        width: 100%;
+        // border: 1px solid white;
+        border: 0px;
+        border-right: none;
+        padding: 5px;
+        height: 40px;
+        border-radius: 5px 0 0 5px;
+        outline: none;
+        color: black;
+        font-size: 17px;
+    }
+
+    input:focus {
+        color: black;
+    }
+
+    button {
+        width: 40px;
+        height: 40px;
+        // border: 1px solid white;
+        border: 0px;
+        background: black;
+        text-align: center;
+        color: #fff;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        font-size: 20px;
+        outline: none;
+    }
+
+    button:hover {
+        i {
+            color: rgb(200, 200, 200);
+        }
+    }
+}
+
+#searchResults {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height: 75vh;
+    // height: calc(100% - 200px);
+    // height: 500px;
+    // min-height: 0px;
+}
+
+.searchResult {
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.seasons {
+    // width: 10%;
+}
+
+.season {
+    overflow-x: scroll;
+    white-space: nowrap;
+    // width: calc(95vw - 350px);
+    width: 95%;
+}
+
+.episode {
+    display: inline-block;
+    margin: 10px;
+    margin-left: 0px;
+    // height: 100%;
+    // flex: 0 0 auto;
+}
+
+#list-element {
+    // flex: 28%;
+    width: $list-width;
+    background-color: rgb(20, 20, 20);
+    box-shadow: -5px 0px 10px -5px rgb(58, 58, 58);
+    padding-left: 20px;
+
+    ul {
+        list-style-type: none;
+    }
+}
+
+#list-titles {
+    align-items: flex-start;
+
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height: 75vh;
+}

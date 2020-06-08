@@ -199,18 +199,32 @@ app.post("/create", ensureAuthenticated, (req, res) => {
     res.redirect(`list/edit/${newList.id}`);
 });
 
+app.get("/list/:listId", (req, res) => {
+    List.findById(req.params.listId, function (err, data) {
+        if (err) {
+            console.log(err);
+        } else {
+            data = data.toJSON();
+            res.json(data);
+        }
+    });
+});
+
 app.get("/list/edit/:listId", (req, res) => {
     let user;
     if (req.user) {
         user = req.user.toJSON();
     }
-    List.findById(req.params.listId, function (err, data) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("edit-list", { data: data, user });
-        }
-    });
+    res.render("edit-list", { user });
+
+    // List.findById(req.params.listId, function (err, data) {
+    //     if (err) {
+    //         console.log(err);
+    //     } else {
+    //         data = data.toJSON();
+    //         res.render("edit-list", { data, dataString: JSON.stringify(data), user });
+    //     }
+    // });
 });
 
 app.post("/list/edit/:listId", (req, res) => {

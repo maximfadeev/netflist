@@ -7,6 +7,7 @@ $navbar-color: rgb(0, 0, 0);
 
 @import "navbar";
 @import "register";
+@import "edit-list";
 
 * {
     box-sizing: border-box;
@@ -16,28 +17,22 @@ $navbar-color: rgb(0, 0, 0);
     font-family: "Muli", sans-serif;
 }
 
+html {
+    height: 100%;
+}
+
 body {
+    height: 100%;
+    // overflow: hidden;
     background-color: $background-color;
+}
+
+#content {
+    padding-left: $horizontal-padding;
+    height: calc(100% - 80px);
 }
 
 input[type="button"],
 input[type="submit"] {
     cursor: pointer;
-}
-
-#content {
-    padding: 20px $horizontal-padding;
-}
-
-.season {
-    display: flex;
-    overflow: scroll;
-}
-
-.episode {
-    margin: 10px;
-}
-
-.searchResult {
-    margin: 10px;
 }

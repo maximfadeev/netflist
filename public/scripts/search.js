@@ -1,7 +1,50 @@
+const listId = window.location.pathname.split("/")[3];
+
 document.addEventListener("DOMContentLoaded", function () {
+    generateList(listId);
     const searchButton = document.getElementById("searchBtn");
     searchButton.addEventListener("click", search);
 });
+
+function generateList(listId) {
+    fetch(`/list/${listId}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((res) => res.json())
+        .then(function (data) {
+            if (data.titles.length === 0) {
+                console.log("empty list");
+            } else {
+                const listTitles = document.createElement("div");
+                // listTitles.classList.add("list-titles");
+                listTitles.setAttribute("id", "list-titles");
+                for (let title of data.titles) {
+                    console.log(title);
+                    const titleEl = document.createElement("div");
+
+                    const titleTitle = document.createElement("h3");
+                    titleTitle.textContent = title.title;
+                    titleEl.appendChild(titleTitle);
+
+                    const titleImg = document.createElement("img");
+                    titleImg.src = title.image;
+                    titleEl.appendChild(titleImg);
+
+                    listTitles.appendChild(titleEl);
+                }
+                if (document.getElementById("list-titles")) {
+                    document.getElementById("list-titles").remove();
+                }
+                document.getElementById("list-element").appendChild(listTitles);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
 
 function search(evt) {
     evt.preventDefault();
@@ -80,7 +123,7 @@ function search(evt) {
             if (document.getElementById("searchResults")) {
                 document.getElementById("searchResults").remove();
             }
-            document.querySelector("#content").appendChild(searchResults);
+            document.querySelector("#search-list").appendChild(searchResults);
         })
         .catch((err) => {
             console.log(err);
@@ -163,14 +206,14 @@ function showEpisodes(evt, id) {
 function addTitle(evt, titleObject) {
     evt.preventDefault();
     evt.path[0].disabled = true;
-
     const options = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            // 'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: JSON.stringify(titleObject),
     };
     fetch(window.location.pathname, options);
+    console.log("pressed");
+    generateList(listId);
 }

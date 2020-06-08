@@ -1,32 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <link href="/styles/css/main.css" type="text/css" rel="stylesheet" />
-    <meta charset=" UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netflist</title>
-</head>
+    <head>
+        <link href="/styles/css/main.css" type="text/css" rel="stylesheet" />
+        <script src="https://kit.fontawesome.com/bda23c53d0.js" crossorigin="anonymous"></script>
 
-<body>
-    <header class="navbar">
-        <a href="/"><img src="https://fontmeme.com/permalink/200604/4b9d3388289ed7a8cb934ba49ff2299a.png"
-                alt="netflist-logo" border="0" id="logo"></a>
-        <nav>
-            {{#if user}}
-            <a href="/dashboard"><input type="button" class="left btn hvr-grow-shadow" value="Profile"></a><a
-                href="/logout"><input type="button" class="right btn hvr-grow-shadow" value="Log Out"></a>
-            {{else}}
-            <a href="/register"><input type="button" class="left btn hvr-grow-shadow" value="Sign Up"></a><a
-                href="/login"><input type="button" class="right btn hvr-grow-shadow" value="Sign In"></a>
-            {{/if}}
-        </nav>
-    </header>
-    <div id="content">
-        {{{body}}}
-    </div>
+        <meta charset=" UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Netflist</title>
+    </head>
 
-</body>
+    <body>
+        <header class="navbar">
+            <a href="/"><img src="https://fontmeme.com/permalink/200604/4b9d3388289ed7a8cb934ba49ff2299a.png"
+                    alt="netflist-logo" border="0" id="logo"></a>
+            <nav>
+                {{#if user}}
+                    <a href="/dashboard"><input type="button" class="left btn hvr-grow-shadow" value="Profile"></a><a
+                        href="/logout"><input type="button" class="right btn hvr-grow-shadow" value="Log Out"></a>
+                {{else}}
+                    <a href="/register"><input type="button" class="left btn hvr-grow-shadow" value="Sign Up"></a><a
+                        href="/login"><input type="button" class="right btn hvr-grow-shadow" value="Sign In"></a>
+                {{/if}}
+            </nav>
+        </header>
+        <div id="content">
+            {{{body}}}
+        </div>
+
+    </body>
 
 
 </html>
