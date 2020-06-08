@@ -17,7 +17,7 @@ const ListSchema = new mongoose.Schema({
     titles: [
         {
             title: { type: String, required: true },
-            netflixId: { type: String, required: true },
+            netflixId: { type: Number, required: true },
             synopsis: { type: String, required: true },
             image: String,
             season: String,

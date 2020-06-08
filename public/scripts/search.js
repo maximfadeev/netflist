@@ -1,4 +1,5 @@
 const listId = window.location.pathname.split("/")[3];
+let listNetflixIds = [];
 
 document.addEventListener("DOMContentLoaded", function () {
     generateList(listId);
@@ -21,8 +22,10 @@ function generateList(listId) {
                 const listTitles = document.createElement("div");
                 // listTitles.classList.add("list-titles");
                 listTitles.setAttribute("id", "list-titles");
+                listNetflixIds = [];
                 for (let title of data.titles) {
-                    console.log(title);
+                    listNetflixIds.push(title.netflixId);
+
                     const titleEl = document.createElement("div");
 
                     const titleTitle = document.createElement("h3");
@@ -177,7 +180,8 @@ function showEpisodes(evt, id) {
                             "click",
                             (function (titleObject) {
                                 return function (e) {
-                                    titleObject.show = addTitle(e, titleObject);
+                                    // titleObject.show =
+                                    addTitle(e, titleObject);
                                 };
                             })(episode)
                         );
@@ -205,15 +209,44 @@ function showEpisodes(evt, id) {
 
 function addTitle(evt, titleObject) {
     evt.preventDefault();
+    // console.log("addTitle -> titleObject", titleObject.keys.length);
+
+    let nItem = {};
+
+    if (Object.keys(titleObject).length <= 7) {
+        console.log("episode");
+        nItem = {
+            title: titleObject.title,
+            netflixId: titleObject.epid,
+            synopsis: titleObject.synopsis,
+            image: titleObject.img,
+            season: titleObject.seasnum,
+            episode: titleObject.epnum,
+        };
+    } else {
+        console.log("movie");
+        nItem = {
+            title: titleObject.title,
+            netflixId: titleObject.nfid,
+            synopsis: titleObject.synopsis,
+            image: titleObject.img,
+        };
+    }
+
+    console.log("nitem", nItem);
+
+    if (listNetflixIds.includes(nItem.netflixId)) {
+        alert("already in");
+    }
+
     evt.path[0].disabled = true;
     const options = {
         method: "POST",
+        // mode: "cors",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(titleObject),
+        body: JSON.stringify(nItem),
     };
-    fetch(window.location.pathname, options);
-    console.log("pressed");
-    generateList(listId);
+    fetch(window.location.pathname, options).then(generateList(listId));
 }

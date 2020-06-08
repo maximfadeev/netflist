@@ -196,7 +196,7 @@ app.post("/create", ensureAuthenticated, (req, res) => {
             console.log(data);
         }
     });
-    res.redirect(`list/edit/${newList.id}`);
+    res.redirect(`edit/list/${newList.id}`);
 });
 
 app.get("/list/:listId", (req, res) => {
@@ -210,7 +210,7 @@ app.get("/list/:listId", (req, res) => {
     });
 });
 
-app.get("/list/edit/:listId", (req, res) => {
+app.get("/edit/list/:listId", (req, res) => {
     let user;
     if (req.user) {
         user = req.user.toJSON();
@@ -227,42 +227,45 @@ app.get("/list/edit/:listId", (req, res) => {
     // });
 });
 
-app.post("/list/edit/:listId", (req, res) => {
-    console.log(req.body);
-    let nItem = {};
+app.post("/edit/list/:listId", (req, res) => {
+    console.log("req.body", req.body);
+    // let nItem = {};
 
-    if (Object.keys(req.body).length <= 7) {
-        nItem = {
-            title: req.body.title,
-            netflixId: req.body.epid,
-            synopsis: req.body.synopsis,
-            image: req.body.img,
-            season: req.body.seasnum,
-            episode: req.body.epnum,
-        };
-    } else {
-        nItem = {
-            title: req.body.title,
-            netflixId: req.body.nfid,
-            synopsis: req.body.synopsis,
-            image: req.body.img,
-        };
-    }
+    // if (Object.keys(req.body).length <= 7) {
+    //     nItem = {
+    //         title: req.body.title,
+    //         netflixId: req.body.epid,
+    //         synopsis: req.body.synopsis,
+    //         image: req.body.img,
+    //         season: req.body.seasnum,
+    //         episode: req.body.epnum,
+    //     };
+    // } else {
+    //     nItem = {
+    //         title: req.body.title,
+    //         netflixId: req.body.nfid,
+    //         synopsis: req.body.synopsis,
+    //         image: req.body.img,
+    //     };
+    // }
 
     List.findOneAndUpdate(
         { _id: req.params.listId },
         {
             $push: {
-                titles: nItem,
+                titles: req.body,
             },
         },
         function (err, data) {
             if (err) {
                 console.log("err", err);
+                res.send({ message: "error" });
             } else if (data === null) {
                 console.log("no list exists");
+                res.send({ message: "error" });
             } else {
                 console.log("data", data);
+                res.send({ message: "complete" });
             }
         }
     );
