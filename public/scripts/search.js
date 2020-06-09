@@ -3,6 +3,7 @@ let listNetflixIds = [];
 
 document.addEventListener("DOMContentLoaded", function () {
     generateList(listId);
+    // document.getElementById("list-titles").scrollTop = 0;
     const searchButton = document.getElementById("searchBtn");
     searchButton.addEventListener("click", search);
 });
@@ -26,22 +27,39 @@ function generateList(listId) {
                 for (let title of data.titles) {
                     listNetflixIds.push(title.netflixId);
 
+                    // div for title element
                     const titleEl = document.createElement("div");
+                    titleEl.classList.add("list-el");
+                    titleEl.appendChild(document.createElement("HR"));
 
-                    const titleTitle = document.createElement("h3");
-                    titleTitle.textContent = title.title;
-                    titleEl.appendChild(titleTitle);
-
+                    // title image
                     const titleImg = document.createElement("img");
                     titleImg.src = title.image;
                     titleEl.appendChild(titleImg);
+
+                    // title info
+                    const titleInfo = document.createElement("div");
+                    titleInfo.classList.add("title-info");
+
+                    // title title
+                    const titleTitle = document.createElement("h3");
+                    titleTitle.textContent = title.title;
+                    titleInfo.appendChild(titleTitle);
+
+                    titleEl.appendChild(titleInfo);
+
+                    // listTitles.scrollTop = listTitles.scrollHeight;
 
                     listTitles.appendChild(titleEl);
                 }
                 if (document.getElementById("list-titles")) {
                     document.getElementById("list-titles").remove();
                 }
+
                 document.getElementById("list-element").appendChild(listTitles);
+                document.getElementById("list-titles").scrollTop = document.getElementById(
+                    "list-titles"
+                ).scrollHeight;
             }
         })
         .catch((err) => {
@@ -185,7 +203,6 @@ function showEpisodes(evt, id) {
         })
             .then((response) => response.json())
             .then(function (data) {
-                console.log(evt.path);
                 let allSeasonsEl = document.createElement("div");
                 allSeasonsEl.classList.add("seasons");
                 allSeasonsEl.setAttribute("id", "seasons");
@@ -248,12 +265,9 @@ function showEpisodes(evt, id) {
 
 function addTitle(evt, titleObject) {
     evt.preventDefault();
-    // console.log("addTitle -> titleObject", titleObject.keys.length);
-
     let nItem = {};
 
     if (Object.keys(titleObject).length <= 7) {
-        console.log("episode");
         nItem = {
             title: titleObject.title,
             netflixId: titleObject.epid,
@@ -263,7 +277,6 @@ function addTitle(evt, titleObject) {
             episode: titleObject.epnum,
         };
     } else {
-        console.log("movie");
         nItem = {
             title: titleObject.title,
             netflixId: titleObject.nfid,
@@ -272,8 +285,6 @@ function addTitle(evt, titleObject) {
         };
     }
 
-    console.log("nitem", nItem);
-
     if (listNetflixIds.includes(nItem.netflixId)) {
         alert("already in");
     }
@@ -281,11 +292,16 @@ function addTitle(evt, titleObject) {
     evt.path[0].disabled = true;
     const options = {
         method: "POST",
-        // mode: "cors",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(nItem),
     };
-    fetch(window.location.pathname, options).then(generateList(listId));
+    fetch(window.location.pathname, options)
+        .then((response) => response.json())
+        .then(function (data) {
+            if (data.message === "complete") {
+                generateList(listId);
+            }
+        });
 }

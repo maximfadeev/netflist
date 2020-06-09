@@ -280,6 +280,22 @@ nav a {
   height: 75vh;
 }
 
+#list-titles .list-el {
+  width: 90%;
+  margin-bottom: 10px;
+}
+
+#list-titles img {
+  max-height: 100px;
+  max-width: 100px;
+}
+
+#list-titles .title-info {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 4px;
+}
+
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -287,6 +303,10 @@ nav a {
   padding: 0;
   color: white;
   font-family: "Muli", sans-serif;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 html {

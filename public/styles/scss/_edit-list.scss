@@ -154,4 +154,20 @@ $title-img-height: 233px;
     flex-direction: column;
     overflow-y: auto;
     height: 75vh;
+
+    .list-el {
+        width: 90%;
+        margin-bottom: 10px;
+    }
+
+    img {
+        max-height: 100px;
+        max-width: 100px;
+    }
+
+    .title-info {
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 4px;
+    }
 }

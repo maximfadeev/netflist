@@ -228,27 +228,6 @@ app.get("/edit/list/:listId", (req, res) => {
 });
 
 app.post("/edit/list/:listId", (req, res) => {
-    console.log("req.body", req.body);
-    // let nItem = {};
-
-    // if (Object.keys(req.body).length <= 7) {
-    //     nItem = {
-    //         title: req.body.title,
-    //         netflixId: req.body.epid,
-    //         synopsis: req.body.synopsis,
-    //         image: req.body.img,
-    //         season: req.body.seasnum,
-    //         episode: req.body.epnum,
-    //     };
-    // } else {
-    //     nItem = {
-    //         title: req.body.title,
-    //         netflixId: req.body.nfid,
-    //         synopsis: req.body.synopsis,
-    //         image: req.body.img,
-    //     };
-    // }
-
     List.findOneAndUpdate(
         { _id: req.params.listId },
         {
@@ -264,7 +243,6 @@ app.post("/edit/list/:listId", (req, res) => {
                 console.log("no list exists");
                 res.send({ message: "error" });
             } else {
-                console.log("data", data);
                 res.send({ message: "complete" });
             }
         }
