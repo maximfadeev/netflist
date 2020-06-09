@@ -66,10 +66,13 @@ function search(evt) {
             searchResults.setAttribute("id", "searchResults");
             // each result
             for (const result of data.results) {
-                const image = result.img;
-                const title = result.title;
-                const type = result.vtype;
-                const netflixId = result.nfid;
+                // const image = result.img;
+                // const title = result.title;
+                // const type = result.vtype;
+                // const netflixId = result.nfid;
+                // const imdbRate = result.imdbrating;
+
+                const { clist, imdbrating, img, nfid, synopsis, title, vtype } = result;
 
                 let searchResult = document.createElement("div");
                 searchResult.classList.add("searchResult");
@@ -77,20 +80,49 @@ function search(evt) {
                 // add hr
                 searchResult.appendChild(document.createElement("HR"));
 
-                // title
-                let titleEl = document.createElement("h2");
-                titleEl.textContent = title;
-                searchResult.appendChild(titleEl);
+                // all title info
+                const allTitle = document.createElement("div");
+                allTitle.classList.add("all-title-info");
 
                 // image
                 let imageEl = document.createElement("img");
-                imageEl.src = image;
-                searchResult.appendChild(imageEl);
+                imageEl.src = img;
+                allTitle.appendChild(imageEl);
+
+                // to the right of image
+                let rightOfImage = document.createElement("div");
+                rightOfImage.classList.add("right-of-img");
+
+                // info
+                let titleInfo = document.createElement("div");
+                titleInfo.classList.add("title-info");
+
+                // title
+                let titleEl = document.createElement("h2");
+                titleEl.textContent = title;
+                titleInfo.appendChild(titleEl);
+
+                // imdb rating
+                let titleRating = document.createElement("h3");
+                titleRating.textContent = imdbrating;
+                titleInfo.appendChild(titleRating);
+
+                // synopsis
+                let titleSynopsis = document.createElement("p");
+                titleSynopsis.textContent = synopsis;
+                titleInfo.appendChild(titleSynopsis);
+
+                // add title
+                rightOfImage.appendChild(titleInfo);
+
+                const buttons = document.createElement("div");
+                buttons.classList.add("buttons");
 
                 // add button
                 let addBtn = document.createElement("input");
                 addBtn.type = "button";
                 addBtn.value = "add";
+                addBtn.classList.add("btn", "addBtn");
                 addBtn.addEventListener(
                     "click",
                     (function (titleObject) {
@@ -99,13 +131,15 @@ function search(evt) {
                         };
                     })(result)
                 );
-                searchResult.appendChild(addBtn);
+                buttons.appendChild(addBtn);
 
                 // show episdoes button
-                if (type === "series") {
+                if (vtype === "series") {
                     let showBtn = document.createElement("input");
                     showBtn.type = "button";
                     showBtn.value = "show episodes";
+                    showBtn.classList.add("btn", "showBtn");
+
                     // pass object into event listener
                     showBtn.addEventListener(
                         "click",
@@ -113,10 +147,14 @@ function search(evt) {
                             return function (e) {
                                 showEpisodes(e, id);
                             };
-                        })(netflixId)
+                        })(nfid)
                     );
-                    searchResult.appendChild(showBtn);
+                    buttons.appendChild(showBtn);
                 }
+
+                rightOfImage.appendChild(buttons);
+                allTitle.appendChild(rightOfImage);
+                searchResult.appendChild(allTitle);
 
                 // add to all searches
                 searchResults.appendChild(searchResult);
@@ -134,8 +172,9 @@ function search(evt) {
 }
 
 function showEpisodes(evt, id) {
+    const parentEl = evt.path[4];
     evt.preventDefault();
-    if (evt.path[1].querySelector("#seasons") == null) {
+    if (parentEl.querySelector("#seasons") == null) {
         evt.path[0].disabled = true;
         fetch(`https://unogsng.p.rapidapi.com/episodes?netflixid=${id}`, {
             method: "GET",
@@ -146,7 +185,7 @@ function showEpisodes(evt, id) {
         })
             .then((response) => response.json())
             .then(function (data) {
-                const parentEl = evt.path[1];
+                console.log(evt.path);
                 let allSeasonsEl = document.createElement("div");
                 allSeasonsEl.classList.add("seasons");
                 allSeasonsEl.setAttribute("id", "seasons");
@@ -198,11 +237,11 @@ function showEpisodes(evt, id) {
             .catch((err) => {
                 console.log(err);
             });
-    } else if (evt.path[1].querySelector("#seasons").style.display === "none") {
-        evt.path[1].querySelector("#seasons").style.display = "block";
+    } else if (parentEl.querySelector("#seasons").style.display === "none") {
+        parentEl.querySelector("#seasons").style.display = "block";
         evt.path[0].value = "hide episodes";
     } else {
-        evt.path[1].querySelector("#seasons").style.display = "none";
+        parentEl.querySelector("#seasons").style.display = "none";
         evt.path[0].value = "show episodes";
     }
 }

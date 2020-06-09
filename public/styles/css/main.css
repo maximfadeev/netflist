@@ -202,6 +202,41 @@ nav a {
   width: 100%;
 }
 
+.searchResult .all-title-info {
+  display: block;
+  height: 233px;
+}
+
+.searchResult .right-of-img {
+  width: 60%;
+  margin: 5px 10px;
+  display: inline-block;
+  vertical-align: top;
+  height: 100%;
+}
+
+.searchResult .title-info {
+  height: 85%;
+}
+
+.searchResult .buttons {
+  display: inline-block;
+}
+
+.searchResult .btn {
+  font-size: 14px;
+  border: 1px solid white;
+  margin-right: 7px;
+}
+
+.searchResult .addBtn {
+  background-color: black;
+}
+
+.searchResult .showBtn {
+  background-color: #282828;
+}
+
 .season {
   overflow-x: scroll;
   white-space: nowrap;
@@ -212,6 +247,10 @@ nav a {
   display: inline-block;
   margin: 10px;
   margin-left: 0px;
+}
+
+.episode img {
+  width: 16vw;
 }
 
 #list-element {

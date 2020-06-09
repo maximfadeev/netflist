@@ -1,4 +1,5 @@
 $list-width: 350px;
+$title-img-height: 233px;
 
 #search-cart-lists {
     display: flex;
@@ -77,11 +78,44 @@ $list-width: 350px;
 .searchResult {
     margin-bottom: 10px;
     width: 100%;
+
+    .all-title-info {
+        display: block;
+        height: $title-img-height;
+        // height: 100%;
+    }
+
+    .right-of-img {
+        width: 60%;
+        margin: 5px 10px;
+        display: inline-block;
+        vertical-align: top;
+        height: 100%;
+    }
+
+    .title-info {
+        height: 85%;
+    }
+    .buttons {
+        display: inline-block;
+    }
+    .btn {
+        font-size: 14px;
+        border: 1px solid white;
+        margin-right: 7px;
+    }
+    .addBtn {
+        background-color: black;
+    }
+
+    .showBtn {
+        background-color: $background-color;
+    }
 }
 
-.seasons {
-    // width: 10%;
-}
+// .seasons {
+//     // width: 10%;
+// }
 
 .season {
     overflow-x: scroll;
@@ -96,6 +130,9 @@ $list-width: 350px;
     margin-left: 0px;
     // height: 100%;
     // flex: 0 0 auto;
+    img {
+        width: 16vw;
+    }
 }
 
 #list-element {
