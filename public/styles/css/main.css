@@ -243,6 +243,10 @@ nav a {
   width: 95%;
 }
 
+.hide-season {
+  display: none;
+}
+
 .episode {
   display: inline-block;
   margin: 10px;
@@ -277,7 +281,7 @@ nav a {
       -ms-flex-direction: column;
           flex-direction: column;
   overflow-y: auto;
-  height: 75vh;
+  height: 85vh;
 }
 
 #list-titles .list-el {

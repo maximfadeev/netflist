@@ -1,6 +1,10 @@
 const listId = window.location.pathname.split("/")[3];
 let listNetflixIds = [];
 
+function formatText(text) {
+    return text.replace(/&#39;/g, "'");
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     generateList(listId);
     // document.getElementById("list-titles").scrollTop = 0;
@@ -43,7 +47,7 @@ function generateList(listId) {
 
                     // title title
                     const titleTitle = document.createElement("h3");
-                    titleTitle.textContent = title.title;
+                    titleTitle.textContent = formatText(title.title);
                     titleInfo.appendChild(titleTitle);
 
                     titleEl.appendChild(titleInfo);
@@ -84,12 +88,6 @@ function search(evt) {
             searchResults.setAttribute("id", "searchResults");
             // each result
             for (const result of data.results) {
-                // const image = result.img;
-                // const title = result.title;
-                // const type = result.vtype;
-                // const netflixId = result.nfid;
-                // const imdbRate = result.imdbrating;
-
                 const { clist, imdbrating, img, nfid, synopsis, title, vtype } = result;
 
                 let searchResult = document.createElement("div");
@@ -117,17 +115,17 @@ function search(evt) {
 
                 // title
                 let titleEl = document.createElement("h2");
-                titleEl.textContent = title;
+                titleEl.textContent = formatText(title);
                 titleInfo.appendChild(titleEl);
 
                 // imdb rating
                 let titleRating = document.createElement("h3");
-                titleRating.textContent = imdbrating;
+                titleRating.textContent = imdbrating ? imdbrating : "N/A";
                 titleInfo.appendChild(titleRating);
 
                 // synopsis
                 let titleSynopsis = document.createElement("p");
-                titleSynopsis.textContent = synopsis;
+                titleSynopsis.textContent = formatText(synopsis);
                 titleInfo.appendChild(titleSynopsis);
 
                 // add title
@@ -206,13 +204,48 @@ function showEpisodes(evt, id) {
                 let allSeasonsEl = document.createElement("div");
                 allSeasonsEl.classList.add("seasons");
                 allSeasonsEl.setAttribute("id", "seasons");
-                for (const season of data) {
+                const seasonSelector = document.createElement("select");
+
+                seasonSelector.addEventListener("focus", function () {
+                    // Store the previous value on focus
+
+                    let previousSeason = this.selectedIndex;
+                    // change both previous and the new value on change
+                    this.addEventListener("change", function (evt) {
+                        const currentSeason = this.selectedIndex;
+                        const allSeasons = evt.path[1].childNodes;
+                        allSeasons[1 + previousSeason].classList.add("hide-season");
+                        allSeasons[1 + currentSeason].classList.remove("hide-season");
+                        // store current value in previous in case user changes selector without calling focus
+                        previousSeason = currentSeason;
+
+                        // console.log(evt.path[1].childNodes[1]);
+                    });
+                    // function () {
+                    //     var index = this.selectedIndex;
+                    //     console.log("previous", this.previous);
+                    //     console.log("index", index);
+                    // };
+                });
+
+                allSeasonsEl.appendChild(seasonSelector);
+
+                for (const [index, season] of data.entries()) {
+                    // add season to selector
+                    seasonSelector.add(new Option("Season " + season.season));
+
                     // add season number
-                    let seasonEl = document.createElement("div");
-                    seasonEl.classList.add("season");
-                    let seasonTitle = document.createElement("h2");
-                    seasonTitle.textContent = "Season " + season.season;
-                    allSeasonsEl.appendChild(seasonTitle);
+                    let seasonScrollEl = document.createElement("div");
+                    seasonScrollEl.classList.add("season");
+
+                    if (index !== 0) {
+                        seasonScrollEl.classList.add("hide-season");
+                    }
+
+                    // let seasonTitle = document.createElement("h2");
+                    // seasonTitle.textContent = "Season " + season.season;
+                    // allSeasonsEl.appendChild(seasonTitle);
+
                     // add epsiodes
                     for (const episode of season.episodes) {
                         let episodeEl = document.createElement("div");
@@ -220,7 +253,7 @@ function showEpisodes(evt, id) {
 
                         // add episode title
                         let episodeTitle = document.createElement("h3");
-                        episodeTitle.textContent = episode.title;
+                        episodeTitle.textContent = formatText(episode.title);
                         episodeEl.appendChild(episodeTitle);
 
                         // add episode image
@@ -243,9 +276,9 @@ function showEpisodes(evt, id) {
                         );
                         episodeEl.appendChild(addBtn);
 
-                        seasonEl.appendChild(episodeEl);
+                        seasonScrollEl.appendChild(episodeEl);
                     }
-                    allSeasonsEl.appendChild(seasonEl);
+                    allSeasonsEl.appendChild(seasonScrollEl);
                 }
                 parentEl.appendChild(allSeasonsEl);
                 evt.path[0].disabled = false;

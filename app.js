@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+// const fetch = require("node-fetch");
 const bcrypt = require("bcryptjs");
 const flash = require("connect-flash");
 const session = require("express-session");

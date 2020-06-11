@@ -124,6 +124,10 @@ $title-img-height: 233px;
     width: 95%;
 }
 
+.hide-season {
+    display: none;
+}
+
 .episode {
     display: inline-block;
     margin: 10px;
@@ -153,7 +157,7 @@ $title-img-height: 233px;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    height: 75vh;
+    height: 85vh;
 
     .list-el {
         width: 90%;
