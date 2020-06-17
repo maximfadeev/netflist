@@ -1,5 +1,6 @@
 const listId = window.location.pathname.split("/")[3];
 let listNetflixIds = [];
+let shows = [];
 
 function formatText(text) {
     return text.replace(/&#39;/g, "'");
@@ -7,10 +8,27 @@ function formatText(text) {
 
 document.addEventListener("DOMContentLoaded", function () {
     generateList(listId);
-    // document.getElementById("list-titles").scrollTop = 0;
     const searchButton = document.getElementById("searchBtn");
     searchButton.addEventListener("click", search);
 });
+
+function changeName(e) {
+    e.preventDefault();
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: e.target[0].value }),
+    };
+    fetch(window.location.pathname + "/changeName", options)
+        .then((response) => response.json())
+        .then(function (data) {
+            if (data.message === "complete") {
+                generateList(listId);
+            }
+        });
+}
 
 function generateList(listId) {
     fetch(`/list/${listId}`, {
@@ -21,9 +39,15 @@ function generateList(listId) {
     })
         .then((res) => res.json())
         .then(function (data) {
+            document.getElementById("text-line").value = data.name;
+
             if (data.titles.length === 0) {
                 console.log("empty list");
             } else {
+                if (document.getElementById("list-titles")) {
+                    document.getElementById("list-titles").remove();
+                }
+
                 const listTitles = document.createElement("div");
                 // listTitles.classList.add("list-titles");
                 listTitles.setAttribute("id", "list-titles");
@@ -39,6 +63,20 @@ function generateList(listId) {
                     // title image
                     const titleImg = document.createElement("img");
                     titleImg.src = title.image;
+                    titleImg.onerror = function (e) {
+                        this.src = "/images/no_image.png";
+                        // console.log(e);
+                        // e.path[0].remove();
+                        // const imgErr = document.createElement("div");
+                        // imgErr.classList.add("image", "image-error");
+                        // const errText = document.createElement("div");
+                        // errText.textContent = title.title;
+                        // imgErr.appendChild(errText);
+                        // console.log(e.path[1]);
+                        // e.path[1].insertBefore(imgErr, e.path[1].getElementsByTagName("div")[0]);
+                        // e.path[1].insertBefore()
+                    };
+                    titleImg.classList.add("image");
                     titleEl.appendChild(titleImg);
 
                     // title info
@@ -46,20 +84,44 @@ function generateList(listId) {
                     titleInfo.classList.add("title-info");
 
                     // title title
-                    const titleTitle = document.createElement("h3");
+                    const titleTitle = document.createElement("p");
                     titleTitle.textContent = formatText(title.title);
                     titleInfo.appendChild(titleTitle);
 
-                    titleEl.appendChild(titleInfo);
+                    if (title.type === "episode") {
+                        // season and episode nums for episodes
+                        const nums = document.createElement("p");
+                        nums.textContent = "S" + title.season + " E" + title.episode;
+                        nums.classList.add("nums");
+                        titleInfo.appendChild(nums);
+                        titleEl.appendChild(titleInfo);
 
-                    // listTitles.scrollTop = listTitles.scrollHeight;
+                        let inShows = false;
+                        for (const [index, s] of shows.entries()) {
+                            if (title.showId === s.id) {
+                                shows[index].appendChild(titleEl);
+                                inShows = true;
+                                break;
+                            }
+                        }
 
-                    listTitles.appendChild(titleEl);
+                        if (!inShows) {
+                            const show = document.createElement("div");
+                            show.setAttribute("id", title.showId);
+                            show.classList.add("show-els");
+                            const showTitle = document.createElement("h3");
+                            showTitle.textContent = title.show;
+                            show.appendChild(showTitle);
+                            show.appendChild(titleEl);
+                            shows.push(show);
+                            listTitles.appendChild(show);
+                        }
+                    } else {
+                        titleEl.appendChild(titleInfo);
+                        listTitles.appendChild(titleEl);
+                    }
                 }
-                if (document.getElementById("list-titles")) {
-                    document.getElementById("list-titles").remove();
-                }
-
+                shows = [];
                 document.getElementById("list-element").appendChild(listTitles);
                 document.getElementById("list-titles").scrollTop = document.getElementById(
                     "list-titles"
@@ -88,7 +150,7 @@ function search(evt) {
             searchResults.setAttribute("id", "searchResults");
             // each result
             for (const result of data.results) {
-                const { clist, imdbrating, img, nfid, synopsis, title, vtype } = result;
+                const { imdbrating, img, nfid, synopsis, title, vtype } = result;
 
                 let searchResult = document.createElement("div");
                 searchResult.classList.add("searchResult");
@@ -103,6 +165,7 @@ function search(evt) {
                 // image
                 let imageEl = document.createElement("img");
                 imageEl.src = img;
+                imageEl.classList.add("image");
                 allTitle.appendChild(imageEl);
 
                 // to the right of image
@@ -143,6 +206,7 @@ function search(evt) {
                     "click",
                     (function (titleObject) {
                         return function (e) {
+                            titleObject.type = "movie/show";
                             addTitle(e, titleObject);
                         };
                     })(result)
@@ -161,7 +225,7 @@ function search(evt) {
                         "click",
                         (function (id) {
                             return function (e) {
-                                showEpisodes(e, id);
+                                showEpisodes(e, id, title, nfid);
                             };
                         })(nfid)
                     );
@@ -187,7 +251,7 @@ function search(evt) {
         });
 }
 
-function showEpisodes(evt, id) {
+function showEpisodes(evt, id, showName, showId) {
     const parentEl = evt.path[4];
     evt.preventDefault();
     if (parentEl.querySelector("#seasons") == null) {
@@ -208,7 +272,6 @@ function showEpisodes(evt, id) {
 
                 seasonSelector.addEventListener("focus", function () {
                     // Store the previous value on focus
-
                     let previousSeason = this.selectedIndex;
                     // change both previous and the new value on change
                     this.addEventListener("change", function (evt) {
@@ -218,19 +281,12 @@ function showEpisodes(evt, id) {
                         allSeasons[1 + currentSeason].classList.remove("hide-season");
                         // store current value in previous in case user changes selector without calling focus
                         previousSeason = currentSeason;
-
-                        // console.log(evt.path[1].childNodes[1]);
                     });
-                    // function () {
-                    //     var index = this.selectedIndex;
-                    //     console.log("previous", this.previous);
-                    //     console.log("index", index);
-                    // };
                 });
 
                 allSeasonsEl.appendChild(seasonSelector);
 
-                for (const [index, season] of data.entries()) {
+                for (const [seasonNumber, season] of data.entries()) {
                     // add season to selector
                     seasonSelector.add(new Option("Season " + season.season));
 
@@ -238,28 +294,48 @@ function showEpisodes(evt, id) {
                     let seasonScrollEl = document.createElement("div");
                     seasonScrollEl.classList.add("season");
 
-                    if (index !== 0) {
+                    if (seasonNumber !== 0) {
                         seasonScrollEl.classList.add("hide-season");
                     }
 
-                    // let seasonTitle = document.createElement("h2");
-                    // seasonTitle.textContent = "Season " + season.season;
-                    // allSeasonsEl.appendChild(seasonTitle);
-
                     // add epsiodes
-                    for (const episode of season.episodes) {
+                    for (const [episodeNum, episode] of season.episodes.entries()) {
                         let episodeEl = document.createElement("div");
                         episodeEl.classList.add("episode");
 
-                        // add episode title
-                        let episodeTitle = document.createElement("h3");
-                        episodeTitle.textContent = formatText(episode.title);
-                        episodeEl.appendChild(episodeTitle);
+                        // add episode number
+                        let episodeNumber = document.createElement("h3");
+                        episodeNumber.textContent = "Episode " + (episodeNum + 1);
+                        episodeEl.appendChild(episodeNumber);
 
                         // add episode image
                         let episodeImage = document.createElement("img");
                         episodeImage.src = episode.img;
+                        episodeImage.classList.add("image");
+                        episodeImage.onerror = function (e) {
+                            this.src = "/images/no_image.png";
+
+                            // console.log(e);
+                            // e.path[0].remove();
+                            // const imgErr = document.createElement("div");
+                            // imgErr.classList.add("image", "image-error");
+                            // const errText = document.createElement("p");
+                            // errText.textContent = episode.title;
+                            // imgErr.appendChild(errText);
+                            // e.path[1].insertBefore(imgErr, e.path[1].getElementsByTagName("h4")[0]);
+                            // e.path[1].insertBefore()
+                        };
                         episodeEl.appendChild(episodeImage);
+
+                        // add episode title
+                        let episodeTitle = document.createElement("h4");
+                        episodeTitle.textContent = formatText(episode.title);
+                        episodeEl.appendChild(episodeTitle);
+
+                        // add episode synopsis
+                        let episodeSynposis = document.createElement("p");
+                        episodeSynposis.textContent = formatText(episode.synopsis);
+                        episodeEl.appendChild(episodeSynposis);
 
                         // add button
                         let addBtn = document.createElement("input");
@@ -269,13 +345,14 @@ function showEpisodes(evt, id) {
                             "click",
                             (function (titleObject) {
                                 return function (e) {
-                                    // titleObject.show =
+                                    titleObject.type = "episode";
+                                    titleObject.show = showName;
+                                    titleObject.showId = showId;
                                     addTitle(e, titleObject);
                                 };
                             })(episode)
                         );
                         episodeEl.appendChild(addBtn);
-
                         seasonScrollEl.appendChild(episodeEl);
                     }
                     allSeasonsEl.appendChild(seasonScrollEl);
@@ -300,7 +377,7 @@ function addTitle(evt, titleObject) {
     evt.preventDefault();
     let nItem = {};
 
-    if (Object.keys(titleObject).length <= 7) {
+    if (titleObject.type === "episode") {
         nItem = {
             title: titleObject.title,
             netflixId: titleObject.epid,
@@ -308,6 +385,9 @@ function addTitle(evt, titleObject) {
             image: titleObject.img,
             season: titleObject.seasnum,
             episode: titleObject.epnum,
+            show: titleObject.show,
+            showId: titleObject.showId,
+            type: titleObject.type,
         };
     } else {
         nItem = {
@@ -315,6 +395,7 @@ function addTitle(evt, titleObject) {
             netflixId: titleObject.nfid,
             synopsis: titleObject.synopsis,
             image: titleObject.img,
+            type: titleObject.type,
         };
     }
 
@@ -330,7 +411,7 @@ function addTitle(evt, titleObject) {
         },
         body: JSON.stringify(nItem),
     };
-    fetch(window.location.pathname, options)
+    fetch(window.location.pathname + "/addTitle", options)
         .then((response) => response.json())
         .then(function (data) {
             if (data.message === "complete") {

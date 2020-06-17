@@ -80,7 +80,7 @@ const ensureAuthenticated = function (req, res, next) {
 
 const ensureUnauthenticated = function (req, res, next) {
     if (req.isAuthenticated()) {
-        res.redirect("/dashboard");
+        res.redirect("/profile");
     } else {
         return next();
     }
@@ -156,18 +156,18 @@ app.get("/login", ensureUnauthenticated, (req, res) => {
 app.post(
     "/login",
     passport.authenticate("local", {
-        successRedirect: "/dashboard",
+        successRedirect: "/profile",
         failureRedirect: "/login",
         failureFlash: true,
     })
 );
 
-app.get("/dashboard", ensureAuthenticated, (req, res) => {
+app.get("/profile", ensureAuthenticated, (req, res) => {
     let user;
     if (req.user) {
         user = req.user.toJSON();
     }
-    res.render("dashboard", { user });
+    res.render("profile", { user });
 });
 
 app.get("/logout", (req, res) => {
@@ -227,7 +227,28 @@ app.get("/edit/list/:listId", (req, res) => {
     // });
 });
 
-app.post("/edit/list/:listId", (req, res) => {
+app.post("/edit/list/:listId/changeName", (req, res) => {
+    console.log(req.body);
+    List.findOneAndUpdate(
+        { _id: req.params.listId },
+        {
+            name: req.body.name,
+        },
+        function (err, data) {
+            if (err) {
+                console.log("err", err);
+                res.send({ message: "error" });
+            } else if (data === null) {
+                console.log("no list exists");
+                res.send({ message: "error" });
+            } else {
+                res.send({ message: "complete" });
+            }
+        }
+    );
+});
+
+app.post("/edit/list/:listId/addTitle", (req, res) => {
     List.findOneAndUpdate(
         { _id: req.params.listId },
         {

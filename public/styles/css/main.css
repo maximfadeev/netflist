@@ -198,13 +198,16 @@ nav a {
 }
 
 .searchResult {
-  margin-bottom: 10px;
+  margin-top: 10px;
   width: 100%;
 }
 
 .searchResult .all-title-info {
   display: block;
-  height: 233px;
+}
+
+.searchResult .image {
+  width: 10vw;
 }
 
 .searchResult .right-of-img {
@@ -237,24 +240,61 @@ nav a {
   background-color: #282828;
 }
 
-.season {
+.seasons {
+  margin-top: 10px;
+}
+
+.seasons select {
+  background-color: #282828;
+  font-size: 18px;
+  outline: none;
+  padding: 2px 4px;
+  border-width: 2px;
+}
+
+.seasons .season {
   overflow-x: scroll;
   white-space: nowrap;
   width: 95%;
 }
 
-.hide-season {
+.seasons .hide-season {
   display: none;
 }
 
-.episode {
+.seasons .episode {
+  vertical-align: top;
   display: inline-block;
   margin: 10px;
   margin-left: 0px;
+  width: 16vw;
 }
 
-.episode img {
-  width: 16vw;
+.seasons .episode .image {
+  width: auto;
+  height: 8vw;
+}
+
+.seasons .episode .image-error {
+  text-align: center;
+  vertical-align: middle;
+  line-height: 6vw;
+  background-color: #000045;
+}
+
+.seasons .episode .image-error p {
+  font-size: 20px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.seasons .episode p {
+  height: 12vh;
+  white-space: normal;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 #list-element {
@@ -263,6 +303,21 @@ nav a {
   -webkit-box-shadow: -5px 0px 10px -5px #3a3a3a;
           box-shadow: -5px 0px 10px -5px #3a3a3a;
   padding-left: 20px;
+}
+
+#list-element .text-line {
+  background-color: transparent;
+  color: #eeeeee;
+  outline: none;
+  outline-style: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: solid #eeeeee 1px;
+  margin-bottom: 15px;
+  width: 240px;
+  font-size: 24px;
+  font-weight: 700;
 }
 
 #list-element ul {
@@ -284,17 +339,25 @@ nav a {
   height: 85vh;
 }
 
+#list-titles .show-els {
+  width: 100%;
+}
+
 #list-titles .list-el {
   width: 90%;
   margin-bottom: 10px;
 }
 
-#list-titles img {
+#list-titles .list-el .nums {
+  font-size: 12px;
+}
+
+#list-titles .list-el .image {
   max-height: 100px;
   max-width: 100px;
 }
 
-#list-titles .title-info {
+#list-titles .list-el .title-info {
   display: inline-block;
   vertical-align: top;
   margin-left: 4px;
