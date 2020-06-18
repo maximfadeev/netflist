@@ -65,16 +65,6 @@ function generateList(listId) {
                     titleImg.src = title.image;
                     titleImg.onerror = function (e) {
                         this.src = "/images/no_image.png";
-                        // console.log(e);
-                        // e.path[0].remove();
-                        // const imgErr = document.createElement("div");
-                        // imgErr.classList.add("image", "image-error");
-                        // const errText = document.createElement("div");
-                        // errText.textContent = title.title;
-                        // imgErr.appendChild(errText);
-                        // console.log(e.path[1]);
-                        // e.path[1].insertBefore(imgErr, e.path[1].getElementsByTagName("div")[0]);
-                        // e.path[1].insertBefore()
                     };
                     titleImg.classList.add("image");
                     titleEl.appendChild(titleImg);
@@ -314,16 +304,6 @@ function showEpisodes(evt, id, showName, showId) {
                         episodeImage.classList.add("image");
                         episodeImage.onerror = function (e) {
                             this.src = "/images/no_image.png";
-
-                            // console.log(e);
-                            // e.path[0].remove();
-                            // const imgErr = document.createElement("div");
-                            // imgErr.classList.add("image", "image-error");
-                            // const errText = document.createElement("p");
-                            // errText.textContent = episode.title;
-                            // imgErr.appendChild(errText);
-                            // e.path[1].insertBefore(imgErr, e.path[1].getElementsByTagName("h4")[0]);
-                            // e.path[1].insertBefore()
                         };
                         episodeEl.appendChild(episodeImage);
 

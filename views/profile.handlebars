@@ -2,3 +2,8 @@
 <form action="/create" method="post">
     <button type="submit" name="newList" value="">Create new list</button>
 </form>
+
+
+{{#each lists}}
+    <p>{{this.name}}</p>
+{{/each}}

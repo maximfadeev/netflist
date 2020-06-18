@@ -163,11 +163,29 @@ app.post(
 );
 
 app.get("/profile", ensureAuthenticated, (req, res) => {
+    function asyncLoop(i, user, lists, callback) {
+        List.findById(user.lists[i]._id)
+            .then((data) => {
+                lists.push(data.toObject());
+            })
+            .then(function () {
+                if (i + 1 < user.lists.length) {
+                    asyncLoop(i + 1, user, lists, callback);
+                } else {
+                    callback(user, lists);
+                }
+            });
+    }
+
     let user;
     if (req.user) {
         user = req.user.toJSON();
     }
-    res.render("profile", { user });
+    asyncLoop(0, user, [], function (user, lists) {
+        console.log(user, lists);
+
+        res.render("profile", { user, lists });
+    });
 });
 
 app.get("/logout", (req, res) => {
@@ -216,15 +234,6 @@ app.get("/edit/list/:listId", (req, res) => {
         user = req.user.toJSON();
     }
     res.render("edit-list", { user });
-
-    // List.findById(req.params.listId, function (err, data) {
-    //     if (err) {
-    //         console.log(err);
-    //     } else {
-    //         data = data.toJSON();
-    //         res.render("edit-list", { data, dataString: JSON.stringify(data), user });
-    //     }
-    // });
 });
 
 app.post("/edit/list/:listId/changeName", (req, res) => {
