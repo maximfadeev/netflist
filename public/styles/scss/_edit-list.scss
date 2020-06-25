@@ -1,12 +1,5 @@
-$list-width: 350px;
+$list-width: 450px;
 $title-img-height: 233px;
-
-#search-cart-lists {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0;
-    height: 100%;
-}
 
 #search-list,
 #list-element {
@@ -14,10 +7,8 @@ $title-img-height: 233px;
 }
 
 #search-list {
-    // flex: 72%;
-    // flex-grow: 1;
     width: calc(100% - #{$list-width});
-    min-width: 300px;
+    // min-width: 300px;
 }
 
 .search {

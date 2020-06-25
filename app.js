@@ -183,6 +183,7 @@ app.get("/profile", ensureAuthenticated, (req, res) => {
     }
     asyncLoop(0, user, [], function (user, lists) {
         console.log(user, lists);
+        console.log("lists", lists);
 
         res.render("profile", { user, lists });
     });
@@ -218,6 +219,18 @@ app.post("/create", ensureAuthenticated, (req, res) => {
 });
 
 app.get("/list/:listId", (req, res) => {
+    List.findById(req.params.listId, function (err, data) {
+        if (err) {
+            console.log(err);
+        } else {
+            data = data.toJSON();
+            console.log(data);
+            res.render("list", { data });
+        }
+    });
+});
+
+app.get("/retrieve/list/:listId", (req, res) => {
     List.findById(req.params.listId, function (err, data) {
         if (err) {
             console.log(err);

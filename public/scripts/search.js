@@ -31,7 +31,7 @@ function changeName(e) {
 }
 
 function generateList(listId) {
-    fetch(`/list/${listId}`, {
+    fetch(`/retrieve/list/${listId}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -399,3 +399,22 @@ function addTitle(evt, titleObject) {
             }
         });
 }
+
+// window.onbeforeunload = function (event, listId) {
+//     fetch(`/list/${listId}`, {
+//         method: "GET",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//     })
+//         .then((res) => res.json())
+//         .then(function (data) {
+//             document.getElementById("text-line").value = data.name;
+
+//             if (data.titles.length === 0) {
+//                 console.log("empty list");
+//             } else {
+
+//             }
+//         });
+// };

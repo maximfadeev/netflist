@@ -8,6 +8,7 @@ $navbar-color: rgb(0, 0, 0);
 @import "navbar";
 @import "register";
 @import "edit-list";
+@import "profile";
 
 * {
     box-sizing: border-box;
@@ -39,4 +40,11 @@ body {
 input[type="button"],
 input[type="submit"] {
     cursor: pointer;
+}
+
+#split-page {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    height: 100%;
 }
