@@ -257,7 +257,6 @@ app.get("/edit/list/:listId", (req, res) => {
 });
 
 app.post("/edit/list/:listId/changeName", (req, res) => {
-    console.log(req.body);
     List.findOneAndUpdate(
         { _id: req.params.listId },
         {

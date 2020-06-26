@@ -294,19 +294,53 @@ nav a {
   padding-left: 20px;
 }
 
-#list-element .text-line {
-  background-color: transparent;
-  color: #eeeeee;
+#list-element #name-element {
+  width: 95%;
+  margin-bottom: 5px;
+}
+
+#list-element #list-name {
+  font-size: 26px;
+  font-weight: 700;
+  width: 88%;
+  display: inline-block;
+  padding: 2px;
+}
+
+#list-element #list-name:focus {
   outline: none;
-  outline-style: none;
+}
+
+#list-element .deactivated {
   border-top: none;
   border-left: none;
   border-right: none;
-  border-bottom: solid #eeeeee 1px;
-  margin-bottom: 15px;
-  width: 240px;
-  font-size: 24px;
-  font-weight: 700;
+  border-bottom: 3px solid #141414;
+}
+
+#list-element .deactivated:hover {
+  background-color: rgba(219, 32, 44, 0.342);
+}
+
+#list-element .activated {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 3px solid #db202c;
+}
+
+#list-element #save-name {
+  display: none;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+  border: 2px solid #db202c;
+  background-color: #141414;
+  margin-left: 2px;
+  background-color: #db202c;
+  outline: none;
 }
 
 #list-element ul {
@@ -325,7 +359,8 @@ nav a {
       -ms-flex-direction: column;
           flex-direction: column;
   overflow-y: auto;
-  height: 85vh;
+  height: 80vh;
+  width: 95%;
 }
 
 #list-titles .show-els {
@@ -333,7 +368,6 @@ nav a {
 }
 
 #list-titles .list-title {
-  width: 90%;
   margin-bottom: 10px;
 }
 

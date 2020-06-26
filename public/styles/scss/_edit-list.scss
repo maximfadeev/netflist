@@ -1,5 +1,6 @@
 $list-width: 450px;
 $title-img-height: 233px;
+$list-background-color: rgb(20, 20, 20);
 
 #search-list,
 #list-element {
@@ -166,25 +167,79 @@ $title-img-height: 233px;
 #list-element {
     // flex: 28%;
     width: $list-width;
-    background-color: rgb(20, 20, 20);
+    background-color: $list-background-color;
     box-shadow: -5px 0px 10px -5px rgb(58, 58, 58);
     padding-left: 20px;
 
-    .text-line {
-        background-color: transparent;
-        color: #eeeeee;
+    // .text-line {
+    //     background-color: transparent;
+    //     color: #eeeeee;
+    //     outline: none;
+    //     outline-style: none;
+    //     border-top: none;
+    //     border-left: none;
+    //     border-right: none;
+    //     border-bottom: solid #eeeeee 1px;
+    //     // padding: 3px 10px;
+    //     margin-bottom: 15px;
+    //     width: 240px;
+    //     font-size: 24px;
+    //     font-weight: 700;
+    // }
+
+    #name-element {
+        width: 95%;
+        margin-bottom: 5px;
+    }
+
+    #list-name {
+        font-size: 26px;
+        font-weight: 700;
+        width: 88%;
+        display: inline-block;
+        padding: 2px;
+        // border-radius: 6px;
+    }
+
+    #list-name:focus {
         outline: none;
-        outline-style: none;
+    }
+
+    .deactivated {
         border-top: none;
         border-left: none;
         border-right: none;
-        border-bottom: solid #eeeeee 1px;
-        // padding: 3px 10px;
-        margin-bottom: 15px;
-        width: 240px;
-        font-size: 24px;
-        font-weight: 700;
+        border-bottom: 3px solid $list-background-color;
     }
+
+    .deactivated:hover {
+        background-color: $secondary-color;
+    }
+
+    .activated {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom: 3px solid $primary-color;
+    }
+
+    #save-name {
+        display: none;
+        padding: 2px 5px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 400;
+        text-decoration: none;
+        border: 2px solid $primary-color;
+        background-color: $list-background-color;
+        margin-left: 2px;
+        background-color: $primary-color;
+        outline: none;
+    }
+
+    // .hide-button {
+    //     display: none;
+    // }
 
     ul {
         list-style-type: none;
@@ -196,14 +251,15 @@ $title-img-height: 233px;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    height: 85vh;
+    height: 80vh;
+    width: 95%;
 
     .show-els {
         width: 100%;
     }
 
     .list-title {
-        width: 90%;
+        // width: 90%;
         margin-bottom: 10px;
 
         .nums {

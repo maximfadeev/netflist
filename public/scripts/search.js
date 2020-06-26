@@ -1,32 +1,51 @@
 const listId = window.location.pathname.split("/")[3];
 let listNetflixIds = [];
+nameOfList = "";
 
 function formatText(text) {
     return text.replace(/&#39;/g, "'");
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    const listName = document.getElementById("list-name");
+    listName.onclick = function (e) {
+        this.contentEditable = true;
+        // this.focus();
+        listName.classList.remove("deactivated");
+        listName.classList.add("activated");
+
+        const saveBtn = document.getElementById("save-name");
+        saveBtn.style.display = "inline-block";
+        saveBtn.onclick = function (e) {
+            saveBtn.style.display = "none";
+            listName.classList.add("deactivated");
+            listName.classList.remove("activated");
+            changeName(listName.textContent);
+        };
+    };
+
     generateList(listId);
     const searchButton = document.getElementById("searchBtn");
     searchButton.addEventListener("click", search);
 });
 
-function changeName(e) {
-    e.preventDefault();
-    const options = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name: e.target[0].value }),
-    };
-    fetch(window.location.pathname + "/changeName", options)
-        .then((response) => response.json())
-        .then(function (data) {
-            if (data.message === "complete") {
-                generateList(listId);
-            }
-        });
+function changeName(newName) {
+    if (newName !== nameOfList) {
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ name: newName }),
+        };
+        fetch(window.location.pathname + "/changeName", options)
+            .then((response) => response.json())
+            .then(function (data) {
+                if (data.message === "complete") {
+                    generateList(listId);
+                }
+            });
+    }
 }
 
 function generateList(listId) {
@@ -38,17 +57,17 @@ function generateList(listId) {
     })
         .then((res) => res.json())
         .then(function (data) {
-            document.getElementById("text-line").value = data.name;
+            document.getElementById("list-name").textContent = data.name;
 
             if (data.titles.length === 0) {
                 console.log("empty list");
             } else {
+                nameOfList = data.name;
                 if (document.getElementById("list-titles")) {
                     document.getElementById("list-titles").remove();
                 }
 
                 const listTitles = document.createElement("div");
-                // listTitles.classList.add("list-titles");
                 listTitles.setAttribute("id", "list-titles");
                 listNetflixIds = [];
                 for (let title of data.titles) {

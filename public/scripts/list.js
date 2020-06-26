@@ -27,6 +27,15 @@ function generateList(listId) {
                 listName.textContent = data.name;
                 listTitles.appendChild(listName);
 
+                // edit button
+                const editBtnLink = document.createElement("a");
+                editBtnLink.setAttribute("href", `/edit/list/${data._id}`);
+                const editBtn = document.createElement("input");
+                editBtn.setAttribute("type", "button");
+                editBtn.value = "edit list";
+                editBtnLink.appendChild(editBtn);
+                listTitles.appendChild(editBtnLink);
+
                 listNetflixIds = [];
                 for (let title of data.titles) {
                     listNetflixIds.push(title.netflixId);
