@@ -1,3 +1,12 @@
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("edit-lists").addEventListener("click", editLists);
+});
+
+function editLists() {
+    const buttons = document.getElementsByClassName("buttons");
+    Array.prototype.forEach.call(buttons, (x) => x.classList.remove("hidden"));
+}
+
 function formatText(text) {
     return text.replace(/&#39;/g, "'");
 }

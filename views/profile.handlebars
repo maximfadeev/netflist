@@ -4,12 +4,15 @@
         <form action="/create" method="post">
             <button type="submit" name="newList" value="">Create new list</button>
         </form>
+        <button type="submit" name="editLists" id="edit-lists">Edit lists</button>
+
+
         <h2>Playlists created by {{user.name}}</h2>
 
         <div id="lists">
             {{#each lists}}
-                <a href="javascript:generateList('{{this._id}}')">
-                    <div class="list">
+                <div class="list"> <a href="javascript:generateList('{{this._id}}')">
+
                         <div class="image-preview">
                             <img src="{{this.titles.0.image}}" class="first">
                             <div class="wrapper"> <img src="{{this.titles.1.image}}"
@@ -18,11 +21,15 @@
                             <img src="{{this.titles.2.image}}" onerror="this.src = `/images/no-preview-${2}.png`;"
                                 class="overlap third">
                         </div>
+                        <div class="p">{{this.name}}</div>
 
-
-                        <p>{{this.name}}</p>
+                    </a>
+                    <div class="buttons hidden">
+                        <button type="submit" name="edit" class="edit-list">edit</button><button type="submit"
+                            name="delete" class="delete-btn">delete</button>
                     </div>
-                </a>
+
+                </div>
             {{/each}}
         </div>
     </div>

@@ -11,9 +11,10 @@ $titles-width: 450px;
     display: grid;
     grid-gap: 1em;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-auto-columns: 22%;
     width: 100%;
     padding-right: 6%;
+    // grid-auto-rows: 1fr;
+    // align-items: flex-start;
 }
 
 .list {
@@ -21,14 +22,21 @@ $titles-width: 450px;
     padding: 10px;
     background-color: rgb(60, 60, 60);
     margin-top: 4px;
-    height: 14vw;
+    // height: 14vw;
 
-    p {
-        padding-top: 10px;
-        font-size: 1.3vw;
+    a {
+        text-decoration: none;
+    }
+
+    div.p {
+        padding-top: 5px;
+        font-size: 1vw;
         font-weight: 700;
-        // text-overflow: ellipsis;
-        // overflow: hidden;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+
+        width: 13vw;
     }
 
     .image-preview {
@@ -64,6 +72,13 @@ $titles-width: 450px;
             height: 9vw;
             box-shadow: 0px 0px 0px 2px rgb(60, 60, 60);
         }
+    }
+
+    .buttons {
+    }
+
+    .hidden {
+        display: none;
     }
 }
 
