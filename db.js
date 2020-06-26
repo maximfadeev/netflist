@@ -20,11 +20,17 @@ const ListSchema = new mongoose.Schema({
             netflixId: { type: Number, required: true },
             synopsis: { type: String, required: true },
             type: { type: String, required: true },
-            show: String,
-            showId: String,
             image: String,
-            season: String,
-            episode: String,
+            episodes: [
+                {
+                    title: String,
+                    image: String,
+                    season: String,
+                    episode: String,
+                    netflixId: Number,
+                    synopsis: String,
+                },
+            ],
         },
     ],
 });

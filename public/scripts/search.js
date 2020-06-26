@@ -1,6 +1,5 @@
 const listId = window.location.pathname.split("/")[3];
 let listNetflixIds = [];
-let shows = [];
 
 function formatText(text) {
     return text.replace(/&#39;/g, "'");
@@ -54,6 +53,11 @@ function generateList(listId) {
                 listNetflixIds = [];
                 for (let title of data.titles) {
                     listNetflixIds.push(title.netflixId);
+                    console.log(title);
+
+                    // div for list title
+                    const listTitle = document.createElement("div");
+                    listTitle.classList.add("list-title");
 
                     // div for title element
                     const titleEl = document.createElement("div");
@@ -74,48 +78,62 @@ function generateList(listId) {
                     titleInfo.classList.add("title-info");
 
                     // title title
-                    const titleTitle = document.createElement("p");
+                    const titleTitle = document.createElement("h2");
                     titleTitle.textContent = formatText(title.title);
                     titleInfo.appendChild(titleTitle);
 
-                    if (title.type === "episode") {
-                        // season and episode nums for episodes
-                        const nums = document.createElement("p");
-                        nums.textContent = "S" + title.season + " E" + title.episode;
-                        nums.classList.add("nums");
-                        titleInfo.appendChild(nums);
-                        titleEl.appendChild(titleInfo);
+                    // title synopsis
+                    const titleSyn = document.createElement("p");
+                    titleSyn.textContent = formatText(title.synopsis);
+                    titleInfo.appendChild(titleSyn);
 
-                        let inShows = false;
-                        for (const [index, s] of shows.entries()) {
-                            if (title.showId === s.id) {
-                                shows[index].appendChild(titleEl);
-                                inShows = true;
-                                break;
-                            }
-                        }
+                    titleEl.appendChild(titleInfo);
+                    listTitle.appendChild(titleEl);
 
-                        if (!inShows) {
-                            const show = document.createElement("div");
-                            show.setAttribute("id", title.showId);
-                            show.classList.add("show-els");
-                            const showTitle = document.createElement("h3");
-                            showTitle.textContent = title.show;
-                            show.appendChild(showTitle);
-                            show.appendChild(titleEl);
-                            shows.push(show);
-                            listTitles.appendChild(show);
+                    if (title.type === "series" && title.episodes.length > 0) {
+                        for (const episode of title.episodes) {
+                            // episode div
+                            const episodeEl = document.createElement("div");
+                            episodeEl.classList.add("list-episode");
+                            episodeEl.appendChild(document.createElement("HR"));
+
+                            // episode image
+                            const episodeImg = document.createElement("img");
+                            episodeImg.src = episode.image;
+                            // no image
+                            episodeImg.onerror = function (e) {
+                                this.src = "/images/no_image.png";
+                            };
+
+                            episodeImg.classList.add("image");
+                            episodeEl.appendChild(episodeImg);
+
+                            // episode info
+                            const episodeInfo = document.createElement("div");
+                            episodeInfo.classList.add("title-info");
+
+                            // episode title
+                            const episodeTitle = document.createElement("h3");
+                            episodeTitle.textContent = formatText(episode.title);
+                            episodeInfo.appendChild(episodeTitle);
+
+                            // episode number and season
+                            const nums = document.createElement("p");
+                            nums.textContent = "S" + episode.season + " E" + episode.episode;
+                            nums.classList.add("nums");
+                            episodeInfo.appendChild(nums);
+
+                            episodeEl.appendChild(episodeInfo);
+                            listTitle.appendChild(episodeEl);
                         }
-                    } else {
-                        titleEl.appendChild(titleInfo);
-                        listTitles.appendChild(titleEl);
                     }
+
+                    listTitles.appendChild(listTitle);
                 }
-                shows = [];
                 document.getElementById("list-element").appendChild(listTitles);
-                document.getElementById("list-titles").scrollTop = document.getElementById(
-                    "list-titles"
-                ).scrollHeight;
+                // document.getElementById("list-titles").scrollTop = document.getElementById(
+                //     "list-titles"
+                // ).scrollHeight;
             }
         })
         .catch((err) => {
@@ -194,10 +212,10 @@ function search(evt) {
                 addBtn.classList.add("btn", "addBtn");
                 addBtn.addEventListener(
                     "click",
-                    (function (titleObject) {
+                    (function (movie) {
                         return function (e) {
-                            titleObject.type = "movie/show";
-                            addTitle(e, titleObject);
+                            // movie.type = "movie/show";
+                            addMovie(e, movie);
                         };
                     })(result)
                 );
@@ -215,7 +233,7 @@ function search(evt) {
                         "click",
                         (function (id) {
                             return function (e) {
-                                showEpisodes(e, id, title, nfid);
+                                showEpisodes(e, id, result);
                             };
                         })(nfid)
                     );
@@ -241,7 +259,7 @@ function search(evt) {
         });
 }
 
-function showEpisodes(evt, id, showName, showId) {
+function showEpisodes(evt, id, show) {
     const parentEl = evt.path[4];
     evt.preventDefault();
     if (parentEl.querySelector("#seasons") == null) {
@@ -323,12 +341,9 @@ function showEpisodes(evt, id, showName, showId) {
                         addBtn.value = "add";
                         addBtn.addEventListener(
                             "click",
-                            (function (titleObject) {
+                            (function (episode) {
                                 return function (e) {
-                                    titleObject.type = "episode";
-                                    titleObject.show = showName;
-                                    titleObject.showId = showId;
-                                    addTitle(e, titleObject);
+                                    addEpisode(e, episode, show);
                                 };
                             })(episode)
                         );
@@ -353,51 +368,79 @@ function showEpisodes(evt, id, showName, showId) {
     }
 }
 
-function addTitle(evt, titleObject) {
+function addMovie(evt, movieRaw) {
     evt.preventDefault();
-    let nItem = {};
 
-    if (titleObject.type === "episode") {
-        nItem = {
-            title: titleObject.title,
-            netflixId: titleObject.epid,
-            synopsis: titleObject.synopsis,
-            image: titleObject.img,
-            season: titleObject.seasnum,
-            episode: titleObject.epnum,
-            show: titleObject.show,
-            showId: titleObject.showId,
-            type: titleObject.type,
-        };
-    } else {
-        nItem = {
-            title: titleObject.title,
-            netflixId: titleObject.nfid,
-            synopsis: titleObject.synopsis,
-            image: titleObject.img,
-            type: titleObject.type,
-        };
-    }
-
-    if (listNetflixIds.includes(nItem.netflixId)) {
+    if (listNetflixIds.includes(movieRaw.nfid)) {
         alert("already in");
-    }
+    } else {
+        let movie = {
+            title: movieRaw.title,
+            netflixId: movieRaw.nfid,
+            synopsis: movieRaw.synopsis,
+            type: movieRaw.vtype,
+            image: movieRaw.img,
+        };
 
-    evt.path[0].disabled = true;
-    const options = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(nItem),
-    };
-    fetch(window.location.pathname + "/addTitle", options)
-        .then((response) => response.json())
-        .then(function (data) {
-            if (data.message === "complete") {
-                generateList(listId);
-            }
-        });
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ movie: movie }),
+        };
+
+        fetch(window.location.pathname + "/addMovie", options)
+            .then((response) => response.json())
+            .then(function (data) {
+                if (data.message === "complete") {
+                    generateList(listId);
+                }
+            });
+        evt.path[0].disabled = true;
+    }
+}
+
+function addEpisode(evt, episodeRaw, showRaw) {
+    evt.preventDefault();
+
+    if (listNetflixIds.includes(episodeRaw.nfid)) {
+        alert("already in");
+    } else {
+        let episode = {
+            title: episodeRaw.title,
+            netflixId: episodeRaw.epid,
+            synopsis: episodeRaw.synopsis,
+            image: episodeRaw.img,
+            season: episodeRaw.seasnum,
+            episode: episodeRaw.epnum,
+        };
+        let show = {
+            title: showRaw.title,
+            netflixId: showRaw.nfid,
+            synopsis: showRaw.synopsis,
+            type: showRaw.vtype,
+            image: showRaw.img,
+        };
+
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ show, episode }),
+        };
+
+        fetch(window.location.pathname + "/addEpisode", options)
+            .then((response) => response.json())
+            .then(function (data) {
+                if (data.message === "complete") {
+                    generateList(listId);
+                }
+            });
+
+        evt.path[0].disabled = true;
+    }
 }
 
 // window.onbeforeunload = function (event, listId) {

@@ -332,55 +332,102 @@ nav a {
   width: 100%;
 }
 
-#list-titles .list-el {
+#list-titles .list-title {
   width: 90%;
   margin-bottom: 10px;
 }
 
-#list-titles .list-el .nums {
+#list-titles .list-title .nums {
   font-size: 12px;
 }
 
-#list-titles .list-el .image {
+#list-titles .list-title .image {
   max-height: 100px;
   max-width: 100px;
 }
 
-#list-titles .list-el .title-info {
+#list-titles .list-title .title-info {
   display: inline-block;
   vertical-align: top;
   margin-left: 4px;
+  width: 70%;
+  font-size: 13px;
+}
+
+#list-titles .list-title .list-episode {
+  background-color: #3c3c3c;
 }
 
 #left {
   width: calc(100% - 450px);
+  height: 83vh;
+  overflow-y: auto;
 }
 
 #lists {
   margin-top: 20px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  overflow-y: auto;
-  height: 83vh;
+  display: -ms-grid;
+  display: grid;
+  grid-gap: 1em;
+  -ms-grid-columns: 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-auto-columns: 22%;
   width: 100%;
   padding-right: 6%;
 }
 
 .list {
   text-align: left;
-  padding: 20px;
-  background-color: #000045;
+  padding: 10px;
+  background-color: #3c3c3c;
   margin-top: 4px;
+  height: 14vw;
 }
 
 .list p {
-  font-size: 20px;
+  padding-top: 10px;
+  font-size: 1.3vw;
   font-weight: 700;
+}
+
+.list .image-preview {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  direction: row;
+}
+
+.list .image-preview .wrapper {
+  background-color: gray;
+  z-index: 2;
+  height: 9vw;
+  border-radius: 0 5px 5px 0;
+}
+
+.list .image-preview .first {
+  z-index: 3;
+}
+
+.list .image-preview .second {
+  z-index: 2;
+  opacity: 0.7;
+  background: black;
+}
+
+.list .image-preview .third {
+  z-index: 1;
+  opacity: 0.4;
+}
+
+.list .image-preview .overlap {
+  margin-left: -40px;
+}
+
+.list .image-preview img {
+  border-radius: 5px;
+  height: 9vw;
+  -webkit-box-shadow: 0px 0px 0px 2px #3c3c3c;
+          box-shadow: 0px 0px 0px 2px #3c3c3c;
 }
 
 #right {

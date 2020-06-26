@@ -162,19 +162,26 @@ app.post(
     })
 );
 
+// this is trash, make it better
 app.get("/profile", ensureAuthenticated, (req, res) => {
     function asyncLoop(i, user, lists, callback) {
-        List.findById(user.lists[i]._id)
-            .then((data) => {
-                lists.push(data.toObject());
-            })
-            .then(function () {
-                if (i + 1 < user.lists.length) {
-                    asyncLoop(i + 1, user, lists, callback);
-                } else {
-                    callback(user, lists);
-                }
-            });
+        console.log(user);
+        if (user.lists.length === 0) {
+            callback(user, []);
+        } else {
+            List.findById(user.lists[i]._id)
+                .then((data) => {
+                    lists.push(data.toObject());
+                })
+                .then(function () {
+                    if (i + 1 < user.lists.length) {
+                        asyncLoop(i + 1, user, lists, callback);
+                    } else {
+                        callback(user, lists);
+                    }
+                })
+                .catch((err) => console.log(err));
+        }
     }
 
     let user;
@@ -270,12 +277,13 @@ app.post("/edit/list/:listId/changeName", (req, res) => {
     );
 });
 
-app.post("/edit/list/:listId/addTitle", (req, res) => {
+app.post("/edit/list/:listId/addMovie", (req, res) => {
+    console.log(req.body);
     List.findOneAndUpdate(
         { _id: req.params.listId },
         {
             $push: {
-                titles: req.body,
+                titles: req.body.movie,
             },
         },
         function (err, data) {
@@ -285,6 +293,71 @@ app.post("/edit/list/:listId/addTitle", (req, res) => {
             } else if (data === null) {
                 console.log("no list exists");
                 res.send({ message: "error" });
+            } else {
+                res.send({ message: "complete" });
+            }
+        }
+    );
+});
+
+app.post("/edit/list/:listId/addEpisode", (req, res) => {
+    console.log(req.body);
+    List.findOneAndUpdate(
+        { _id: req.params.listId, "titles.netflixId": req.body.show.netflixId },
+        {
+            $push: {
+                "titles.$.episodes": req.body.episode,
+            },
+        },
+
+        function (err, data) {
+            if (err) {
+                console.log("err", err);
+                res.send({ message: "error" });
+            } else if (data === null) {
+                // in case show not in titles list
+                console.log("NOT IN LIST");
+                List.findOneAndUpdate(
+                    { _id: req.params.listId },
+                    {
+                        $push: {
+                            titles: req.body.show,
+                        },
+                    },
+                    function (err, data) {
+                        if (err) {
+                            console.log("err", err);
+                            res.send({ message: "error" });
+                        } else if (data === null) {
+                            console.log("no list exists");
+                            res.send({ message: "error" });
+                        } else {
+                            List.findOneAndUpdate(
+                                {
+                                    _id: req.params.listId,
+                                    "titles.netflixId": req.body.show.netflixId,
+                                },
+                                {
+                                    $push: {
+                                        "titles.$.episodes": req.body.episode,
+                                    },
+                                },
+
+                                function (err, data) {
+                                    if (err) {
+                                        console.log("err", err);
+                                        res.send({ message: "error" });
+                                    } else if (data === null) {
+                                        console.log("no list exists");
+                                        res.send({ message: "error" });
+                                    } else {
+                                        res.send({ message: "complete" });
+                                    }
+                                }
+                            );
+                        }
+                    }
+                );
             } else {
                 res.send({ message: "complete" });
             }

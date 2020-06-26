@@ -4,12 +4,22 @@
         <form action="/create" method="post">
             <button type="submit" name="newList" value="">Create new list</button>
         </form>
+        <h2>Playlists created by {{user.name}}</h2>
 
         <div id="lists">
-            <h2>Playlists created by {{user.name}}</h2>
             {{#each lists}}
                 <a href="javascript:generateList('{{this._id}}')">
                     <div class="list">
+                        <div class="image-preview">
+                            <img src="{{this.titles.0.image}}" class="first">
+                            <div class="wrapper"> <img src="{{this.titles.1.image}}"
+                                    onerror="this.src = `/images/no-preview-${1}.png`;" class="overlap second"></div>
+
+                            <img src="{{this.titles.2.image}}" onerror="this.src = `/images/no-preview-${2}.png`;"
+                                class="overlap third">
+                        </div>
+
+
                         <p>{{this.name}}</p>
                     </div>
                 </a>
@@ -17,10 +27,7 @@
         </div>
     </div>
 
-    <div id="right">
-
-
-    </div>
+    <div id="right"></div>
 
 
 </div>

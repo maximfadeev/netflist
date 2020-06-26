@@ -202,7 +202,7 @@ $title-img-height: 233px;
         width: 100%;
     }
 
-    .list-el {
+    .list-title {
         width: 90%;
         margin-bottom: 10px;
 
@@ -219,6 +219,12 @@ $title-img-height: 233px;
             display: inline-block;
             vertical-align: top;
             margin-left: 4px;
+            width: 70%;
+            font-size: 13px;
+        }
+        .list-episode {
+            // margin-left: 50px;
+            background-color: rgb(60, 60, 60);
         }
     }
 }
