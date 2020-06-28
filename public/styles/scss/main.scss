@@ -7,6 +7,8 @@ $secondary-color: rgba(219, 32, 44, 0.342);
 $background-color: rgb(40, 40, 40);
 $navbar-color: rgb(0, 0, 0);
 
+$titles-width: 430px;
+
 @import "navbar";
 @import "register";
 @import "edit-list";
@@ -35,7 +37,7 @@ body {
 }
 
 #content {
-    padding-left: $horizontal-padding;
+    padding-left: 3%;
     height: calc(100% - 80px);
 }
 

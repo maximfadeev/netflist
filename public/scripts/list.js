@@ -1,10 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("edit-lists").addEventListener("click", editLists);
+    // document.getElementById("edit-lists").addEventListener("click", editLists);
+    const delBtns = document.getElementsByClassName("delete-btn");
+    // Array.prototype.forEach.call(delBtns, function (btn) {
+    //     console.log("ya");
+    //     btn.addEventListener("click", deleteButton);
+    // });
 });
 
-function editLists() {
-    const buttons = document.getElementsByClassName("buttons");
-    Array.prototype.forEach.call(buttons, (x) => x.classList.remove("hidden"));
+function deleteButton(listId) {
+    console.log("clicked");
+    console.log(listId);
 }
 
 function formatText(text) {

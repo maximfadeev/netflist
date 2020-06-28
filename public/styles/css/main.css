@@ -128,7 +128,7 @@ nav a {
 }
 
 #search-list {
-  width: calc(100% - 450px);
+  width: calc(100% - 430px);
 }
 
 .search {
@@ -287,7 +287,7 @@ nav a {
 }
 
 #list-element {
-  width: 450px;
+  width: 430px;
   background-color: #141414;
   -webkit-box-shadow: -5px 0px 10px -5px #3a3a3a;
           box-shadow: -5px 0px 10px -5px #3a3a3a;
@@ -393,7 +393,7 @@ nav a {
 }
 
 #left {
-  width: calc(100% - 450px);
+  width: calc(100% - 430px);
   height: 83vh;
   overflow-y: auto;
 }
@@ -407,13 +407,32 @@ nav a {
       grid-template-columns: 1fr 1fr 1fr 1fr;
   width: 100%;
   padding-right: 6%;
+  padding-left: 1.5%;
 }
 
 .list {
+  position: relative;
   text-align: left;
   padding: 10px;
   background-color: #3c3c3c;
   margin-top: 4px;
+}
+
+.list .delete-btn {
+  position: absolute;
+  top: -15px;
+  left: -10px;
+  z-index: 5;
+  font-size: 25px;
+  display: none;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+.list .delete-btn .fa-times-circle {
+  color: #db202c;
 }
 
 .list a {
@@ -422,7 +441,7 @@ nav a {
 
 .list div.p {
   padding-top: 5px;
-  font-size: 1vw;
+  font-size: 1.2vw;
   font-weight: 700;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -466,16 +485,23 @@ nav a {
 .list .image-preview img {
   border-radius: 5px;
   height: 9vw;
-  -webkit-box-shadow: 0px 0px 0px 2px #3c3c3c;
-          box-shadow: 0px 0px 0px 2px #3c3c3c;
+  border-right: 2px solid #3c3c3c;
 }
 
 .list .hidden {
   display: none;
 }
 
+.list:hover {
+  background-color: #141414;
+}
+
+.list:hover .delete-btn {
+  display: inline;
+}
+
 #right {
-  width: 450px;
+  width: 430px;
   background-color: #141414;
 }
 
@@ -502,7 +528,7 @@ body {
 }
 
 #content {
-  padding-left: 4%;
+  padding-left: 3%;
   height: calc(100% - 80px);
 }
 
