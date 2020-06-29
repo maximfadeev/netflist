@@ -199,6 +199,14 @@ nav a {
   width: 10vw;
 }
 
+.searchResult .clicked {
+  opacity: 0.3;
+}
+
+.searchResult .image:hover {
+  opacity: 0.4;
+}
+
 .searchResult .right-of-img {
   width: 60%;
   margin: 5px 10px;

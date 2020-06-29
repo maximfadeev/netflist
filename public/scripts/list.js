@@ -10,6 +10,12 @@ document.addEventListener("DOMContentLoaded", function () {
 function deleteButton(listId) {
     console.log("clicked");
     console.log(listId);
+    fetch(`/delete/list/${listId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }).then((res) => res.json());
 }
 
 function formatText(text) {

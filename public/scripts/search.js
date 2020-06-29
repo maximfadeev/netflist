@@ -250,10 +250,21 @@ function search(evt) {
                 const allTitle = document.createElement("div");
                 allTitle.classList.add("all-title-info");
 
+                //
+
                 // image
                 let imageEl = document.createElement("img");
                 imageEl.src = img;
                 imageEl.classList.add("image");
+                imageEl.addEventListener(
+                    "click",
+                    (function (movie) {
+                        return function (e) {
+                            imageEl.classList.add("clicked");
+                            addMovie(e, movie);
+                        };
+                    })(result)
+                );
                 allTitle.appendChild(imageEl);
 
                 // to the right of image

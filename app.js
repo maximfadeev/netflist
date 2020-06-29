@@ -166,7 +166,6 @@ app.post(
 // this is trash, make it better
 app.get("/profile", ensureAuthenticated, (req, res) => {
     function asyncLoop(i, user, lists, callback) {
-        console.log(user);
         if (user.lists.length === 0) {
             callback(user, []);
         } else {
@@ -190,9 +189,6 @@ app.get("/profile", ensureAuthenticated, (req, res) => {
         user = req.user.toJSON();
     }
     asyncLoop(0, user, [], function (user, lists) {
-        console.log(user, lists);
-        console.log("lists", lists);
-
         res.render("profile", { user, lists });
     });
 });
@@ -212,7 +208,6 @@ app.post("/create", ensureAuthenticated, (req, res) => {
             console.log(err);
         }
     });
-    console.log(req.user.id);
     User.findOneAndUpdate({ _id: req.user.id }, { $push: { lists: newList.id } }, function (
         err,
         data
@@ -232,7 +227,6 @@ app.get("/list/:listId", (req, res) => {
             console.log(err);
         } else {
             data = data.toJSON();
-            console.log(data);
             res.render("list", { data });
         }
     });
@@ -257,6 +251,24 @@ app.get("/edit/list/:listId", (req, res) => {
     res.render("edit-list", { user });
 });
 
+app.delete("/delete/list/:listId", (req, res) => {
+    const listId = req.params.listId;
+    const userId = req.user._id;
+    List.deleteOne({ _id: listId }, function (err) {
+        if (err) return handleError(err);
+        User.updateOne({ _id: userId }, { $pull: { lists: { $in: [listId] } } }, function (err) {
+            if (err) return handleError(err);
+            res.send({ message: "complete" });
+        });
+    });
+
+    // let user;
+    // if (req.user) {
+    //     user = req.user.toJSON();
+    // }
+    // res.render("edit-list", { user });
+});
+
 app.post("/edit/list/:listId/changeName", (req, res) => {
     List.findOneAndUpdate(
         { _id: req.params.listId },
@@ -278,7 +290,6 @@ app.post("/edit/list/:listId/changeName", (req, res) => {
 });
 
 app.post("/edit/list/:listId/addMovie", (req, res) => {
-    console.log(req.body);
     List.findOneAndUpdate(
         { _id: req.params.listId },
         {
@@ -301,7 +312,6 @@ app.post("/edit/list/:listId/addMovie", (req, res) => {
 });
 
 app.post("/edit/list/:listId/addEpisode", (req, res) => {
-    console.log(req.body);
     List.findOneAndUpdate(
         { _id: req.params.listId, "titles.netflixId": req.body.show.netflixId },
         {
