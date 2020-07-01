@@ -1,17 +1,18 @@
 <script src="/scripts/list.js"></script>
+{{> header}}
 <div id="split-page">
     <div id="left">
-        <form action="/create" method="post">
+        {{!-- <form action="/create" method="post">
             <button type="submit" name="newList" value="">Create new list</button>
-        </form>
+        </form> --}}
 
 
-        <h2>Playlists created by {{user.name}}</h2>
+        <h1>Lists created by {{user.name}}</h1>
 
         <div id="lists">
             {{#each lists}}
                 <div class="list">
-                    <button type="submit" name="delButton" class="delete-btn" onclick="deleteButton('{{this._id}}')">
+                    <button type="submit" class="delete-btn" onclick="deleteButton('{{this._id}}')">
                         <i class=" fas fa-times-circle"></i>
                     </button>
                     <a href="javascript:generateList('{{this._id}}')">
@@ -26,14 +27,17 @@
                         <div class="p">{{this.name}}</div>
 
                     </a>
-                    {{!-- <div class="buttons hidden">
-                        <button type="submit" name="edit" class="edit-list">edit</button><button type="submit"
-                            name="delete" class="delete-btn">delete</button>
-                    </div> --}}
-
                 </div>
             {{/each}}
+            <form action="/create" method="post" id="btn-wrap">
+                <button type="submit" class="create-list-btn">
+                    <i class="fas fa-plus-circle"></i>
+                </button>
+            </form>
+
+
         </div>
+
     </div>
 
     <div id="right"></div>

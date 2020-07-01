@@ -12,19 +12,6 @@
     </head>
 
     <body>
-        <header class="navbar">
-            <a href="/"><img src="https://fontmeme.com/permalink/200604/4b9d3388289ed7a8cb934ba49ff2299a.png"
-                    alt="netflist-logo" border="0" id="logo"></a>
-            <nav>
-                {{#if user}}
-                    <a href="/profile"><input type="button" class="left btn hvr-grow-shadow" value="Profile"></a><a
-                        href="/logout"><input type="button" class="right btn hvr-grow-shadow" value="Log Out"></a>
-                {{else}}
-                    <a href="/register"><input type="button" class="left btn hvr-grow-shadow" value="Sign Up"></a><a
-                        href="/login"><input type="button" class="right btn hvr-grow-shadow" value="Sign In"></a>
-                {{/if}}
-            </nav>
-        </header>
         <div id="content">
             {{{body}}}
         </div>

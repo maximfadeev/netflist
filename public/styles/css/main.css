@@ -406,6 +406,10 @@ nav a {
   overflow-y: auto;
 }
 
+#left h1 {
+  padding-top: 10px;
+}
+
 #lists {
   margin-top: 20px;
   display: -ms-grid;
@@ -496,16 +500,38 @@ nav a {
   border-right: 2px solid #3c3c3c;
 }
 
-.list .hidden {
-  display: none;
-}
-
 .list:hover {
   background-color: #141414;
 }
 
 .list:hover .delete-btn {
   display: inline;
+}
+
+.list .hidden {
+  display: none;
+}
+
+#btn-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#btn-wrap .create-list-btn {
+  font-size: 6vw;
+  background-color: transparent;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+}
+
+#btn-wrap .create-list-btn:hover {
+  opacity: 0.7;
 }
 
 #right {
@@ -536,7 +562,6 @@ body {
 }
 
 #content {
-  padding-left: 3%;
   height: calc(100% - 80px);
 }
 
