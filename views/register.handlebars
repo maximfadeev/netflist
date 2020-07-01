@@ -1,7 +1,9 @@
+{{> header}}
+
 {{#if errors}}
-{{#each errors}}
-<h2>{{this.msg}}</h2>
-{{/each}}
+    {{#each errors}}
+        <h2>{{this.msg}}</h2>
+    {{/each}}
 {{/if}}
 <div class="registration float-box">
     <form action="register" method="POST">

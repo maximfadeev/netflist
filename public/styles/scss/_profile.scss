@@ -7,6 +7,10 @@
     }
 }
 
+#lists-element {
+    padding-left: 4%;
+}
+
 #lists {
     margin-top: 20px;
     display: grid;
@@ -14,7 +18,7 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     width: 100%;
     padding-right: 6%;
-    padding-left: 1.5%;
+    // padding-left: 1.5%;
 
     // grid-auto-rows: 1fr;
     // align-items: flex-start;
@@ -110,7 +114,6 @@
 
 #btn-wrap {
     display: flex;
-
     align-items: center;
     // justify-content: center;
 
@@ -131,4 +134,5 @@
 #right {
     width: $titles-width;
     background-color: rgb(20, 20, 20);
+    height: 100vh;
 }

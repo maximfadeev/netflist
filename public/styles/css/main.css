@@ -122,16 +122,17 @@ nav a {
   text-decoration: underline;
 }
 
-#search-list,
-#list-element {
-  padding-top: 20px;
+#left {
+  width: calc(100% - 400px);
 }
 
-#search-list {
-  width: calc(100% - 430px);
+#search-element {
+  padding-left: 4%;
+  padding-top: 10px;
 }
 
 .search {
+  padding-top: 10px;
   width: 50%;
   min-width: 250px;
   position: relative;
@@ -294,50 +295,49 @@ nav a {
   overflow: hidden;
 }
 
-#list-element {
-  width: 430px;
+#right {
+  width: 400px;
   background-color: #141414;
-  -webkit-box-shadow: -5px 0px 10px -5px #3a3a3a;
-          box-shadow: -5px 0px 10px -5px #3a3a3a;
   padding-left: 20px;
 }
 
-#list-element #name-element {
+#right #name-element {
   width: 95%;
   margin-bottom: 5px;
+  margin-top: 10px;
 }
 
-#list-element #list-name {
-  font-size: 26px;
+#right #list-name {
+  font-size: 28px;
   font-weight: 700;
   width: 88%;
   display: inline-block;
   padding: 2px;
 }
 
-#list-element #list-name:focus {
+#right #list-name:focus {
   outline: none;
 }
 
-#list-element .deactivated {
+#right .deactivated {
   border-top: none;
   border-left: none;
   border-right: none;
   border-bottom: 3px solid #141414;
 }
 
-#list-element .deactivated:hover {
+#right .deactivated:hover {
   background-color: rgba(219, 32, 44, 0.342);
 }
 
-#list-element .activated {
+#right .activated {
   border-top: none;
   border-left: none;
   border-right: none;
   border-bottom: 3px solid #db202c;
 }
 
-#list-element #save-name {
+#right #save-name {
   display: none;
   padding: 2px 5px;
   border-radius: 4px;
@@ -351,7 +351,7 @@ nav a {
   outline: none;
 }
 
-#list-element ul {
+#right ul {
   list-style-type: none;
 }
 
@@ -401,13 +401,17 @@ nav a {
 }
 
 #left {
-  width: calc(100% - 430px);
+  width: calc(100% - 400px);
   height: 83vh;
   overflow-y: auto;
 }
 
 #left h1 {
   padding-top: 10px;
+}
+
+#lists-element {
+  padding-left: 4%;
 }
 
 #lists {
@@ -419,7 +423,6 @@ nav a {
       grid-template-columns: 1fr 1fr 1fr 1fr;
   width: 100%;
   padding-right: 6%;
-  padding-left: 1.5%;
 }
 
 .list {
@@ -535,8 +538,9 @@ nav a {
 }
 
 #right {
-  width: 430px;
+  width: 400px;
   background-color: #141414;
+  height: 100vh;
 }
 
 * {

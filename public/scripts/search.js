@@ -210,7 +210,7 @@ function generateList(listId) {
 
                     listTitles.appendChild(listTitle);
                 }
-                document.getElementById("list-element").appendChild(listTitles);
+                document.getElementById("right").appendChild(listTitles);
                 // document.getElementById("list-titles").scrollTop = document.getElementById(
                 //     "list-titles"
                 // ).scrollHeight;
@@ -343,7 +343,7 @@ function search(evt) {
             if (document.getElementById("searchResults")) {
                 document.getElementById("searchResults").remove();
             }
-            document.querySelector("#search-list").appendChild(searchResults);
+            document.querySelector("#left").appendChild(searchResults);
         })
         .catch((err) => {
             console.log(err);

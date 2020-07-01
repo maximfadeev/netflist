@@ -1,13 +1,18 @@
 <script src="/scripts/search.js"></script>
+
 <div id="split-page">
-    <div id="search-list">
-        <div class="search">
-            <input type="text" id="search" name="search" placeholder="Search for movie or show">
-            <button type="submit" id="searchBtn" class="searchButton">
-                <i class="fas fa-search"></i> </button>
+    <div id="left">
+        {{> header}}
+        <div id="search-element">
+            <h2>Search for titles add to your list</h2>
+            <div class="search">
+                <input type="text" id="search" name="search" placeholder="Search...">
+                <button type="submit" id="searchBtn" class="searchButton">
+                    <i class="fas fa-search"></i> </button>
+            </div>
         </div>
     </div>
-    <div id="list-element">
+    <div id="right">
         <div id="name-element">
             <div id="list-name" class="deactivated"></div><button type="submit" id="save-name" class="hide-button"><i
                     class="fas fa-check"></i></button>
