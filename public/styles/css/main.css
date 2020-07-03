@@ -83,13 +83,13 @@ nav a {
 }
 
 #intro #netflist {
-  width: 400px;
+  width: 300px;
   margin-right: auto;
   margin-left: auto;
 }
 
 #intro #intro-text {
-  font-size: 40px;
+  font-size: 36px;
   text-align: center;
   font-weight: 400;
 }
@@ -107,7 +107,7 @@ nav a {
 
 #intro #buttons .button {
   margin: 0;
-  padding: 30px 56px;
+  padding: 26px 46px;
   border-radius: 4px;
   font-size: 32px;
   font-weight: 700;
@@ -239,7 +239,6 @@ nav a {
 }
 
 .searchResult {
-  margin-top: 10px;
   width: 100%;
 }
 
@@ -269,6 +268,25 @@ nav a {
 
 .searchResult .title-info {
   height: 85%;
+}
+
+.searchResult .title-info .name-el {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.searchResult .title-info .year-el {
+  font-size: 14px;
+  font-weight: 200;
+}
+
+.searchResult .title-info .rating-el {
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.searchResult .title-info .rating-el:hover {
+  text-decoration: underline;
 }
 
 .searchResult .buttons {
@@ -346,49 +364,50 @@ nav a {
   overflow: hidden;
 }
 
-#right {
+#edit-list {
   width: 400px;
-  background-color: black;
-  padding-left: 20px;
+  height: 89vh;
+  background-color: #141414;
+  padding-left: 10px;
 }
 
-#right #name-element {
+#edit-list #name-element {
   width: 95%;
   margin-bottom: 5px;
   margin-top: 10px;
 }
 
-#right #list-name {
+#edit-list #list-name {
   font-size: 28px;
   font-weight: 700;
-  width: 88%;
+  width: 90%;
   display: inline-block;
   padding: 2px;
 }
 
-#right #list-name:focus {
+#edit-list #list-name:focus {
   outline: none;
 }
 
-#right .deactivated {
+#edit-list .deactivated {
   border-top: none;
   border-left: none;
   border-right: none;
-  border-bottom: 3px solid black;
+  border-bottom: 3px solid #141414;
 }
 
-#right .deactivated:hover {
+#edit-list .deactivated:hover {
   background-color: rgba(219, 32, 44, 0.342);
 }
 
-#right .activated {
+#edit-list .activated {
   border-top: none;
   border-left: none;
   border-right: none;
   border-bottom: 3px solid #db202c;
 }
 
-#right #save-name {
+#edit-list #save-name {
   display: none;
   padding: 2px 5px;
   border-radius: 4px;
@@ -396,13 +415,13 @@ nav a {
   font-weight: 400;
   text-decoration: none;
   border: 2px solid #db202c;
-  background-color: black;
+  background-color: #141414;
   margin-left: 2px;
   background-color: #db202c;
   outline: none;
 }
 
-#right ul {
+#edit-list ul {
   list-style-type: none;
 }
 
@@ -418,7 +437,7 @@ nav a {
       -ms-flex-direction: column;
           flex-direction: column;
   overflow-y: auto;
-  height: 90vh;
+  height: 90%;
   width: 95%;
 }
 
@@ -427,7 +446,12 @@ nav a {
 }
 
 #list-titles .list-title {
-  margin-bottom: 10px;
+  width: 100%;
+}
+
+#list-titles .list-title .list-el {
+  width: 100%;
+  display: inline-block;
 }
 
 #list-titles .list-title .nums {
@@ -443,7 +467,6 @@ nav a {
   display: inline-block;
   vertical-align: top;
   margin-left: 4px;
-  width: 70%;
   font-size: 13px;
 }
 

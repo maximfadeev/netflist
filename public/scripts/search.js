@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
             saveBtn.style.display = "none";
             listName.classList.add("deactivated");
             listName.classList.remove("activated");
+            listName.textContent = listName.textContent.trim();
             changeName(listName.textContent);
         };
     };
@@ -92,6 +93,12 @@ document.addEventListener("DOMContentLoaded", function () {
     generateList(listId);
     const searchButton = document.getElementById("searchBtn");
     searchButton.addEventListener("click", search);
+    document.getElementById("search").addEventListener("keyup", function (e) {
+        if (e.keyCode === 13) {
+            event.preventDefault();
+            search(e);
+        }
+    });
 });
 
 function changeName(newName) {
@@ -166,10 +173,15 @@ function generateList(listId) {
                     titleTitle.textContent = formatText(title.title);
                     titleInfo.appendChild(titleTitle);
 
+                    //title year
+                    const titleYear = document.createElement("h2");
+                    titleYear.textContent = title.year;
+                    titleInfo.appendChild(titleYear);
+
                     // title synopsis
-                    const titleSyn = document.createElement("p");
-                    titleSyn.textContent = formatText(title.synopsis);
-                    titleInfo.appendChild(titleSyn);
+                    // const titleSyn = document.createElement("p");
+                    // titleSyn.textContent = formatText(title.synopsis);
+                    // titleInfo.appendChild(titleSyn);
 
                     titleEl.appendChild(titleInfo);
                     listTitle.appendChild(titleEl);
@@ -214,7 +226,7 @@ function generateList(listId) {
 
                     listTitles.appendChild(listTitle);
                 }
-                document.getElementById("right").appendChild(listTitles);
+                document.getElementById("edit-list").appendChild(listTitles);
                 // document.getElementById("list-titles").scrollTop = document.getElementById(
                 //     "list-titles"
                 // ).scrollHeight;
@@ -242,7 +254,7 @@ function search(evt) {
             searchResults.setAttribute("id", "searchResults");
             // each result
             for (const result of data.results) {
-                const { imdbrating, img, nfid, synopsis, title, vtype } = result;
+                const { imdbrating, img, nfid, synopsis, title, vtype, year, imdbid } = result;
 
                 let searchResult = document.createElement("div");
                 searchResult.classList.add("searchResult");
@@ -280,13 +292,36 @@ function search(evt) {
                 titleInfo.classList.add("title-info");
 
                 // title
-                let titleEl = document.createElement("h2");
-                titleEl.textContent = formatText(title);
+                let titleEl = document.createElement("p");
+
+                let titleName = document.createElement("span");
+                titleName.classList.add("name-el");
+                // titleName.textContent = formatText(title);
+                titleName.appendChild(document.createTextNode(formatText(title)));
+                titleEl.appendChild(titleName);
+
+                let titleYear = document.createElement("span");
+                titleYear.classList.add("year-el");
+                titleYear.appendChild(document.createTextNode(" " + year));
+
+                titleEl.appendChild(titleYear);
+
+                // titleEl.textContent = formatText(title);
                 titleInfo.appendChild(titleEl);
 
+                // year
+                // let titleYear = document.createElement("p");
+                // titleYear.textContent = year;
+
+                // titleInfo.appendChild(titleYear);
+
                 // imdb rating
-                let titleRating = document.createElement("h3");
-                titleRating.textContent = imdbrating ? imdbrating : "N/A";
+                let titleRating = document.createElement("a");
+                titleRating.classList.add("rating-el");
+                titleRating.href = `http://www.imdb.com/title/${imdbid}`;
+                titleRating.innerHTML = `<i class='fas fa-star'></i> ${
+                    imdbrating ? imdbrating : "N/A"
+                }`;
                 titleInfo.appendChild(titleRating);
 
                 // synopsis
@@ -475,6 +510,7 @@ function addMovie(evt, movieRaw) {
             synopsis: movieRaw.synopsis,
             type: movieRaw.vtype,
             image: movieRaw.img,
+            year: movieRaw.year,
         };
 
         const options = {

@@ -19,8 +19,10 @@ const ListSchema = new mongoose.Schema({
             title: { type: String, required: true },
             netflixId: { type: Number, required: true },
             synopsis: { type: String, required: true },
+            year: Number,
             type: { type: String, required: true },
             image: String,
+            imdbid: Number,
             episodes: [
                 {
                     title: String,

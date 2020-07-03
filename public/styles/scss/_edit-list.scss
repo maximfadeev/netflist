@@ -1,10 +1,5 @@
 $title-img-height: 233px;
-$list-background-color: rgb(0, 0, 0);
-
-// #search-list,
-// #list-element {
-//     padding-top: 20px;
-// }
+$list-background-color: rgb(20, 20, 20);
 
 #left-search {
     width: calc(100% - #{$titles-width});
@@ -76,7 +71,7 @@ $list-background-color: rgb(0, 0, 0);
 }
 
 .searchResult {
-    margin-top: 10px;
+    // margin-top: 10px;
     width: 100%;
 
     .all-title-info {
@@ -107,6 +102,22 @@ $list-background-color: rgb(0, 0, 0);
 
     .title-info {
         height: 85%;
+        .name-el {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .year-el {
+            font-size: 14px;
+            font-weight: 200;
+        }
+        .rating-el {
+            font-size: 20px;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
     .buttons {
         display: inline-block;
@@ -180,12 +191,13 @@ $list-background-color: rgb(0, 0, 0);
     }
 }
 
-#right {
+#edit-list {
     // flex: 28%;
     width: $titles-width;
+    height: 89vh;
     background-color: $list-background-color;
     // box-shadow: -5px 0px 10px -5px rgb(58, 58, 58);
-    padding-left: 20px;
+    padding-left: 10px;
 
     #name-element {
         width: 95%;
@@ -196,7 +208,7 @@ $list-background-color: rgb(0, 0, 0);
     #list-name {
         font-size: 28px;
         font-weight: 700;
-        width: 88%;
+        width: 90%;
         display: inline-block;
         padding: 2px;
 
@@ -210,7 +222,6 @@ $list-background-color: rgb(0, 0, 0);
         border-left: none;
         border-right: none;
         border-bottom: 3px solid $list-background-color;
-
         &:hover {
             background-color: $secondary-color;
         }
@@ -247,7 +258,7 @@ $list-background-color: rgb(0, 0, 0);
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    height: 90vh;
+    height: 90%;
     width: 95%;
 
     .show-els {
@@ -255,7 +266,12 @@ $list-background-color: rgb(0, 0, 0);
     }
 
     .list-title {
-        margin-bottom: 10px;
+        width: 100%;
+        // margin-bottom: 10px;
+        .list-el {
+            width: 100%;
+            display: inline-block;
+        }
 
         .nums {
             font-size: 12px;
@@ -270,7 +286,7 @@ $list-background-color: rgb(0, 0, 0);
             display: inline-block;
             vertical-align: top;
             margin-left: 4px;
-            width: 70%;
+            // width: 70%;
             font-size: 13px;
         }
         .list-episode {
