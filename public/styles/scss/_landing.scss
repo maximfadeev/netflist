@@ -1,3 +1,47 @@
 #intro {
-    margin: auto;
+    max-width: 40rem;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 60px;
+    text-align: center;
+
+    // background-color: rgb(21, 21, 21);
+
+    #netflist {
+        width: 400px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    #intro-text {
+        font-size: 40px;
+        text-align: center;
+        font-weight: 400;
+    }
+
+    #buttons {
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-around;
+
+        .button {
+            margin: 0;
+            padding: 30px 56px;
+            border-radius: 4px;
+            font-size: 32px;
+            font-weight: 700;
+            text-decoration: none;
+            border: none;
+        }
+        .browse-btn {
+            background-color: rgb(255, 255, 255);
+            color: black;
+        }
+
+        .create-btn {
+            background-color: rgb(100, 100, 100);
+        }
+    }
 }

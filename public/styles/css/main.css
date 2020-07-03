@@ -74,6 +74,56 @@ nav a {
           transition-duration: 0.05s;
 }
 
+#intro {
+  max-width: 40rem;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 60px;
+  text-align: center;
+}
+
+#intro #netflist {
+  width: 400px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#intro #intro-text {
+  font-size: 40px;
+  text-align: center;
+  font-weight: 400;
+}
+
+#intro #buttons {
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+#intro #buttons .button {
+  margin: 0;
+  padding: 30px 56px;
+  border-radius: 4px;
+  font-size: 32px;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+}
+
+#intro #buttons .browse-btn {
+  background-color: white;
+  color: black;
+}
+
+#intro #buttons .create-btn {
+  background-color: #646464;
+}
+
 .float-box {
   position: relative;
   display: block;
@@ -298,7 +348,7 @@ nav a {
 
 #right {
   width: 400px;
-  background-color: #141414;
+  background-color: black;
   padding-left: 20px;
 }
 
@@ -324,7 +374,7 @@ nav a {
   border-top: none;
   border-left: none;
   border-right: none;
-  border-bottom: 3px solid #141414;
+  border-bottom: 3px solid black;
 }
 
 #right .deactivated:hover {
@@ -346,7 +396,7 @@ nav a {
   font-weight: 400;
   text-decoration: none;
   border: 2px solid #db202c;
-  background-color: #141414;
+  background-color: black;
   margin-left: 2px;
   background-color: #db202c;
   outline: none;
