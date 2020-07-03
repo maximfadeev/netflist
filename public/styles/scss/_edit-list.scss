@@ -6,8 +6,10 @@ $list-background-color: rgb(20, 20, 20);
 //     padding-top: 20px;
 // }
 
-#left {
+#left-search {
     width: calc(100% - #{$titles-width});
+    height: 73vh;
+
     // min-width: 300px;
 }
 
@@ -67,7 +69,7 @@ $list-background-color: rgb(20, 20, 20);
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    height: 75vh;
+    height: 74vh;
     // height: calc(100% - 200px);
     // height: 500px;
     // min-height: 0px;
@@ -245,7 +247,7 @@ $list-background-color: rgb(20, 20, 20);
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    height: 80vh;
+    height: 90vh;
     width: 95%;
 
     .show-els {

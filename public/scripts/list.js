@@ -42,10 +42,16 @@ function generateList(listId) {
                 const listTitles = document.createElement("div");
                 listTitles.setAttribute("id", "list-titles");
 
+                // list name wrapper
+                const listNameWrap = document.createElement("div");
+                listNameWrap.setAttribute("id", "list-name-wrap");
+
                 // list name
-                const listName = document.createElement("h2");
+                const listName = document.createElement("p");
                 listName.textContent = data.name;
-                listTitles.appendChild(listName);
+
+                listNameWrap.appendChild(listName);
+                listTitles.appendChild(listNameWrap);
 
                 // edit button
                 const editBtnLink = document.createElement("a");

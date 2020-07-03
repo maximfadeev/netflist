@@ -10,6 +10,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const listName = document.getElementById("list-name");
     listName.onclick = function (e) {
         this.contentEditable = true;
+        this.onfocus = (e) => document.execCommand("selectAll", false, null);
+        this.focus();
+
+        // this.style.userSelect = "all";
         // this.focus();
         listName.classList.remove("deactivated");
         listName.classList.add("activated");
@@ -27,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // set max length to listName div. C&P
 
     settings = {
-        maxLen: 60,
+        maxLen: 80,
     };
 
     keys = {
@@ -343,7 +347,7 @@ function search(evt) {
             if (document.getElementById("searchResults")) {
                 document.getElementById("searchResults").remove();
             }
-            document.querySelector("#left").appendChild(searchResults);
+            document.querySelector("#left-search").appendChild(searchResults);
         })
         .catch((err) => {
             console.log(err);

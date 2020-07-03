@@ -135,4 +135,10 @@
     width: $titles-width;
     background-color: rgb(20, 20, 20);
     height: 100vh;
+
+    #list-name-wrap {
+        padding-top: 10px;
+        font-size: 28px;
+        font-weight: 700;
+    }
 }
