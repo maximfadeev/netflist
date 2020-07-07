@@ -70,11 +70,11 @@ function generateList(listId) {
                     // div for list title
                     const listTitle = document.createElement("div");
                     listTitle.classList.add("list-title");
+                    listTitle.appendChild(document.createElement("HR"));
 
                     // div for title element
                     const titleEl = document.createElement("div");
                     titleEl.classList.add("list-el");
-                    titleEl.appendChild(document.createElement("HR"));
 
                     // title image
                     const titleImg = document.createElement("img");
@@ -142,7 +142,7 @@ function generateList(listId) {
 
                     listTitles.appendChild(listTitle);
                 }
-                document.getElementById("right").appendChild(listTitles);
+                document.getElementById("edit-list").appendChild(listTitles);
                 // document.getElementById("list-titles").scrollTop = document.getElementById(
                 //     "list-titles"
                 // ).scrollHeight;

@@ -149,11 +149,11 @@ function generateList(listId) {
                     // div for list title
                     const listTitle = document.createElement("div");
                     listTitle.classList.add("list-title");
+                    listTitle.appendChild(document.createElement("HR"));
 
                     // div for title element
                     const titleEl = document.createElement("div");
                     titleEl.classList.add("list-el");
-                    titleEl.appendChild(document.createElement("HR"));
 
                     // title image
                     const titleImg = document.createElement("img");
@@ -174,7 +174,7 @@ function generateList(listId) {
                     titleInfo.appendChild(titleTitle);
 
                     //title year
-                    const titleYear = document.createElement("h2");
+                    const titleYear = document.createElement("p");
                     titleYear.textContent = title.year;
                     titleInfo.appendChild(titleYear);
 
@@ -319,6 +319,7 @@ function search(evt) {
                 let titleRating = document.createElement("a");
                 titleRating.classList.add("rating-el");
                 titleRating.href = `http://www.imdb.com/title/${imdbid}`;
+                titleRating.target = "_blank";
                 titleRating.innerHTML = `<i class='fas fa-star'></i> ${
                     imdbrating ? imdbrating : "N/A"
                 }`;
@@ -331,7 +332,6 @@ function search(evt) {
 
                 // add title
                 rightOfImage.appendChild(titleInfo);
-
                 const buttons = document.createElement("div");
                 buttons.classList.add("buttons");
 
@@ -351,12 +351,33 @@ function search(evt) {
                 );
                 buttons.appendChild(addBtn);
 
+                rightOfImage.appendChild(buttons);
+                allTitle.appendChild(rightOfImage);
+
                 // show episdoes button
                 if (vtype === "series") {
-                    let showBtn = document.createElement("input");
-                    showBtn.type = "button";
-                    showBtn.value = "show episodes";
-                    showBtn.classList.add("btn", "showBtn");
+                    // let showBtn = document.createElement("input");
+                    // showBtn.type = "button";
+                    // showBtn.value = "show episodes";
+                    // showBtn.classList.add("btn", "showBtn");
+
+                    // const showEpisodesEl = document.createElement("div");
+                    // showEpisodesEl.classList.add("show-episodes");
+
+                    const showBtn = document.createElement("button");
+                    showBtn.type = "submit";
+                    const showText = document.createElement("p");
+                    showText.textContent = "show episodes";
+                    showBtn.appendChild(showText);
+
+                    // showEpisodesEl.appendChild(showText);
+
+                    // const chevron = document.createElement("div");
+
+                    showBtn.innerHTML = showBtn.innerHTML + '<span class="icon-chevron"></span>';
+                    // showBtn.innerHTML + '<i class="material-icons">arrow_back_ios</i>';
+                    showBtn.classList.add("show-episodes");
+                    // showBtn.appendChild(chevron);
 
                     // pass object into event listener
                     showBtn.addEventListener(
@@ -367,11 +388,13 @@ function search(evt) {
                             };
                         })(nfid)
                     );
-                    buttons.appendChild(showBtn);
+                    // buttons.appendChild(showBtn);
+
+                    // chevron button
+                    // showEpisodesEl.appendChild(showBtn);
+                    allTitle.appendChild(showBtn);
                 }
 
-                rightOfImage.appendChild(buttons);
-                allTitle.appendChild(rightOfImage);
                 searchResult.appendChild(allTitle);
 
                 // add to all searches
@@ -390,7 +413,7 @@ function search(evt) {
 }
 
 function showEpisodes(evt, id, show) {
-    const parentEl = evt.path[4];
+    const parentEl = evt.path[3];
     evt.preventDefault();
     if (parentEl.querySelector("#seasons") == null) {
         evt.path[0].disabled = true;
@@ -483,18 +506,21 @@ function showEpisodes(evt, id, show) {
                     allSeasonsEl.appendChild(seasonScrollEl);
                 }
                 parentEl.appendChild(allSeasonsEl);
-                evt.path[0].disabled = false;
-                evt.path[0].value = "hide episodes";
+                evt.path[1].childNodes[0].textContent = "hide episodes";
+                evt.path[0].style.transform = "rotate(180deg)";
             })
             .catch((err) => {
                 console.log(err);
             });
     } else if (parentEl.querySelector("#seasons").style.display === "none") {
         parentEl.querySelector("#seasons").style.display = "block";
-        evt.path[0].value = "hide episodes";
+        evt.path[1].childNodes[0].textContent = "hide episodes";
+        console.log(evt.path);
+        evt.path[0].style.transform = "rotate(180deg)";
     } else {
         parentEl.querySelector("#seasons").style.display = "none";
-        evt.path[0].value = "show episodes";
+        evt.path[1].childNodes[0].textContent = "show episodes";
+        evt.path[0].style.transform = "rotate(0deg)";
     }
 }
 
