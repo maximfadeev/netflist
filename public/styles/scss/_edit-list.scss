@@ -17,7 +17,6 @@ $list-background-color: rgb(20, 20, 20);
 [class*=" icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
     font-family: "icomoon" !important;
-    speak: never;
     font-style: normal;
     font-weight: normal;
     font-variant: normal;
@@ -200,9 +199,6 @@ $list-background-color: rgb(20, 20, 20);
             font-weight: 200;
         }
     }
-
-    .chevron {
-    }
 }
 
 .seasons {
@@ -321,6 +317,10 @@ $list-background-color: rgb(20, 20, 20);
     ul {
         list-style-type: none;
     }
+
+    .placeholder-text {
+        display: none;
+    }
 }
 
 #list-titles {
@@ -342,6 +342,28 @@ $list-background-color: rgb(20, 20, 20);
             width: 100%;
             display: flex;
             flex-direction: row;
+            &:hover {
+                .delete-title-button {
+                    display: block;
+                }
+            }
+        }
+
+        .delete-title-flex {
+            position: relative;
+            flex: 1;
+        }
+
+        .delete-title-button {
+            background-color: transparent;
+            font-size: 30px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            position: absolute;
+            right: 2px;
+            top: -10px;
+            display: block;
         }
 
         .nums {
@@ -362,6 +384,8 @@ $list-background-color: rgb(20, 20, 20);
         }
         .list-episode {
             background-color: rgb(60, 60, 60);
+            position: relative;
+            // .delete-episode {}
         }
     }
 }

@@ -185,7 +185,6 @@ nav a {
 [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: "icomoon" !important;
-  speak: never;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -483,6 +482,10 @@ nav a {
   list-style-type: none;
 }
 
+#edit-list .placeholder-text {
+  display: none;
+}
+
 #list-titles {
   -webkit-box-align: start;
       -ms-flex-align: start;
@@ -518,6 +521,29 @@ nav a {
           flex-direction: row;
 }
 
+#list-titles .list-title .list-el:hover .delete-title-button {
+  display: block;
+}
+
+#list-titles .list-title .delete-title-flex {
+  position: relative;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+#list-titles .list-title .delete-title-button {
+  background-color: transparent;
+  font-size: 30px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  position: absolute;
+  right: 2px;
+  top: -10px;
+  display: block;
+}
+
 #list-titles .list-title .nums {
   font-size: 12px;
 }
@@ -536,6 +562,7 @@ nav a {
 
 #list-titles .list-title .list-episode {
   background-color: #3c3c3c;
+  position: relative;
 }
 
 #left {
@@ -711,6 +738,15 @@ body {
 
 #content {
   height: calc(100% - 80px);
+}
+
+img {
+  user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 input[type="button"],

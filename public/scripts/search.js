@@ -130,15 +130,16 @@ function generateList(listId) {
         .then((res) => res.json())
         .then(function (data) {
             document.getElementById("list-name").textContent = data.name;
-
+            if (document.getElementById("list-titles")) {
+                document.getElementById("list-titles").remove();
+            }
             if (data.titles.length === 0) {
-                console.log("empty list");
+                // console.log("empty list");
+                document.getElementById("placeholder-text").style.display = "block";
             } else {
-                nameOfList = data.name;
-                if (document.getElementById("list-titles")) {
-                    document.getElementById("list-titles").remove();
-                }
+                document.getElementById("placeholder-text").style.display = "none";
 
+                nameOfList = data.name;
                 const listTitles = document.createElement("div");
                 listTitles.setAttribute("id", "list-titles");
                 listNetflixIds = [];
@@ -184,6 +185,26 @@ function generateList(listId) {
                     // titleInfo.appendChild(titleSyn);
 
                     titleEl.appendChild(titleInfo);
+
+                    //title delete
+                    const deleteFlex = document.createElement("div");
+                    deleteFlex.classList.add("delete-title-flex");
+                    const deleteBtn = document.createElement("button");
+                    deleteBtn.innerHTML = "&times;";
+                    deleteBtn.classList = "delete-title-button";
+
+                    deleteBtn.addEventListener(
+                        "click",
+                        (function (movie) {
+                            return function (e) {
+                                deleteTitle(e, movie);
+                            };
+                        })(title)
+                    );
+
+                    deleteFlex.appendChild(deleteBtn);
+                    titleEl.appendChild(deleteFlex);
+
                     listTitle.appendChild(titleEl);
 
                     if (title.type === "series" && title.episodes.length > 0) {
@@ -220,6 +241,22 @@ function generateList(listId) {
                             episodeInfo.appendChild(nums);
 
                             episodeEl.appendChild(episodeInfo);
+
+                            //episode delete
+                            const deleteEpBtn = document.createElement("button");
+                            deleteEpBtn.innerHTML = "&times;";
+                            deleteEpBtn.classList = "delete-title-button";
+
+                            deleteEpBtn.addEventListener(
+                                "click",
+                                (function (ep) {
+                                    return function (e) {
+                                        deleteEpisode(e, ep, title);
+                                    };
+                                })(episode, title)
+                            );
+
+                            episodeEl.appendChild(deleteEpBtn);
                             listTitle.appendChild(episodeEl);
                         }
                     }
@@ -522,6 +559,28 @@ function showEpisodes(evt, id, show) {
         evt.path[1].childNodes[0].textContent = "show episodes";
         evt.path[0].style.transform = "rotate(0deg)";
     }
+}
+
+function deleteTitle(evt, title) {
+    const delTitle = title.netflixId;
+    fetch(`/delete/${listId}/${delTitle}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }).then((res) => res.json().then(generateList(listId)));
+}
+
+function deleteEpisode(evt, episode, title) {
+    console.log(title);
+    const delTitle = title.netflixId;
+    const delEpisode = episode.netflixId;
+    fetch(`/delete/${listId}/${delTitle}/${delEpisode}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }).then((res) => res.json().then(generateList(listId)));
 }
 
 function addMovie(evt, movieRaw) {

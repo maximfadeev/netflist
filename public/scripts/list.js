@@ -1,10 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // document.getElementById("edit-lists").addEventListener("click", editLists);
     const delBtns = document.getElementsByClassName("delete-btn");
-    // Array.prototype.forEach.call(delBtns, function (btn) {
-    //     console.log("ya");
-    //     btn.addEventListener("click", deleteButton);
-    // });
 });
 
 function deleteButton(listId) {
