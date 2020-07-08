@@ -252,6 +252,58 @@ nav a {
   color: #c8c8c8;
 }
 
+#search-load {
+  width: 6vw;
+  height: 6vw;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 200px;
+  margin-bottom: 5px;
+  border: 4px solid transparent;
+  border-top-color: #db202c;
+  border-bottom-color: #db202c;
+  border-radius: 50%;
+  -webkit-animation: rotation 0.8s ease infinite;
+          animation: rotation 0.8s ease infinite;
+  display: none;
+}
+
+#episode-load {
+  width: 2vw;
+  height: 2vw;
+  position: absolute;
+  left: 53.5%;
+  bottom: 0.5vw;
+  border: 2px solid transparent;
+  border-top-color: #db202c;
+  border-bottom-color: #db202c;
+  border-radius: 50%;
+  -webkit-animation: rotation 0.8s ease infinite;
+          animation: rotation 0.8s ease infinite;
+}
+
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
 #searchResults {
   margin-top: 20px;
   display: -webkit-box;

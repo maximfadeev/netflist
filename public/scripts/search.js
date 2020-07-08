@@ -276,6 +276,12 @@ function generateList(listId) {
 
 function search(evt) {
     evt.preventDefault();
+    //if search already on page then clear it
+    if (document.getElementById("searchResults")) {
+        document.getElementById("searchResults").remove();
+    }
+    const searchLoader = document.getElementById("search-load");
+    searchLoader.style.display = "block";
     const search = document.querySelector("#search").value;
     fetch(`https://unogsng.p.rapidapi.com/search?query=${search}`, {
         method: "GET",
@@ -393,28 +399,13 @@ function search(evt) {
 
                 // show episdoes button
                 if (vtype === "series") {
-                    // let showBtn = document.createElement("input");
-                    // showBtn.type = "button";
-                    // showBtn.value = "show episodes";
-                    // showBtn.classList.add("btn", "showBtn");
-
-                    // const showEpisodesEl = document.createElement("div");
-                    // showEpisodesEl.classList.add("show-episodes");
-
                     const showBtn = document.createElement("button");
                     showBtn.type = "submit";
                     const showText = document.createElement("p");
                     showText.textContent = "show episodes";
                     showBtn.appendChild(showText);
-
-                    // showEpisodesEl.appendChild(showText);
-
-                    // const chevron = document.createElement("div");
-
                     showBtn.innerHTML = showBtn.innerHTML + '<span class="icon-chevron"></span>';
-                    // showBtn.innerHTML + '<i class="material-icons">arrow_back_ios</i>';
                     showBtn.classList.add("show-episodes");
-                    // showBtn.appendChild(chevron);
 
                     // pass object into event listener
                     showBtn.addEventListener(
@@ -439,9 +430,8 @@ function search(evt) {
             }
 
             // add search results to document. if one already exists, remove it
-            if (document.getElementById("searchResults")) {
-                document.getElementById("searchResults").remove();
-            }
+
+            searchLoader.style.display = "none";
             document.querySelector("#left-search").appendChild(searchResults);
         })
         .catch((err) => {
@@ -450,10 +440,19 @@ function search(evt) {
 }
 
 function showEpisodes(evt, id, show) {
-    const parentEl = evt.path[3];
     evt.preventDefault();
+    const parentEl = evt.path[3];
+
     if (parentEl.querySelector("#seasons") == null) {
-        evt.path[0].disabled = true;
+        //hide button
+        evt.path[1].style.display = "none";
+
+        //add loader
+        const episodeLoader = document.createElement("div");
+        episodeLoader.setAttribute("id", "episode-load");
+        evt.path[2].appendChild(episodeLoader);
+
+        // evt.path[0].disabled = true;
         fetch(`https://unogsng.p.rapidapi.com/episodes?netflixid=${id}`, {
             method: "GET",
             headers: {
@@ -542,6 +541,8 @@ function showEpisodes(evt, id, show) {
                     }
                     allSeasonsEl.appendChild(seasonScrollEl);
                 }
+                evt.path[2].removeChild(episodeLoader);
+                evt.path[1].style.display = "block";
                 parentEl.appendChild(allSeasonsEl);
                 evt.path[1].childNodes[0].textContent = "hide episodes";
                 evt.path[0].style.transform = "rotate(180deg)";

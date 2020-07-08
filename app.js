@@ -399,10 +399,10 @@ app.delete("/delete/:listId/:title/:episode", (req, res) => {
     const delEpisode = req.params.episode;
     console.log(listId, delTitle, delEpisode);
 
-    List.findOne({ _id: listId }, function (err, docs) {
-        if (err) console.log(err);
-        console.log(JSON.stringify(docs));
-    });
+    // List.update({ _id: listId }, function (err, docs) {
+    //     if (err) console.log(err);
+    //     console.log(JSON.stringify(docs));
+    // });
 
     // List.updateOne(
     //     { _id: listId, titles: { netflixId: delTitle } },
