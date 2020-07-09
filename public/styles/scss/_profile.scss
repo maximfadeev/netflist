@@ -1,6 +1,6 @@
 #left {
     width: calc(100% - #{$titles-width});
-    height: 83vh;
+    height: calc(100vh - 80px);
     overflow-y: auto;
     h1 {
         padding-top: 10px;
@@ -131,14 +131,30 @@
     }
 }
 
-#right {
-    width: $titles-width;
-    background-color: rgb(20, 20, 20);
-    height: 100vh;
+// #right {
+//     width: $titles-width;
+//     background-color: rgb(20, 20, 20);
+//     height: 100vh;
 
-    #list-name-wrap {
-        padding-top: 10px;
-        font-size: 28px;
-        font-weight: 700;
+// }
+
+#edit-list-button {
+    font-size: 14px;
+    border: 1px solid white;
+    background-color: rgb(20, 20, 20);
+    padding: 3px 6px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    outline: none;
+    border-radius: 4px;
+
+    &:hover {
+        background-color: gray;
     }
+}
+
+#list-name-wrap {
+    padding-top: 10px;
+    font-size: 28px;
+    font-weight: 700;
 }

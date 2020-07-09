@@ -169,9 +169,25 @@ app.get("/profile", ensureAuthenticated, (req, res) => {
         if (user.lists.length === 0) {
             callback(user, []);
         } else {
-            List.findById(user.lists[i]._id)
+            // this else is to delete empty lists
+            const listId = user.lists[i]._id;
+            List.findById(listId)
                 .then((data) => {
-                    lists.push(data.toObject());
+                    data = data.toObject();
+                    if (data.titles.length === 0) {
+                        List.deleteOne({ _id: listId }, function (err) {
+                            if (err) return handleError(err);
+                            User.updateOne(
+                                { _id: user._id },
+                                { $pull: { lists: { $in: [listId] } } },
+                                function (err) {
+                                    if (err) return handleError(err);
+                                }
+                            );
+                        });
+                    } else {
+                        lists.push(data);
+                    }
                 })
                 .then(function () {
                     if (i + 1 < user.lists.length) {
@@ -227,7 +243,7 @@ app.get("/list/:listId", (req, res) => {
             console.log(err);
         } else {
             data = data.toJSON();
-            res.render("list", { data });
+            res.json(data);
         }
     });
 });
@@ -261,12 +277,6 @@ app.delete("/delete/list/:listId", (req, res) => {
             res.send({ message: "complete" });
         });
     });
-
-    // let user;
-    // if (req.user) {
-    //     user = req.user.toJSON();
-    // }
-    // res.render("edit-list", { user });
 });
 
 app.post("/edit/list/:listId/changeName", (req, res) => {

@@ -206,7 +206,6 @@ nav a {
 
 #left-search {
   width: calc(100% - 400px);
-  height: 73vh;
 }
 
 #search-element {
@@ -319,7 +318,7 @@ nav a {
       -ms-flex-direction: column;
           flex-direction: column;
   overflow-y: auto;
-  height: 74vh;
+  height: calc(100vh - 200px);
 }
 
 .searchResult {
@@ -477,14 +476,24 @@ nav a {
 }
 
 #edit-list {
-  width: 400px;
-  height: 89vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: relative;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
   background-color: #141414;
   padding-left: 10px;
+  overflow-y: scroll;
+  height: calc(100vh - 80px);
 }
 
 #edit-list #name-element {
-  width: 95%;
   margin-bottom: 5px;
   margin-top: 10px;
 }
@@ -554,8 +563,6 @@ nav a {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  overflow-y: auto;
-  height: 90%;
   width: 95%;
 }
 
@@ -648,7 +655,7 @@ nav a {
 
 #left {
   width: calc(100% - 400px);
-  height: 83vh;
+  height: calc(100vh - 80px);
   overflow-y: auto;
 }
 
@@ -783,13 +790,22 @@ nav a {
   opacity: 0.7;
 }
 
-#right {
-  width: 400px;
+#edit-list-button {
+  font-size: 14px;
+  border: 1px solid white;
   background-color: #141414;
-  height: 100vh;
+  padding: 3px 6px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  outline: none;
+  border-radius: 4px;
 }
 
-#right #list-name-wrap {
+#edit-list-button:hover {
+  background-color: gray;
+}
+
+#list-name-wrap {
   padding-top: 10px;
   font-size: 28px;
   font-weight: 700;

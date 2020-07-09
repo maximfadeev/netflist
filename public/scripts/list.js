@@ -3,8 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function deleteButton(listId) {
-    console.log("clicked");
-    console.log(listId);
     fetch(`/delete/list/${listId}`, {
         method: "DELETE",
         headers: {
@@ -54,6 +52,7 @@ function generateList(listId) {
                 const editBtn = document.createElement("input");
                 editBtn.setAttribute("type", "button");
                 editBtn.value = "edit list";
+                editBtn.setAttribute("id", "edit-list-button");
                 editBtnLink.appendChild(editBtn);
                 listTitles.appendChild(editBtnLink);
 
@@ -98,6 +97,27 @@ function generateList(listId) {
                     listTitle.appendChild(titleEl);
 
                     if (title.type === "series" && title.episodes.length > 0) {
+                        const showEpsBtn = document.createElement("button");
+                        showEpsBtn.type = "submit";
+                        showEpsBtn.innerHTML =
+                            showEpsBtn.innerHTML + '<span class="icon-chevron"></span>';
+                        showEpsBtn.classList.add("show-episodes-btn");
+
+                        showEpsBtn.addEventListener("click", function (e) {
+                            const epsWrap = e.path[2].nextSibling;
+                            if (epsWrap.style.display === "none") {
+                                e.path[0].style.transform = "rotate(180deg)";
+                                epsWrap.style.display = "block";
+                            } else {
+                                e.path[0].style.transform = "rotate(0deg)";
+                                epsWrap.style.display = "none";
+                            }
+                        });
+
+                        titleEl.appendChild(showEpsBtn);
+
+                        const episodesWrap = document.createElement("div");
+                        episodesWrap.classList.add("episodes-wrap");
                         for (const episode of title.episodes) {
                             // episode div
                             const episodeEl = document.createElement("div");
@@ -131,8 +151,9 @@ function generateList(listId) {
                             episodeInfo.appendChild(nums);
 
                             episodeEl.appendChild(episodeInfo);
-                            listTitle.appendChild(episodeEl);
+                            episodesWrap.appendChild(episodeEl);
                         }
+                        listTitle.appendChild(episodesWrap);
                     }
 
                     listTitles.appendChild(listTitle);

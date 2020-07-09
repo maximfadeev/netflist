@@ -549,6 +549,7 @@ function showEpisodes(evt, id, show) {
                         let addBtn = document.createElement("input");
                         addBtn.type = "button";
                         addBtn.value = "add";
+                        addBtn.classList.add("btn", "addBtn");
                         addBtn.addEventListener(
                             "click",
                             (function (episode) {
@@ -681,17 +682,23 @@ function addEpisode(evt, episodeRaw, showRaw) {
     }
 }
 
-window.onbeforeunload = function (event, listId) {
-    fetch(`/list/${listId}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
-        .then((res) => res.json())
-        .then(function (data) {
-            if (data.titles.length === 0) {
-                console.log("empty list");
-            }
-        });
-};
+// function checkEmpty() {
+//     console.log("MANN");
+//     fetch(`/list/${listId}`, {
+//         method: "GET",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//     })
+//         .then((res) => res.json())
+//         .then(function (data) {
+//             if (data.titles.length === 0) {
+//                 fetch(`/delete/list/${listId}`, {
+//                     method: "DELETE",
+//                     headers: {
+//                         "Content-Type": "application/json",
+//                     },
+//                 }).then((res) => res.json());
+//             }
+//         });
+// }

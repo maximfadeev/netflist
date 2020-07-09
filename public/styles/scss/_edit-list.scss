@@ -38,7 +38,8 @@ $list-background-color: rgb(20, 20, 20);
 
 #left-search {
     width: calc(100% - #{$titles-width});
-    height: 73vh;
+    // height: 73vh;
+    // height: calc(100vh - 180px);
 
     // min-width: 300px;
 }
@@ -138,7 +139,9 @@ $list-background-color: rgb(20, 20, 20);
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    height: 74vh;
+    height: calc(100vh - 200px);
+
+    // height: 74vh;
     // height: calc(100% - 200px);
     // height: 500px;
     // min-height: 0px;
@@ -206,6 +209,21 @@ $list-background-color: rgb(20, 20, 20);
     .addBtn {
         background-color: black;
     }
+
+    // .add-episode-button {
+    //     font-size: 10px;
+    //     border: 1px solid white;
+    //     background-color: rgb(20, 20, 20);
+    //     padding: 3px 6px;
+    //     margin-top: 10px;
+    //     margin-bottom: 10px;
+    //     outline: none;
+    //     border-radius: 4px;
+
+    //     &:hover {
+    //         background-color: gray;
+    //     }
+    // }
 
     // .showBtn {
     //     background-color: $background-color;
@@ -300,15 +318,17 @@ $list-background-color: rgb(20, 20, 20);
 }
 
 #edit-list {
-    // flex: 28%;
-    width: $titles-width;
-    height: 89vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    flex: 1;
     background-color: $list-background-color;
-    // box-shadow: -5px 0px 10px -5px rgb(58, 58, 58);
     padding-left: 10px;
+    overflow-y: scroll;
+    // height: 89vh;
+    height: calc(100vh - 80px);
 
     #name-element {
-        width: 95%;
         margin-bottom: 5px;
         margin-top: 10px;
     }
@@ -370,8 +390,8 @@ $list-background-color: rgb(20, 20, 20);
     align-items: flex-start;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
-    height: 90%;
+    // overflow-y: auto;
+    // height: 90%;
     width: 95%;
 
     .show-els {
