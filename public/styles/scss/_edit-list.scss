@@ -3,11 +3,11 @@ $list-background-color: rgb(20, 20, 20);
 
 @font-face {
     font-family: "icomoon";
-    src: url("/fonts/icomoon.eot?399a1f");
-    src: url("/fonts/icomoon.eot?399a1f#iefix") format("embedded-opentype"),
-        url("/fonts/icomoon.ttf?399a1f") format("truetype"),
-        url("/fonts/icomoon.woff?399a1f") format("woff"),
-        url("/fonts/icomoon.svg?399a1f#icomoon") format("svg");
+    src: url("/fonts/icomoon.eot?91cz27");
+    src: url("/fonts/icomoon.eot?91cz27#iefix") format("embedded-opentype"),
+        url("/fonts/icomoon.ttf?91cz27") format("truetype"),
+        url("/fonts/icomoon.woff?91cz27") format("woff"),
+        url("/fonts/icomoon.svg?91cz27#icomoon") format("svg");
     font-weight: normal;
     font-style: normal;
     font-display: block;
@@ -17,6 +17,7 @@ $list-background-color: rgb(20, 20, 20);
 [class*=" icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
     font-family: "icomoon" !important;
+    speak: never;
     font-style: normal;
     font-weight: normal;
     font-variant: normal;
@@ -29,7 +30,10 @@ $list-background-color: rgb(20, 20, 20);
 }
 
 .icon-chevron:before {
-    content: "\e9024";
+    content: "\e902";
+}
+.icon-chevron-thin:before {
+    content: "\e901";
 }
 
 #left-search {
@@ -210,7 +214,8 @@ $list-background-color: rgb(20, 20, 20);
     .show-episodes {
         position: absolute;
         left: 50%;
-        bottom: 2.9vw;
+        bottom: 2.8vw;
+        // bottom: 30px;
         text-align: center;
         height: 0;
         border: none;
@@ -218,13 +223,12 @@ $list-background-color: rgb(20, 20, 20);
         outline: none;
         cursor: pointer;
 
-        .icon-chevron {
-            // transform: rotate(90deg);
+        .icon-chevron-thin {
             display: block;
-            font-size: 4vw;
+            font-size: 4.6vw;
         }
         &:hover {
-            .icon-chevron {
+            .icon-chevron-thin {
                 color: $primary-color;
             }
             p {
@@ -233,7 +237,7 @@ $list-background-color: rgb(20, 20, 20);
         }
 
         p {
-            margin-bottom: -18px;
+            margin-bottom: -22px;
             font-size: 1vw;
             font-weight: 200;
         }
@@ -378,12 +382,36 @@ $list-background-color: rgb(20, 20, 20);
         width: 100%;
         // margin-bottom: 10px;
         .list-el {
+            position: relative;
             width: 100%;
             display: flex;
             flex-direction: row;
             &:hover {
                 .delete-title-button {
                     display: block;
+                }
+            }
+            .show-episodes-btn {
+                position: absolute;
+                left: 50%;
+                font-size: 36px;
+                bottom: 31px;
+                text-align: center;
+                height: 0;
+                border: none;
+                background-color: transparent;
+                outline: none;
+                cursor: pointer;
+
+                .icon-chevron {
+                    display: block;
+                    transform: rotate(180deg);
+                }
+
+                &:hover {
+                    .icon-chevron {
+                        color: $primary-color;
+                    }
                 }
             }
         }

@@ -174,8 +174,8 @@ nav a {
 
 @font-face {
   font-family: "icomoon";
-  src: url("/fonts/icomoon.eot?399a1f");
-  src: url("/fonts/icomoon.eot?399a1f#iefix") format("embedded-opentype"), url("/fonts/icomoon.ttf?399a1f") format("truetype"), url("/fonts/icomoon.woff?399a1f") format("woff"), url("/fonts/icomoon.svg?399a1f#icomoon") format("svg");
+  src: url("/fonts/icomoon.eot?91cz27");
+  src: url("/fonts/icomoon.eot?91cz27#iefix") format("embedded-opentype"), url("/fonts/icomoon.ttf?91cz27") format("truetype"), url("/fonts/icomoon.woff?91cz27") format("woff"), url("/fonts/icomoon.svg?91cz27#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -185,6 +185,7 @@ nav a {
 [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: "icomoon" !important;
+  speak: never;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -196,7 +197,11 @@ nav a {
 }
 
 .icon-chevron:before {
-  content: "\e9024";
+  content: "\e902";
+}
+
+.icon-chevron-thin:before {
+  content: "\e901";
 }
 
 #left-search {
@@ -386,7 +391,7 @@ nav a {
 .searchResult .show-episodes {
   position: absolute;
   left: 50%;
-  bottom: 2.9vw;
+  bottom: 2.8vw;
   text-align: center;
   height: 0;
   border: none;
@@ -395,12 +400,12 @@ nav a {
   cursor: pointer;
 }
 
-.searchResult .show-episodes .icon-chevron {
+.searchResult .show-episodes .icon-chevron-thin {
   display: block;
-  font-size: 4vw;
+  font-size: 4.6vw;
 }
 
-.searchResult .show-episodes:hover .icon-chevron {
+.searchResult .show-episodes:hover .icon-chevron-thin {
   color: #db202c;
 }
 
@@ -409,7 +414,7 @@ nav a {
 }
 
 .searchResult .show-episodes p {
-  margin-bottom: -18px;
+  margin-bottom: -22px;
   font-size: 1vw;
   font-weight: 200;
 }
@@ -563,6 +568,7 @@ nav a {
 }
 
 #list-titles .list-title .list-el {
+  position: relative;
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -575,6 +581,29 @@ nav a {
 
 #list-titles .list-title .list-el:hover .delete-title-button {
   display: block;
+}
+
+#list-titles .list-title .list-el .show-episodes-btn {
+  position: absolute;
+  left: 50%;
+  font-size: 36px;
+  bottom: 31px;
+  text-align: center;
+  height: 0;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+#list-titles .list-title .list-el .show-episodes-btn .icon-chevron {
+  display: block;
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+#list-titles .list-title .list-el .show-episodes-btn:hover .icon-chevron {
+  color: #db202c;
 }
 
 #list-titles .list-title .delete-title-flex {

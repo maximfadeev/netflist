@@ -201,13 +201,32 @@ function generateList(listId) {
                             };
                         })(title)
                     );
-
                     deleteFlex.appendChild(deleteBtn);
                     titleEl.appendChild(deleteFlex);
-
                     listTitle.appendChild(titleEl);
 
                     if (title.type === "series" && title.episodes.length > 0) {
+                        const showEpsBtn = document.createElement("button");
+                        showEpsBtn.type = "submit";
+                        showEpsBtn.innerHTML =
+                            showEpsBtn.innerHTML + '<span class="icon-chevron"></span>';
+                        showEpsBtn.classList.add("show-episodes-btn");
+
+                        showEpsBtn.addEventListener("click", function (e) {
+                            const epsWrap = e.path[2].nextSibling;
+                            if (epsWrap.style.display === "none") {
+                                e.path[0].style.transform = "rotate(180deg)";
+                                epsWrap.style.display = "block";
+                            } else {
+                                e.path[0].style.transform = "rotate(0deg)";
+                                epsWrap.style.display = "none";
+                            }
+                        });
+
+                        titleEl.appendChild(showEpsBtn);
+
+                        const episodesWrap = document.createElement("div");
+                        episodesWrap.classList.add("episodes-wrap");
                         for (const episode of title.episodes) {
                             // episode div
                             const episodeEl = document.createElement("div");
@@ -257,8 +276,9 @@ function generateList(listId) {
                             );
 
                             episodeEl.appendChild(deleteEpBtn);
-                            listTitle.appendChild(episodeEl);
+                            episodesWrap.appendChild(episodeEl);
                         }
+                        listTitle.appendChild(episodesWrap);
                     }
 
                     listTitles.appendChild(listTitle);
@@ -404,7 +424,8 @@ function search(evt) {
                     const showText = document.createElement("p");
                     showText.textContent = "show episodes";
                     showBtn.appendChild(showText);
-                    showBtn.innerHTML = showBtn.innerHTML + '<span class="icon-chevron"></span>';
+                    showBtn.innerHTML =
+                        showBtn.innerHTML + '<span class="icon-chevron-thin"></span>';
                     showBtn.classList.add("show-episodes");
 
                     // pass object into event listener
@@ -660,21 +681,17 @@ function addEpisode(evt, episodeRaw, showRaw) {
     }
 }
 
-// window.onbeforeunload = function (event, listId) {
-//     fetch(`/list/${listId}`, {
-//         method: "GET",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//     })
-//         .then((res) => res.json())
-//         .then(function (data) {
-//             document.getElementById("text-line").value = data.name;
-
-//             if (data.titles.length === 0) {
-//                 console.log("empty list");
-//             } else {
-
-//             }
-//         });
-// };
+window.onbeforeunload = function (event, listId) {
+    fetch(`/list/${listId}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((res) => res.json())
+        .then(function (data) {
+            if (data.titles.length === 0) {
+                console.log("empty list");
+            }
+        });
+};
