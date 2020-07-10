@@ -26,7 +26,19 @@ document.addEventListener("DOMContentLoaded", function () {
             listName.classList.remove("activated");
             listName.textContent = listName.textContent.trim();
             changeName(listName.textContent);
+            listName.contentEditable = false;
         };
+        listName.addEventListener("keydown", function (e) {
+            if (e.keyCode === 13) {
+                e.preventDefault();
+                saveBtn.style.display = "none";
+                listName.classList.add("deactivated");
+                listName.classList.remove("activated");
+                listName.textContent = listName.textContent.trim();
+                changeName(listName.textContent);
+                listName.contentEditable = false;
+            }
+        });
     };
 
     // set max length to listName div. C&P
@@ -129,6 +141,7 @@ function generateList(listId) {
     })
         .then((res) => res.json())
         .then(function (data) {
+            // list name
             document.getElementById("list-name").textContent = data.name;
             if (document.getElementById("list-titles")) {
                 document.getElementById("list-titles").remove();
