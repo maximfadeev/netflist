@@ -384,9 +384,11 @@ app.post("/edit/list/:listId/addEpisode", (req, res) => {
     );
 });
 
+// delete episode
 app.delete("/delete/:listId/:title", (req, res) => {
     const listId = req.params.listId;
     const delTitle = req.params.title;
+
     List.updateOne({ _id: listId }, { $pull: { titles: { netflixId: [delTitle] } } }, function (
         err
     ) {
@@ -407,29 +409,32 @@ app.delete("/delete/:listId/:title/:episode", (req, res) => {
     const listId = req.params.listId;
     const delTitle = req.params.title;
     const delEpisode = req.params.episode;
-    console.log(listId, delTitle, delEpisode);
 
-    // List.update({ _id: listId }, function (err, docs) {
-    //     if (err) console.log(err);
-    //     console.log(JSON.stringify(docs));
-    // });
-
-    // List.updateOne(
-    //     { _id: listId, titles: { netflixId: delTitle } },
-    //     { $pull: { episodes: { netflixId: delEpisode } } },
-    //     function (err) {
-    //         if (err) return handleError(err);
-    //         res.send({ message: "complete" });
-    //     }
-    // );
-
-    // List.deleteOne({ _id: listId }, function (err) {
-    //     if (err) return handleError(err);
-    //     User.updateOne({ _id: userId }, { $pull: { lists: { $in: [listId] } } }, function (err) {
-    //         if (err) return handleError(err);
-    //         res.send({ message: "complete" });
-    //     });
-    // });
+    List.findOne({ _id: listId }, function (err, list) {
+        if (err) console.log(err);
+        const listTitles = list.titles;
+        let titleIndex;
+        let episodeIndex;
+        for (const [i, show] of listTitles.entries()) {
+            if (show.netflixId.toString() === delTitle) {
+                titleIndex = i;
+                for (const [j, episode] of show.episodes.entries()) {
+                    if (episode.netflixId.toString() === delEpisode) {
+                        episodeIndex = j;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+        list.titles[titleIndex].episodes.splice(episodeIndex, 1);
+        list.save(function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
+        res.send({ message: "complete" });
+    });
 });
 
 const PORT = process.env.PORT || 5000;
