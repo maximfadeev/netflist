@@ -101,8 +101,8 @@ document.addEventListener("DOMContentLoaded", function () {
             return false;
         }
     });
-
-    generateList(listId);
+    retrieveAndGenerateList();
+    // generateList(listId);
     const searchButton = document.getElementById("searchBtn");
     searchButton.addEventListener("click", search);
     document.getElementById("search").addEventListener("keyup", function (e) {
@@ -132,7 +132,7 @@ function changeName(newName) {
     }
 }
 
-function generateList(listId) {
+function retrieveAndGenerateList() {
     fetch(`/retrieve/list/${listId}`, {
         method: "GET",
         headers: {
@@ -140,171 +140,174 @@ function generateList(listId) {
         },
     })
         .then((res) => res.json())
-        .then(function (data) {
-            // list name
-            document.getElementById("list-name").textContent = data.name;
-            if (document.getElementById("list-titles")) {
-                document.getElementById("list-titles").remove();
-            }
-            if (data.titles.length === 0) {
-                // console.log("empty list");
-                document.getElementById("placeholder-text").style.display = "block";
-            } else {
-                document.getElementById("placeholder-text").style.display = "none";
-
-                nameOfList = data.name;
-                const listTitles = document.createElement("div");
-                listTitles.setAttribute("id", "list-titles");
-                listNetflixIds = [];
-                for (let title of data.titles) {
-                    listNetflixIds.push(title.netflixId);
-                    console.log(title);
-
-                    // div for list title
-                    const listTitle = document.createElement("div");
-                    listTitle.classList.add("list-title");
-                    listTitle.appendChild(document.createElement("HR"));
-
-                    // div for title element
-                    const titleEl = document.createElement("div");
-                    titleEl.classList.add("list-el");
-
-                    // title image
-                    const titleImg = document.createElement("img");
-                    titleImg.src = title.image;
-                    titleImg.onerror = function (e) {
-                        this.src = "/images/no_image.png";
-                    };
-                    titleImg.classList.add("image");
-                    titleEl.appendChild(titleImg);
-
-                    // title info
-                    const titleInfo = document.createElement("div");
-                    titleInfo.classList.add("title-info");
-
-                    // title title
-                    const titleTitle = document.createElement("h2");
-                    titleTitle.textContent = formatText(title.title);
-                    titleInfo.appendChild(titleTitle);
-
-                    //title year
-                    const titleYear = document.createElement("p");
-                    titleYear.textContent = title.year;
-                    titleInfo.appendChild(titleYear);
-
-                    // title synopsis
-                    // const titleSyn = document.createElement("p");
-                    // titleSyn.textContent = formatText(title.synopsis);
-                    // titleInfo.appendChild(titleSyn);
-
-                    titleEl.appendChild(titleInfo);
-
-                    //title delete
-                    const deleteFlex = document.createElement("div");
-                    deleteFlex.classList.add("delete-title-flex");
-                    const deleteBtn = document.createElement("button");
-                    deleteBtn.innerHTML = "&times;";
-                    deleteBtn.classList = "delete-title-button";
-
-                    deleteBtn.addEventListener(
-                        "click",
-                        (function (movie) {
-                            return function (e) {
-                                deleteTitle(e, movie);
-                            };
-                        })(title)
-                    );
-                    deleteFlex.appendChild(deleteBtn);
-                    titleEl.appendChild(deleteFlex);
-                    listTitle.appendChild(titleEl);
-
-                    if (title.type === "series" && title.episodes.length > 0) {
-                        const showEpsBtn = document.createElement("button");
-                        showEpsBtn.type = "submit";
-                        showEpsBtn.innerHTML =
-                            showEpsBtn.innerHTML + '<span class="icon-chevron"></span>';
-                        showEpsBtn.classList.add("show-episodes-btn");
-
-                        showEpsBtn.addEventListener("click", function (e) {
-                            const epsWrap = e.path[2].nextSibling;
-                            if (epsWrap.style.display === "none") {
-                                e.path[0].style.transform = "rotate(180deg)";
-                                epsWrap.style.display = "block";
-                            } else {
-                                e.path[0].style.transform = "rotate(0deg)";
-                                epsWrap.style.display = "none";
-                            }
-                        });
-
-                        titleEl.appendChild(showEpsBtn);
-
-                        const episodesWrap = document.createElement("div");
-                        episodesWrap.classList.add("episodes-wrap");
-                        for (const episode of title.episodes) {
-                            // episode div
-                            const episodeEl = document.createElement("div");
-                            episodeEl.classList.add("list-episode");
-                            episodeEl.appendChild(document.createElement("HR"));
-
-                            // episode image
-                            const episodeImg = document.createElement("img");
-                            episodeImg.src = episode.image;
-                            // no image
-                            episodeImg.onerror = function (e) {
-                                this.src = "/images/no_image.png";
-                            };
-
-                            episodeImg.classList.add("image");
-                            episodeEl.appendChild(episodeImg);
-
-                            // episode info
-                            const episodeInfo = document.createElement("div");
-                            episodeInfo.classList.add("title-info");
-
-                            // episode title
-                            const episodeTitle = document.createElement("h3");
-                            episodeTitle.textContent = formatText(episode.title);
-                            episodeInfo.appendChild(episodeTitle);
-
-                            // episode number and season
-                            const nums = document.createElement("p");
-                            nums.textContent = "S" + episode.season + " E" + episode.episode;
-                            nums.classList.add("nums");
-                            episodeInfo.appendChild(nums);
-
-                            episodeEl.appendChild(episodeInfo);
-
-                            //episode delete
-                            const deleteEpBtn = document.createElement("button");
-                            deleteEpBtn.innerHTML = "&times;";
-                            deleteEpBtn.classList = "delete-title-button";
-
-                            deleteEpBtn.addEventListener(
-                                "click",
-                                (function (ep) {
-                                    return function (e) {
-                                        deleteEpisode(e, ep, title);
-                                    };
-                                })(episode, title)
-                            );
-
-                            episodeEl.appendChild(deleteEpBtn);
-                            episodesWrap.appendChild(episodeEl);
-                        }
-                        listTitle.appendChild(episodesWrap);
-                    }
-
-                    listTitles.appendChild(listTitle);
-                }
-                document.getElementById("edit-list").appendChild(listTitles);
-                // document.getElementById("list-titles").scrollTop = document.getElementById(
-                //     "list-titles"
-                // ).scrollHeight;
-            }
+        .then((list) => {
+            generateList(list);
         })
         .catch((err) => {
             console.log(err);
         });
+}
+
+// for loading the list for the very first time
+function generateList(list) {
+    // set list name
+    document.getElementById("list-name").textContent = list.name;
+    // !check if this works
+    nameOfList = list.name;
+
+    // check for empty list
+    if (list.titles.length === 0) {
+        document.getElementById("placeholder-text").style.display = "block";
+    } else {
+        document.getElementById("placeholder-text").style.display = "none";
+        generateListContent(list.titles);
+    }
+}
+
+// for loading the titles inside the list
+function generateListContent(titles) {
+    const listTitles = document.createElement("div");
+    listTitles.setAttribute("id", "list-titles");
+    for (let title of titles) {
+        const listTitle = createListElement(title);
+        if (title.type === "series" && title.episodes.length > 0) {
+            const showEpisodesButton = createShowEpisodesButton();
+            listTitle.childNodes[1].appendChild(showEpisodesButton);
+            const episodesWrap = document.createElement("div");
+            episodesWrap.classList.add("episodes-wrap");
+            for (const episode of title.episodes) {
+                const episodeElement = createEpisodeElement(episode);
+                episodesWrap.appendChild(episodeElement);
+            }
+            listTitle.appendChild(episodesWrap);
+        }
+        listTitles.appendChild(listTitle);
+    }
+    document.getElementById("edit-list").appendChild(listTitles);
+}
+
+// create element for a title
+function createListElement(title) {
+    const listTitle = document.createElement("div");
+    listTitle.classList.add("list-title");
+    listTitle.setAttribute("id", title.netflixId);
+    listTitle.appendChild(document.createElement("HR"));
+
+    // div for title element
+    const titleEl = document.createElement("div");
+    titleEl.classList.add("list-el");
+
+    // title image
+    const titleImg = document.createElement("img");
+    titleImg.src = title.image;
+    titleImg.onerror = function () {
+        this.src = "/images/no_image.png";
+    };
+    titleImg.classList.add("image");
+    titleEl.appendChild(titleImg);
+
+    // title info
+    const titleInfo = document.createElement("div");
+    titleInfo.classList.add("title-info");
+
+    // title title
+    const titleName = document.createElement("h2");
+    titleName.textContent = formatText(title.title);
+    titleInfo.appendChild(titleName);
+
+    //title year
+    const titleYear = document.createElement("p");
+    titleYear.textContent = title.year;
+    titleInfo.appendChild(titleYear);
+
+    titleEl.appendChild(titleInfo);
+
+    //title delete button
+    const deleteFlex = document.createElement("div");
+    deleteFlex.classList.add("delete-title-flex");
+
+    const deleteBtn = createDeleteButton(title);
+    deleteFlex.appendChild(deleteBtn);
+    titleEl.appendChild(deleteFlex);
+    listTitle.appendChild(titleEl);
+
+    return listTitle;
+}
+
+// create show episodes button
+function createShowEpisodesButton() {
+    const showEpsBtn = document.createElement("button");
+    showEpsBtn.type = "submit";
+    showEpsBtn.innerHTML = showEpsBtn.innerHTML + '<span class="icon-chevron"></span>';
+    showEpsBtn.classList.add("show-episodes-btn");
+
+    showEpsBtn.addEventListener("click", function (e) {
+        const epsWrap = e.path[2].nextSibling;
+        if (epsWrap.style.display === "none") {
+            e.path[0].style.transform = "rotate(180deg)";
+            epsWrap.style.display = "block";
+        } else {
+            e.path[0].style.transform = "rotate(0deg)";
+            epsWrap.style.display = "none";
+        }
+    });
+    return showEpsBtn;
+}
+
+function createEpisodeElement(episode) {
+    // episode div
+    const episodeEl = document.createElement("div");
+    episodeEl.classList.add("list-episode");
+    episodeEl.setAttribute("id", episode.netflixId);
+    episodeEl.appendChild(document.createElement("HR"));
+
+    // episode image
+    const episodeImg = document.createElement("img");
+    episodeImg.src = episode.image;
+    // no image
+    episodeImg.onerror = function (e) {
+        this.src = "/images/no_image.png";
+    };
+
+    episodeImg.classList.add("image");
+    episodeEl.appendChild(episodeImg);
+
+    // episode info
+    const episodeInfo = document.createElement("div");
+    episodeInfo.classList.add("title-info");
+
+    // episode title
+    const episodeTitle = document.createElement("h3");
+    episodeTitle.textContent = formatText(episode.title);
+    episodeInfo.appendChild(episodeTitle);
+
+    // episode number and season
+    const nums = document.createElement("p");
+    nums.textContent = "S" + episode.season + " E" + episode.episode;
+    nums.classList.add("nums");
+
+    episodeInfo.appendChild(nums);
+    episodeEl.appendChild(episodeInfo);
+
+    const deleteEpBtn = createDeleteButton(episode);
+    episodeEl.appendChild(deleteEpBtn);
+    return episodeEl;
+}
+
+function createDeleteButton(title) {
+    const deleteBtn = document.createElement("button");
+    deleteBtn.innerHTML = "&times;";
+    deleteBtn.classList = "delete-title-button";
+
+    deleteBtn.addEventListener(
+        "click",
+        (function (title) {
+            return function (e) {
+                deleteEpisode(e, title);
+            };
+        })(title)
+    );
+    return deleteBtn;
 }
 
 function search(evt) {
@@ -695,9 +698,8 @@ function addEpisode(evt, episodeRaw, showRaw) {
     }
 }
 
-// function checkEmpty() {
-//     console.log("MANN");
-//     fetch(`/list/${listId}`, {
+// function generateList(listId) {
+//     fetch(`/retrieve/list/${listId}`, {
 //         method: "GET",
 //         headers: {
 //             "Content-Type": "application/json",
@@ -705,13 +707,163 @@ function addEpisode(evt, episodeRaw, showRaw) {
 //     })
 //         .then((res) => res.json())
 //         .then(function (data) {
-//             if (data.titles.length === 0) {
-//                 fetch(`/delete/list/${listId}`, {
-//                     method: "DELETE",
-//                     headers: {
-//                         "Content-Type": "application/json",
-//                     },
-//                 }).then((res) => res.json());
+//             // list name
+//             document.getElementById("list-name").textContent = data.name;
+
+//             if (document.getElementById("list-titles")) {
+//                 document.getElementById("list-titles").remove();
 //             }
+
+//             if (data.titles.length === 0) {
+//                 document.getElementById("placeholder-text").style.display = "block";
+//             } else {
+//                 document.getElementById("placeholder-text").style.display = "none";
+//                 nameOfList = data.name;
+
+//                 const listTitles = document.createElement("div");
+//                 listTitles.setAttribute("id", "list-titles");
+//                 listNetflixIds = [];
+//                 for (let title of data.titles) {
+//                     listNetflixIds.push(title.netflixId);
+
+//                     // div for list title
+//                     const listTitle = document.createElement("div");
+//                     listTitle.classList.add("list-title");
+//                     listTitle.appendChild(document.createElement("HR"));
+
+//                     // div for title element
+//                     const titleEl = document.createElement("div");
+//                     titleEl.classList.add("list-el");
+
+//                     // title image
+//                     const titleImg = document.createElement("img");
+//                     titleImg.src = title.image;
+//                     titleImg.onerror = function (e) {
+//                         this.src = "/images/no_image.png";
+//                     };
+//                     titleImg.classList.add("image");
+//                     titleEl.appendChild(titleImg);
+
+//                     // title info
+//                     const titleInfo = document.createElement("div");
+//                     titleInfo.classList.add("title-info");
+
+//                     // title title
+//                     const titleName = document.createElement("h2");
+//                     titleName.textContent = formatText(title.title);
+//                     titleInfo.appendChild(titleName);
+
+//                     //title year
+//                     const titleYear = document.createElement("p");
+//                     titleYear.textContent = title.year;
+//                     titleInfo.appendChild(titleYear);
+
+//                     titleEl.appendChild(titleInfo);
+
+//                     //title delete
+//                     const deleteFlex = document.createElement("div");
+//                     deleteFlex.classList.add("delete-title-flex");
+//                     const deleteBtn = document.createElement("button");
+//                     deleteBtn.innerHTML = "&times;";
+//                     deleteBtn.classList = "delete-title-button";
+
+//                     deleteBtn.addEventListener(
+//                         "click",
+//                         (function (movie) {
+//                             return function (e) {
+//                                 deleteTitle(e, movie);
+//                             };
+//                         })(title)
+//                     );
+//                     deleteFlex.appendChild(deleteBtn);
+//                     titleEl.appendChild(deleteFlex);
+//                     listTitle.appendChild(titleEl);
+
+//                     if (title.type === "series" && title.episodes.length > 0) {
+//                         const showEpsBtn = document.createElement("button");
+//                         showEpsBtn.type = "submit";
+//                         showEpsBtn.innerHTML =
+//                             showEpsBtn.innerHTML + '<span class="icon-chevron"></span>';
+//                         showEpsBtn.classList.add("show-episodes-btn");
+
+//                         showEpsBtn.addEventListener("click", function (e) {
+//                             const epsWrap = e.path[2].nextSibling;
+//                             if (epsWrap.style.display === "none") {
+//                                 e.path[0].style.transform = "rotate(180deg)";
+//                                 epsWrap.style.display = "block";
+//                             } else {
+//                                 e.path[0].style.transform = "rotate(0deg)";
+//                                 epsWrap.style.display = "none";
+//                             }
+//                         });
+
+//                         titleEl.appendChild(showEpsBtn);
+
+//                         const episodesWrap = document.createElement("div");
+//                         episodesWrap.classList.add("episodes-wrap");
+//                         for (const episode of title.episodes) {
+//                             // episode div
+//                             const episodeEl = document.createElement("div");
+//                             episodeEl.classList.add("list-episode");
+//                             episodeEl.appendChild(document.createElement("HR"));
+
+//                             // episode image
+//                             const episodeImg = document.createElement("img");
+//                             episodeImg.src = episode.image;
+//                             // no image
+//                             episodeImg.onerror = function (e) {
+//                                 this.src = "/images/no_image.png";
+//                             };
+
+//                             episodeImg.classList.add("image");
+//                             episodeEl.appendChild(episodeImg);
+
+//                             // episode info
+//                             const episodeInfo = document.createElement("div");
+//                             episodeInfo.classList.add("title-info");
+
+//                             // episode title
+//                             const episodeTitle = document.createElement("h3");
+//                             episodeTitle.textContent = formatText(episode.title);
+//                             episodeInfo.appendChild(episodeTitle);
+
+//                             // episode number and season
+//                             const nums = document.createElement("p");
+//                             nums.textContent = "S" + episode.season + " E" + episode.episode;
+//                             nums.classList.add("nums");
+//                             episodeInfo.appendChild(nums);
+
+//                             episodeEl.appendChild(episodeInfo);
+
+//                             //episode delete
+//                             const deleteEpBtn = document.createElement("button");
+//                             deleteEpBtn.innerHTML = "&times;";
+//                             deleteEpBtn.classList = "delete-title-button";
+
+//                             deleteEpBtn.addEventListener(
+//                                 "click",
+//                                 (function (ep) {
+//                                     return function (e) {
+//                                         deleteEpisode(e, ep, title);
+//                                     };
+//                                 })(episode, title)
+//                             );
+
+//                             episodeEl.appendChild(deleteEpBtn);
+//                             episodesWrap.appendChild(episodeEl);
+//                         }
+//                         listTitle.appendChild(episodesWrap);
+//                     }
+
+//                     listTitles.appendChild(listTitle);
+//                 }
+//                 document.getElementById("edit-list").appendChild(listTitles);
+//                 // document.getElementById("list-titles").scrollTop = document.getElementById(
+//                 //     "list-titles"
+//                 // ).scrollHeight;
+//             }
+//         })
+//         .catch((err) => {
+//             console.log(err);
 //         });
 // }
