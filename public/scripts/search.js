@@ -102,7 +102,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
     retrieveAndGenerateList();
-    // generateList(listId);
     const searchButton = document.getElementById("searchBtn");
     searchButton.addEventListener("click", search);
     document.getElementById("search").addEventListener("keyup", function (e) {
@@ -150,18 +149,10 @@ function retrieveAndGenerateList() {
 
 // for loading the list for the very first time
 function generateList(list) {
-    // set list name
     document.getElementById("list-name").textContent = list.name;
-    // !check if this works
     nameOfList = list.name;
-
-    // check for empty list
-    if (list.titles.length === 0) {
-        document.getElementById("placeholder-text").style.display = "block";
-    } else {
-        document.getElementById("placeholder-text").style.display = "none";
-        generateListContent(list.titles);
-    }
+    generateListContent(list.titles);
+    checkIfListEmpty();
 }
 
 // for loading the titles inside the list
@@ -176,7 +167,7 @@ function generateListContent(titles) {
             const episodesWrap = document.createElement("div");
             episodesWrap.classList.add("episodes-wrap");
             for (const episode of title.episodes) {
-                const episodeElement = createEpisodeElement(episode);
+                const episodeElement = createEpisodeElement(episode, title.netflixId);
                 episodesWrap.appendChild(episodeElement);
             }
             listTitle.appendChild(episodesWrap);
@@ -226,7 +217,15 @@ function createListElement(title) {
     const deleteFlex = document.createElement("div");
     deleteFlex.classList.add("delete-title-flex");
 
-    const deleteBtn = createDeleteButton(title);
+    const deleteBtn = createDeleteButton();
+    deleteBtn.addEventListener(
+        "click",
+        (function (titleId) {
+            return function (e) {
+                deleteTitle(e, titleId);
+            };
+        })(title.netflixId)
+    );
     deleteFlex.appendChild(deleteBtn);
     titleEl.appendChild(deleteFlex);
     listTitle.appendChild(titleEl);
@@ -254,7 +253,7 @@ function createShowEpisodesButton() {
     return showEpsBtn;
 }
 
-function createEpisodeElement(episode) {
+function createEpisodeElement(episode, titleId) {
     // episode div
     const episodeEl = document.createElement("div");
     episodeEl.classList.add("list-episode");
@@ -289,25 +288,159 @@ function createEpisodeElement(episode) {
     episodeInfo.appendChild(nums);
     episodeEl.appendChild(episodeInfo);
 
+    // delete button
     const deleteEpBtn = createDeleteButton(episode);
+    deleteEpBtn.addEventListener(
+        "click",
+        (function (titleId, episodeId) {
+            return function (e) {
+                deleteEpisode(e, titleId, episodeId);
+            };
+        })(titleId, episode.netflixId)
+    );
     episodeEl.appendChild(deleteEpBtn);
     return episodeEl;
 }
 
-function createDeleteButton(title) {
+function createDeleteButton() {
     const deleteBtn = document.createElement("button");
     deleteBtn.innerHTML = "&times;";
     deleteBtn.classList = "delete-title-button";
-
-    deleteBtn.addEventListener(
-        "click",
-        (function (title) {
-            return function (e) {
-                deleteEpisode(e, title);
-            };
-        })(title)
-    );
     return deleteBtn;
+}
+
+function removeFromList(id) {
+    document.getElementById(id).remove();
+    checkIfListEmpty();
+}
+
+function checkIfListEmpty() {
+    const listElements = document.getElementById("list-titles");
+    if (listElements.childElementCount === 0) {
+        document.getElementById("placeholder-text").style.display = "block";
+    } else {
+        document.getElementById("placeholder-text").style.display = "none";
+    }
+}
+
+function deleteTitle(evt, titleId) {
+    fetch(`/delete/${listId}/${titleId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }).then((res) => res.json().then(removeFromList(titleId)));
+}
+
+function deleteEpisode(evt, titleId, episodeId) {
+    fetch(`/delete/${listId}/${titleId}/${episodeId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }).then((res) => res.json().then(removeFromList(episodeId)));
+}
+
+function checkIfTitleInList(titleId) {
+    if (document.getElementById(titleId)) return true;
+    return false;
+}
+
+function addMovieToList(movie) {
+    const newListElement = createListElement(movie);
+    document.getElementById("list-titles").appendChild(newListElement);
+    checkIfListEmpty();
+}
+
+function addMovieToDb(movieRaw) {
+    let movie = {
+        title: movieRaw.title,
+        netflixId: movieRaw.nfid,
+        synopsis: movieRaw.synopsis,
+        type: movieRaw.vtype,
+        image: movieRaw.img,
+        year: movieRaw.year,
+    };
+
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ movie: movie }),
+    };
+
+    fetch(window.location.pathname + "/addMovie", options)
+        .then((response) => response.json())
+        .then(function (data) {
+            if (data.message === "complete") {
+                addMovieToList(movie);
+            }
+        });
+}
+
+function createEpisodesWrap() {
+    episodesWrap = document.createElement("div");
+    episodesWrap.classList.add("episodes-wrap");
+    return episodesWrap;
+}
+
+function addEpisodeToList(show, episode) {
+    const newEpisodeElement = createEpisodeElement(episode, show.netflixId);
+    if (checkIfTitleInList(show.netflixId)) {
+        const showElement = document.getElementById(show.netflixId);
+        let episodesWrap = showElement.childNodes[2];
+        if (episodesWrap === undefined) {
+            const showEpisodesButton = createShowEpisodesButton();
+            showElement.childNodes[1].appendChild(showEpisodesButton);
+            episodesWrap = createEpisodesWrap();
+            showElement.appendChild(episodesWrap);
+        }
+        episodesWrap.appendChild(newEpisodeElement);
+    } else {
+        const showElement = createListElement(show);
+        const showEpisodesButton = createShowEpisodesButton();
+        showElement.childNodes[1].appendChild(showEpisodesButton);
+        const episodesWrap = createEpisodesWrap();
+        showElement.appendChild(episodesWrap);
+        episodesWrap.appendChild(newEpisodeElement);
+        document.getElementById("list-titles").appendChild(showElement);
+    }
+    checkIfListEmpty();
+}
+
+function addEpisodeToDb(episodeRaw, showRaw) {
+    let episode = {
+        title: episodeRaw.title,
+        netflixId: episodeRaw.epid,
+        synopsis: episodeRaw.synopsis,
+        image: episodeRaw.img,
+        season: episodeRaw.seasnum,
+        episode: episodeRaw.epnum,
+    };
+    let show = {
+        title: showRaw.title,
+        netflixId: showRaw.nfid,
+        synopsis: showRaw.synopsis,
+        type: showRaw.vtype,
+        image: showRaw.img,
+    };
+
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ show, episode }),
+    };
+
+    fetch(window.location.pathname + "/addEpisode", options)
+        .then((response) => response.json())
+        .then(function (data) {
+            if (data.message === "complete") {
+                addEpisodeToList(show, episode);
+            }
+        });
 }
 
 function search(evt) {
@@ -351,15 +484,15 @@ function search(evt) {
                 let imageEl = document.createElement("img");
                 imageEl.src = img;
                 imageEl.classList.add("image");
-                imageEl.addEventListener(
-                    "click",
-                    (function (movie) {
-                        return function (e) {
-                            imageEl.classList.add("clicked");
-                            addMovie(e, movie);
-                        };
-                    })(result)
-                );
+                // imageEl.addEventListener(
+                //     "click",
+                //     (function (movie) {
+                //         return function (e) {
+                //             imageEl.classList.add("clicked");
+                //             addMovieToDb(movie);
+                //         };
+                //     })(result)
+                // );
                 allTitle.appendChild(imageEl);
 
                 // to the right of image
@@ -422,9 +555,12 @@ function search(evt) {
                 addBtn.addEventListener(
                     "click",
                     (function (movie) {
-                        return function (e) {
-                            // movie.type = "movie/show";
-                            addMovie(e, movie);
+                        return function () {
+                            if (checkIfTitleInList(movie.nfid)) {
+                                alert("Title already in list");
+                            } else {
+                                addMovieToDb(movie);
+                            }
                         };
                     })(result)
                 );
@@ -570,7 +706,7 @@ function showEpisodes(evt, id, show) {
                             "click",
                             (function (episode) {
                                 return function (e) {
-                                    addEpisode(e, episode, show);
+                                    addEpisodeToDb(episode, show);
                                 };
                             })(episode)
                         );
@@ -600,103 +736,104 @@ function showEpisodes(evt, id, show) {
     }
 }
 
-function deleteTitle(evt, title) {
-    const delTitle = title.netflixId;
-    fetch(`/delete/${listId}/${delTitle}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    }).then((res) => res.json().then(generateList(listId)));
-}
+// function deleteItem(evt, title) {
+//     console.log("here");
+//     const delTitle = title.netflixId;
+//     fetch(`/delete/${listId}/${delTitle}`, {
+//         method: "DELETE",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//     }).then((res) => res.json().then(generateList(listId)));
+// }
 
-function deleteEpisode(evt, episode, title) {
-    console.log(title);
-    const delTitle = title.netflixId;
-    const delEpisode = episode.netflixId;
-    fetch(`/delete/${listId}/${delTitle}/${delEpisode}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    }).then((res) => res.json().then(generateList(listId)));
-}
+// function deleteEpisode(evt, episode, title) {
+//     console.log(title);
+//     const delTitle = title.netflixId;
+//     const delEpisode = episode.netflixId;
+//     fetch(`/delete/${listId}/${delTitle}/${delEpisode}`, {
+//         method: "DELETE",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//     }).then((res) => res.json().then(generateList(listId)));
+// }
 
-function addMovie(evt, movieRaw) {
-    evt.preventDefault();
+// function addMovieToDb(evt, movieRaw) {
+//     evt.preventDefault();
 
-    if (listNetflixIds.includes(movieRaw.nfid)) {
-        alert("already in");
-    } else {
-        let movie = {
-            title: movieRaw.title,
-            netflixId: movieRaw.nfid,
-            synopsis: movieRaw.synopsis,
-            type: movieRaw.vtype,
-            image: movieRaw.img,
-            year: movieRaw.year,
-        };
+//     if (listNetflixIds.includes(movieRaw.nfid)) {
+//         alert("already in");
+//     } else {
+//         let movie = {
+//             title: movieRaw.title,
+//             netflixId: movieRaw.nfid,
+//             synopsis: movieRaw.synopsis,
+//             type: movieRaw.vtype,
+//             image: movieRaw.img,
+//             year: movieRaw.year,
+//         };
 
-        const options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ movie: movie }),
-        };
+//         const options = {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify({ movie: movie }),
+//         };
 
-        fetch(window.location.pathname + "/addMovie", options)
-            .then((response) => response.json())
-            .then(function (data) {
-                if (data.message === "complete") {
-                    generateList(listId);
-                }
-            });
-        evt.path[0].disabled = true;
-    }
-}
+//         fetch(window.location.pathname + "/addMovieToDb", options)
+//             .then((response) => response.json())
+//             .then(function (data) {
+//                 if (data.message === "complete") {
+//                     generateList(listId);
+//                 }
+//             });
+//         evt.path[0].disabled = true;
+//     }
+// }
 
-function addEpisode(evt, episodeRaw, showRaw) {
-    evt.preventDefault();
+// function addEpisode(evt, episodeRaw, showRaw) {
+//     evt.preventDefault();
 
-    if (listNetflixIds.includes(episodeRaw.nfid)) {
-        alert("already in");
-    } else {
-        let episode = {
-            title: episodeRaw.title,
-            netflixId: episodeRaw.epid,
-            synopsis: episodeRaw.synopsis,
-            image: episodeRaw.img,
-            season: episodeRaw.seasnum,
-            episode: episodeRaw.epnum,
-        };
-        let show = {
-            title: showRaw.title,
-            netflixId: showRaw.nfid,
-            synopsis: showRaw.synopsis,
-            type: showRaw.vtype,
-            image: showRaw.img,
-        };
+//     if (listNetflixIds.includes(episodeRaw.nfid)) {
+//         alert("already in");
+//     } else {
+//         let episode = {
+//             title: episodeRaw.title,
+//             netflixId: episodeRaw.epid,
+//             synopsis: episodeRaw.synopsis,
+//             image: episodeRaw.img,
+//             season: episodeRaw.seasnum,
+//             episode: episodeRaw.epnum,
+//         };
+//         let show = {
+//             title: showRaw.title,
+//             netflixId: showRaw.nfid,
+//             synopsis: showRaw.synopsis,
+//             type: showRaw.vtype,
+//             image: showRaw.img,
+//         };
 
-        const options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ show, episode }),
-        };
+//         const options = {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify({ show, episode }),
+//         };
 
-        fetch(window.location.pathname + "/addEpisode", options)
-            .then((response) => response.json())
-            .then(function (data) {
-                if (data.message === "complete") {
-                    generateList(listId);
-                }
-            });
+//         fetch(window.location.pathname + "/addEpisode", options)
+//             .then((response) => response.json())
+//             .then(function (data) {
+//                 if (data.message === "complete") {
+//                     generateList(listId);
+//                 }
+//             });
 
-        evt.path[0].disabled = true;
-    }
-}
+//         evt.path[0].disabled = true;
+//     }
+// }
 
 // function generateList(listId) {
 //     fetch(`/retrieve/list/${listId}`, {

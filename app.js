@@ -384,7 +384,6 @@ app.post("/edit/list/:listId/addEpisode", (req, res) => {
     );
 });
 
-// delete episode
 app.delete("/delete/:listId/:title", (req, res) => {
     const listId = req.params.listId;
     const delTitle = req.params.title;
