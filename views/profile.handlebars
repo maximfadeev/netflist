@@ -2,6 +2,7 @@
 
 <div id="split-page">
     <div id="left">
+        {{>header}}
 
         <div id="lists-element">
             <h1>Lists created by {{user.name}}</h1>
@@ -35,5 +36,9 @@
         </div>
     </div>
 
-    <div id="edit-list"></div>
+    <div id="edit-list">
+        {{!-- <button type="submit" id="full-screen-btn">
+            <p>full screen</p>
+        </button> --}}
+    </div>
 </div>

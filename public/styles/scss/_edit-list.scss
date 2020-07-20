@@ -140,18 +140,20 @@ $list-background-color: rgb(20, 20, 20);
     flex-direction: column;
     overflow-y: auto;
     height: calc(100vh - 200px);
+    padding-left: $horizontal-padding;
 }
 
 .searchResult {
     width: 100%;
 
     .all-title-info {
-        display: block;
+        display: flex;
+        flex-direction: horizontal;
         position: relative;
     }
 
     .image {
-        width: 10vw;
+        width: 140px;
     }
 
     .clicked {
@@ -188,23 +190,44 @@ $list-background-color: rgb(20, 20, 20);
                 text-decoration: underline;
             }
         }
+        .synopsis {
+        }
+        // .countries-list {
+        //     margin-top: 15px;
+        //     font-size: 14px;
+        //     font-weight: 200;
+        //     width: 100%;
+        //     overflow-x: scroll;
+        //     white-space: nowrap;
+        // }
     }
+
+    .add-button-flex {
+        flex: 1;
+        position: relative;
+    }
+
     .buttons {
         display: inline-block;
     }
     .btn {
-        font-size: 14px;
+        // font-size: 18px;
         border: 1px solid white;
-        margin-right: 7px;
+        // margin-right: 7px;
+        background-color: $background-color;
     }
-    .addBtn {
-        background-color: black;
+    .add-movie-btn {
+        position: absolute;
+        right: 30%;
+        top: 40%;
+        padding: 8px 14px;
     }
 
     .show-episodes {
         position: absolute;
         left: 50%;
-        bottom: 2.8vw;
+        bottom: 44px;
+        // bottom: 2.8vw;
         text-align: center;
         height: 0;
         border: none;
@@ -214,7 +237,7 @@ $list-background-color: rgb(20, 20, 20);
 
         .icon-chevron-thin {
             display: block;
-            font-size: 4.6vw;
+            font-size: 60px;
         }
         &:hover {
             .icon-chevron-thin {
@@ -226,8 +249,8 @@ $list-background-color: rgb(20, 20, 20);
         }
 
         p {
-            margin-bottom: -22px;
-            font-size: 1vw;
+            margin-bottom: -18px;
+            font-size: 15px;
             font-weight: 200;
         }
     }
@@ -296,7 +319,8 @@ $list-background-color: rgb(20, 20, 20);
     background-color: $list-background-color;
     padding-left: 10px;
     overflow-y: scroll;
-    height: calc(100vh - 80px);
+    // height: calc(100vh - 80px);
+    height: 100vh;
 
     #name-element {
         margin-bottom: 5px;

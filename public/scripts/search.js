@@ -125,7 +125,7 @@ function changeName(newName) {
             .then((response) => response.json())
             .then(function (data) {
                 if (data.message === "complete") {
-                    generateList(listId);
+                    document.getElementById("list-name").textContent = newName;
                 }
             });
     }
@@ -179,6 +179,7 @@ function generateListContent(titles) {
 
 // create element for a title
 function createListElement(title) {
+    console.log(title);
     const listTitle = document.createElement("div");
     listTitle.classList.add("list-title");
     listTitle.setAttribute("id", title.netflixId);
@@ -385,11 +386,18 @@ function createEpisodesWrap() {
     return episodesWrap;
 }
 
+function getShowEpisodesButton(showId) {
+    const listElement = document.getElementById(showId);
+    const showEpisodesButton = listElement.childNodes[1].childNodes[3];
+    return showEpisodesButton;
+}
+
 function addEpisodeToList(show, episode) {
     const newEpisodeElement = createEpisodeElement(episode, show.netflixId);
+    let episodesWrap;
     if (checkIfTitleInList(show.netflixId)) {
         const showElement = document.getElementById(show.netflixId);
-        let episodesWrap = showElement.childNodes[2];
+        episodesWrap = showElement.childNodes[2];
         if (episodesWrap === undefined) {
             const showEpisodesButton = createShowEpisodesButton();
             showElement.childNodes[1].appendChild(showEpisodesButton);
@@ -401,10 +409,17 @@ function addEpisodeToList(show, episode) {
         const showElement = createListElement(show);
         const showEpisodesButton = createShowEpisodesButton();
         showElement.childNodes[1].appendChild(showEpisodesButton);
-        const episodesWrap = createEpisodesWrap();
+        episodesWrap = createEpisodesWrap();
         showElement.appendChild(episodesWrap);
         episodesWrap.appendChild(newEpisodeElement);
         document.getElementById("list-titles").appendChild(showElement);
+    }
+
+    // open hidden episodes if hidden
+    if (episodesWrap.style.display === "none") {
+        const showEpisodesButton = getShowEpisodesButton(show.netflixId);
+        showEpisodesButton.childNodes[0].style.transform = "rotate(180deg)";
+        episodesWrap.style.display = "block";
     }
     checkIfListEmpty();
 }
@@ -424,6 +439,7 @@ function addEpisodeToDb(episodeRaw, showRaw) {
         synopsis: showRaw.synopsis,
         type: showRaw.vtype,
         image: showRaw.img,
+        year: showRaw.year,
     };
 
     const options = {
@@ -442,6 +458,14 @@ function addEpisodeToDb(episodeRaw, showRaw) {
             }
         });
 }
+
+// function convertCountriesToList(clist) {
+//     clist = "{" + clist + "}";
+//     clist = JSON.parse(clist);
+//     clist = Object.values(clist);
+//     console.log(clist);
+//     return clist;
+// }
 
 function search(evt) {
     evt.preventDefault();
@@ -466,7 +490,20 @@ function search(evt) {
             searchResults.setAttribute("id", "searchResults");
             // each result
             for (const result of data.results) {
-                const { imdbrating, img, nfid, synopsis, title, vtype, year, imdbid } = result;
+                console.log(result);
+                const {
+                    imdbrating,
+                    img,
+                    nfid,
+                    synopsis,
+                    title,
+                    vtype,
+                    year,
+                    imdbid,
+                    // clist,
+                } = result;
+
+                // const countriesArray = convertCountriesToList(clist);
 
                 let searchResult = document.createElement("div");
                 searchResult.classList.add("searchResult");
@@ -477,8 +514,6 @@ function search(evt) {
                 // all title info
                 const allTitle = document.createElement("div");
                 allTitle.classList.add("all-title-info");
-
-                //
 
                 // image
                 let imageEl = document.createElement("img");
@@ -521,12 +556,6 @@ function search(evt) {
                 // titleEl.textContent = formatText(title);
                 titleInfo.appendChild(titleEl);
 
-                // year
-                // let titleYear = document.createElement("p");
-                // titleYear.textContent = year;
-
-                // titleInfo.appendChild(titleYear);
-
                 // imdb rating
                 let titleRating = document.createElement("a");
                 titleRating.classList.add("rating-el");
@@ -540,18 +569,34 @@ function search(evt) {
                 // synopsis
                 let titleSynopsis = document.createElement("p");
                 titleSynopsis.textContent = formatText(synopsis);
+                titleSynopsis.classList.add("synopsis");
                 titleInfo.appendChild(titleSynopsis);
+
+                // list of countries
+                // const countriesList = document.createElement("p");
+                // countriesList.classList.add("countries-list");
+                // countriesList.textContent = countriesArray;
+                // titleInfo.appendChild(countriesList);
 
                 // add title
                 rightOfImage.appendChild(titleInfo);
-                const buttons = document.createElement("div");
-                buttons.classList.add("buttons");
+                // buttons.classList.add("buttons");
+
+                allTitle.appendChild(rightOfImage);
+
+                // rightOfImage.appendChild(buttons);
+
+                // button element
+                const addButtonFlex = document.createElement("div");
+                addButtonFlex.classList.add("add-button-flex");
+
+                // const buttons = document.createElement("div");
 
                 // add button
-                let addBtn = document.createElement("input");
+                const addBtn = document.createElement("input");
                 addBtn.type = "button";
                 addBtn.value = "add";
-                addBtn.classList.add("btn", "addBtn");
+                addBtn.classList.add("btn", "add-movie-btn");
                 addBtn.addEventListener(
                     "click",
                     (function (movie) {
@@ -564,10 +609,8 @@ function search(evt) {
                         };
                     })(result)
                 );
-                buttons.appendChild(addBtn);
-
-                rightOfImage.appendChild(buttons);
-                allTitle.appendChild(rightOfImage);
+                addButtonFlex.appendChild(addBtn);
+                allTitle.appendChild(addButtonFlex);
 
                 // show episdoes button
                 if (vtype === "series") {

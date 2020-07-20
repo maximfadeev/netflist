@@ -131,13 +131,6 @@
     }
 }
 
-// #right {
-//     width: $titles-width;
-//     background-color: rgb(20, 20, 20);
-//     height: 100vh;
-
-// }
-
 #edit-list-button {
     font-size: 14px;
     border: 1px solid white;
@@ -155,6 +148,7 @@
 
 #list-name-wrap {
     padding-top: 10px;
+    margin-top: 5px;
     font-size: 28px;
     font-weight: 700;
 }

@@ -23,6 +23,7 @@ const ListSchema = new mongoose.Schema({
             type: { type: String, required: true },
             image: String,
             imdbid: Number,
+            clist: [String],
             episodes: [
                 {
                     title: String,

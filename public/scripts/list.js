@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const delBtns = document.getElementsByClassName("delete-btn");
+    const fullScreenBtn = document.getElementById("full-screen-btn");
+    fullScreenBtn.addEventListener("click", function () {
+        console.log("here");
+        document.getElementById("edit-list").style.width = "100%";
+    });
 });
 
 function deleteButton(listId) {
@@ -56,11 +60,7 @@ function generateList(listId) {
                 editBtnLink.appendChild(editBtn);
                 listTitles.appendChild(editBtnLink);
 
-                listNetflixIds = [];
                 for (let title of data.titles) {
-                    listNetflixIds.push(title.netflixId);
-                    console.log(title);
-
                     // div for list title
                     const listTitle = document.createElement("div");
                     listTitle.classList.add("list-title");
@@ -84,9 +84,15 @@ function generateList(listId) {
                     titleInfo.classList.add("title-info");
 
                     // title title
+                    const titleLink = document.createElement("a");
+                    titleLink.href = `http://www.netflix.com/title/${title.netflixId}`;
+                    titleLink.target = "_blank";
+
                     const titleTitle = document.createElement("h2");
                     titleTitle.textContent = formatText(title.title);
-                    titleInfo.appendChild(titleTitle);
+                    titleLink.appendChild(titleTitle);
+
+                    titleInfo.appendChild(titleLink);
 
                     // title synopsis
                     const titleSyn = document.createElement("p");
