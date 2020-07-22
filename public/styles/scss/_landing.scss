@@ -1,9 +1,9 @@
 #intro {
+    text-align: center;
     max-width: 40rem;
     margin-right: auto;
     margin-left: auto;
-    margin-top: 60px;
-    text-align: center;
+    margin-top: 80px;
 
     // background-color: rgb(21, 21, 21);
 
@@ -44,4 +44,26 @@
             background-color: rgb(100, 100, 100);
         }
     }
+}
+
+#lists-wrap {
+    margin-top: 120px;
+    padding-left: 4%;
+    padding-bottom: 60px;
+    width: 100%;
+    background-color: rgb(60, 60, 60);
+
+    .title {
+        padding-top: 20px;
+        font-size: 30px;
+        font-weight: 700;
+    }
+    // #all-lists {
+    //     display: flex;
+    //     flex-direction: column;
+    //     .list-row {
+    //         padding-top: 10px;
+    //         padding-bottom: 10px;
+    //     }
+    // }
 }

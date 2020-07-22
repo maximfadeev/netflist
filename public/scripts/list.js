@@ -1,10 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const fullScreenBtn = document.getElementById("full-screen-btn");
-    fullScreenBtn.addEventListener("click", function () {
-        console.log("here");
-        document.getElementById("edit-list").style.width = "100%";
-    });
-});
+document.addEventListener("DOMContentLoaded", function () {});
 
 function deleteButton(listId) {
     fetch(`/delete/list/${listId}`, {

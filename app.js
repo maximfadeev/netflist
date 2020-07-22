@@ -3,7 +3,9 @@ const bcrypt = require("bcryptjs");
 const flash = require("connect-flash");
 const session = require("express-session");
 const passport = require("passport");
+const Handlebars = require("handlebars");
 const exphbs = require("express-handlebars");
+const { allowInsecurePrototypeAccess } = require("@handlebars/allow-prototype-access");
 
 require("./db");
 require("./config/passport")(passport);
@@ -33,7 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 //     },
 // });
 // app.engine("handlebars", hbs.engine);
-app.engine("handlebars", exphbs());
+app.engine("handlebars", exphbs({ handlebars: allowInsecurePrototypeAccess(Handlebars) }));
 app.set("view engine", "handlebars");
 
 // database
@@ -95,7 +97,14 @@ app.get("/", (req, res) => {
     if (req.user) {
         user = req.user.toJSON();
     }
-    res.render("landing", { user });
+    // const lists = List.find({}).lean();
+    // console.log(lists);
+    List.find({}, function (err, lists) {
+        if (err) console.log(err);
+        // lists = JSON.parse(lists);
+        console.log(lists);
+        res.render("landing", { user, lists });
+    });
 });
 
 app.get("/register", ensureUnauthenticated, (req, res) => {

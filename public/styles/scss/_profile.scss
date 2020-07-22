@@ -1,5 +1,7 @@
 #left {
     width: calc(100% - #{$titles-width});
+    // width: 100%;
+
     height: calc(100vh - 80px);
     overflow-y: auto;
     h1 {
@@ -14,20 +16,18 @@
 #lists {
     margin-top: 20px;
     display: grid;
-    grid-gap: 1em;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 2%;
+    // grid-template-columns: repeat(4, minmax(80px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     width: 100%;
     padding-right: 6%;
-    // padding-left: 1.5%;
-
-    // grid-auto-rows: 1fr;
-    // align-items: flex-start;
 }
 
 .list {
     position: relative;
     text-align: left;
     padding: 10px;
+    padding-left: 0.5vw;
     background-color: rgb(60, 60, 60);
     margin-top: 4px;
     // height: 14vw;
@@ -54,7 +54,8 @@
 
     div.p {
         padding-top: 5px;
-        font-size: 1.2vw;
+        // font-size: 1.2vw;
+        font-size: 16px;
         font-weight: 700;
         text-overflow: ellipsis;
         overflow: hidden;
@@ -70,7 +71,8 @@
         .wrapper {
             background-color: gray;
             z-index: 2;
-            height: 9vw;
+            height: 130px;
+            // height: 200px;
             border-radius: 0 5px 5px 0;
         }
 
@@ -93,10 +95,9 @@
         }
         img {
             border-radius: 5px;
-            height: 9vw;
+            // height: 9vw;
+            height: 130px;
             border-right: 2px solid rgb(60, 60, 60);
-
-            // box-shadow: 0px 0px 0px 2px rgb(60, 60, 60);
         }
     }
 
