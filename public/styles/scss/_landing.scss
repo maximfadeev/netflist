@@ -46,7 +46,7 @@
     }
 }
 
-#lists-wrap {
+#all-lists {
     margin-top: 120px;
     padding-left: 4%;
     padding-bottom: 60px;
@@ -66,4 +66,88 @@
     //         padding-bottom: 10px;
     //     }
     // }
+}
+
+.list-landing {
+    width: 220px;
+    position: relative;
+    text-align: left;
+    padding: 10px;
+    // padding-left: 0.5vw;
+    background-color: rgb(80, 80, 80);
+    margin-top: 4px;
+    // height: 14vw;
+
+    .delete-btn {
+        position: absolute;
+        top: -15px;
+        left: -10px;
+        z-index: 5;
+        font-size: 25px;
+        display: none;
+        border: none;
+        background-color: transparent;
+        outline: none;
+        cursor: pointer;
+        .fa-times-circle {
+            color: $primary-color;
+        }
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    div.p {
+        padding-top: 5px;
+        // font-size: 1.2vw;
+        font-size: 16px;
+        font-weight: 700;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+
+        width: 13vw;
+    }
+
+    .image-preview {
+        display: flex;
+        direction: row;
+
+        .wrapper {
+            background-color: gray;
+            z-index: 2;
+            height: 130px;
+            // height: 200px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .first {
+            z-index: 3;
+        }
+
+        .second {
+            z-index: 2;
+            opacity: 0.7;
+            background: black;
+        }
+        .third {
+            z-index: 1;
+            opacity: 0.4;
+        }
+
+        .overlap {
+            margin-left: -40px;
+        }
+        img {
+            border-radius: 5px;
+            // height: 9vw;
+            height: 130px;
+            border-right: 2px solid rgb(60, 60, 60);
+        }
+    }
+
+    &:hover {
+        background-color: rgb(20, 20, 20);
+    }
 }

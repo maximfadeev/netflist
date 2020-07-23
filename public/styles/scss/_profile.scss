@@ -5,7 +5,7 @@
     height: calc(100vh - 80px);
     overflow-y: auto;
     h1 {
-        padding-top: 10px;
+        padding-top: 20px;
     }
 }
 
@@ -14,9 +14,9 @@
 }
 
 #lists {
-    margin-top: 20px;
+    margin-top: 10px;
     display: grid;
-    grid-gap: 2%;
+    grid-gap: 4%;
     // grid-template-columns: repeat(4, minmax(80px, 1fr));
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     width: 100%;
@@ -24,10 +24,11 @@
 }
 
 .list {
+    width: 220px;
     position: relative;
     text-align: left;
     padding: 10px;
-    padding-left: 0.5vw;
+    // padding-left: 0.5vw;
     background-color: rgb(60, 60, 60);
     margin-top: 4px;
     // height: 14vw;

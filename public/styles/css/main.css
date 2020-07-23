@@ -124,7 +124,7 @@ nav a {
   background-color: #646464;
 }
 
-#lists-wrap {
+#all-lists {
   margin-top: 120px;
   padding-left: 4%;
   padding-bottom: 60px;
@@ -132,10 +132,93 @@ nav a {
   background-color: #3c3c3c;
 }
 
-#lists-wrap .title {
+#all-lists .title {
   padding-top: 20px;
   font-size: 30px;
   font-weight: 700;
+}
+
+.list-landing {
+  width: 220px;
+  position: relative;
+  text-align: left;
+  padding: 10px;
+  background-color: #505050;
+  margin-top: 4px;
+}
+
+.list-landing .delete-btn {
+  position: absolute;
+  top: -15px;
+  left: -10px;
+  z-index: 5;
+  font-size: 25px;
+  display: none;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+.list-landing .delete-btn .fa-times-circle {
+  color: #db202c;
+}
+
+.list-landing a {
+  text-decoration: none;
+}
+
+.list-landing div.p {
+  padding-top: 5px;
+  font-size: 16px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 13vw;
+}
+
+.list-landing .image-preview {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  direction: row;
+}
+
+.list-landing .image-preview .wrapper {
+  background-color: gray;
+  z-index: 2;
+  height: 130px;
+  border-radius: 0 5px 5px 0;
+}
+
+.list-landing .image-preview .first {
+  z-index: 3;
+}
+
+.list-landing .image-preview .second {
+  z-index: 2;
+  opacity: 0.7;
+  background: black;
+}
+
+.list-landing .image-preview .third {
+  z-index: 1;
+  opacity: 0.4;
+}
+
+.list-landing .image-preview .overlap {
+  margin-left: -40px;
+}
+
+.list-landing .image-preview img {
+  border-radius: 5px;
+  height: 130px;
+  border-right: 2px solid #3c3c3c;
+}
+
+.list-landing:hover {
+  background-color: #141414;
 }
 
 .float-box {
@@ -690,7 +773,7 @@ nav a {
 }
 
 #left h1 {
-  padding-top: 10px;
+  padding-top: 20px;
 }
 
 #lists-element {
@@ -698,10 +781,10 @@ nav a {
 }
 
 #lists {
-  margin-top: 20px;
+  margin-top: 10px;
   display: -ms-grid;
   display: grid;
-  grid-gap: 2%;
+  grid-gap: 4%;
   -ms-grid-columns: (minmax(200px, 1fr))[auto-fit];
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   width: 100%;
@@ -709,10 +792,10 @@ nav a {
 }
 
 .list {
+  width: 220px;
   position: relative;
   text-align: left;
   padding: 10px;
-  padding-left: 0.5vw;
   background-color: #3c3c3c;
   margin-top: 4px;
 }
@@ -919,4 +1002,8 @@ input[type="submit"] {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   padding: 0;
+}
+
+.error {
+  font-size: 20px;
 }

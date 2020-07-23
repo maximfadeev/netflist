@@ -9,22 +9,25 @@
 
             <div id="lists">
                 {{#each lists}}
-                    <div class="list">
-                        <button type="submit" class="delete-btn" onclick="deleteButton('{{this._id}}')">
-                            <i class=" fas fa-times-circle"></i>
-                        </button>
-                        <a href="javascript:generateList('{{this._id}}')">
-                            <div class="image-preview">
-                                <img src="{{this.titles.0.image}}" class="first">
-                                <div class="wrapper"> <img src="{{this.titles.1.image}}"
-                                        onerror="this.src = '/images/no-preview-1.png';" class="overlap second"></div>
+                    <div class="list-box">
+                        <div class="list">
+                            <button type="submit" class="delete-btn" onclick="deleteButton('{{this._id}}')">
+                                <i class=" fas fa-times-circle"></i>
+                            </button>
+                            <a href="javascript:generateList('{{this._id}}')">
+                                <div class="image-preview">
+                                    <img src="{{this.titles.0.image}}" class="first">
+                                    <div class="wrapper"> <img src="{{this.titles.1.image}}"
+                                            onerror="this.src = '/images/no-preview-1.png';" class="overlap second">
+                                    </div>
 
-                                <img src="{{this.titles.2.image}}" onerror="this.src = '/images/no-preview-2.png';"
-                                    class="overlap third">
-                            </div>
-                            <div class="p">{{this.name}}</div>
+                                    <img src="{{this.titles.2.image}}" onerror="this.src = '/images/no-preview-2.png';"
+                                        class="overlap third">
+                                </div>
+                                <div class="p">{{this.name}}</div>
 
-                        </a>
+                            </a>
+                        </div>
                     </div>
                 {{/each}}
                 <form action="/create" method="post" id="btn-wrap">

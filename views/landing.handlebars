@@ -5,24 +5,18 @@
     <p id="intro-text">Browse and create lists with Netflix movies, shows and episodes.</p>
     <div id="buttons">
 
-        <a href="#lists-wrap"><input type="button" class="browse-btn button" value="Browse Lists"></a><a
+        <a href="#all-lists"><input type="button" class="browse-btn button" value="Browse Lists"></a><a
             href="/login"><input type="button" class="create-btn button" value="Create List"></a>
     </div>
 
 
 </div>
-<div id="lists-wrap">
+<div id="all-lists">
     <p class="title">All lists:</p>
     <div id="lists">
         {{#each lists}}
-            {{!-- <div class="list-row">
-                <p>{{this.name}}</p>
-            </div> --}}
-            <div class="list">
-                <button type="submit" class="delete-btn" onclick="deleteButton('{{this._id}}')">
-                    <i class=" fas fa-times-circle"></i>
-                </button>
-                <a href="javascript:generateList('{{this._id}}')">
+            <div class="list-landing">
+                <a href="/list/{{this._id}}">
                     <div class="image-preview">
                         <img src="{{this.titles.0.image}}" class="first">
                         <div class="wrapper"> <img src="{{this.titles.1.image}}"
@@ -32,7 +26,6 @@
                             class="overlap third">
                     </div>
                     <div class="p">{{this.name}}</div>
-
                 </a>
             </div>
 
