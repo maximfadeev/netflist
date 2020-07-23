@@ -146,62 +146,6 @@ $list-background-color: rgb(20, 20, 20);
 .searchResult {
     width: 100%;
 
-    .all-title-info {
-        display: flex;
-        flex-direction: horizontal;
-        position: relative;
-    }
-
-    .image {
-        width: 140px;
-    }
-
-    .clicked {
-        opacity: 0.3;
-    }
-
-    .image:hover {
-        opacity: 0.4;
-    }
-
-    .right-of-img {
-        width: 60%;
-        margin: 5px 10px;
-        display: inline-block;
-        vertical-align: top;
-        height: 100%;
-    }
-
-    .title-info {
-        height: 85%;
-        .name-el {
-            font-size: 22px;
-            font-weight: 700;
-        }
-        .year-el {
-            font-size: 14px;
-            font-weight: 200;
-        }
-        .rating-el {
-            font-size: 20px;
-            text-decoration: none;
-
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-        .synopsis {
-        }
-        // .countries-list {
-        //     margin-top: 15px;
-        //     font-size: 14px;
-        //     font-weight: 200;
-        //     width: 100%;
-        //     overflow-x: scroll;
-        //     white-space: nowrap;
-        // }
-    }
-
     .add-button-flex {
         flex: 1;
         position: relative;
@@ -253,6 +197,54 @@ $list-background-color: rgb(20, 20, 20);
             font-size: 15px;
             font-weight: 200;
         }
+    }
+}
+
+.all-title-info {
+    display: flex;
+    flex-direction: horizontal;
+    position: relative;
+}
+
+.image {
+    width: 140px;
+}
+
+.clicked {
+    opacity: 0.3;
+}
+
+.image:hover {
+    opacity: 0.4;
+}
+
+.right-of-img {
+    width: 60%;
+    margin: 5px 10px;
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+}
+
+.title-info {
+    height: 85%;
+    .name-el {
+        font-size: 22px;
+        font-weight: 700;
+    }
+    .year-el {
+        font-size: 14px;
+        font-weight: 200;
+    }
+    .rating-el {
+        font-size: 20px;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    .synopsis {
     }
 }
 

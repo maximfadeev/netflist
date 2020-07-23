@@ -156,9 +156,16 @@ function generateList(listId) {
                             episodeInfo.classList.add("title-info");
 
                             // episode title
+
+                            const episodeLink = document.createElement("a");
+                            episodeLink.href = `http://www.netflix.com/watch/${episode.netflixId}`;
+                            episodeLink.target = "_blank";
+
                             const episodeTitle = document.createElement("h3");
                             episodeTitle.textContent = formatText(episode.title);
-                            episodeInfo.appendChild(episodeTitle);
+                            episodeLink.appendChild(episodeTitle);
+
+                            episodeInfo.appendChild(episodeLink);
 
                             // episode number and season
                             const nums = document.createElement("p");

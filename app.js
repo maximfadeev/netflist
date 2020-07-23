@@ -252,6 +252,7 @@ app.get("/list/:listId", (req, res) => {
             console.log(err);
         } else {
             data = data.toJSON();
+            console.log(data);
             res.render("list", { data });
         }
     });

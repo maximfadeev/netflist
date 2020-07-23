@@ -1,10 +1,59 @@
 {{>header}}
 <div id="list-wide">
     <div id="list-wide-info">
-        {{data.name}}
+        <h1>{{data.name}}</h1>
 
     </div>
     <div id="list-content">
+        {{#each data.titles}}
+            <div class="list-item">
+
+                <hr>
+                <div class="all-title-info">
+                    <img src={{this.image}} class="image">
+                    <div class="right-of-img">
+                        <div class="title-info">
+                            <p>
+                                <a href="http://www.netflix.com/title/{{this.netflixId}}" target="_blank"><span
+                                        class="name-el">{{this.title}}</span></a>
+                                &nbsp;
+                                <span class="year-el">{{this.year}}</span>
+                            </p>
+                            {{!-- <a class="rating-el" href="http://imdb.com" target="_blank"><i class="fas fa-star"></i></a> --}}
+                            <p class="synopsis">{{this.synopsis}}</p>
+
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    {{#each this.episodes}}
+                        <div class="list-wide-episode">
+                            <hr>
+                            <img src={{this.image}} class="image">
+                            <div class="right-of-img">
+                                <div class="title-info">
+                                    <p>
+                                        <a href="http://www.netflix.com/watch/{{this.netflixId}}" target="_blank"><span
+                                                class="name-el">{{this.title}}</span></a>
+                                        &nbsp;
+                                        <span class="season-ep-el">
+                                            S{{this.season}} E{{this.episode}}
+                                        </span>
+
+                                    </p>
+
+                                    {{!-- <a class="rating-el" href="http://imdb.com" target="_blank"><i class="fas fa-star"></i></a> --}}
+                                    <p class="synopsis">{{this.synopsis}}</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+                {{!-- {{this.title}} --}}
+            </div>
+        {{/each}}
+
 
     </div>
 
