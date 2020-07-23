@@ -14,6 +14,7 @@ function formatText(text) {
 }
 
 function generateList(listId) {
+    document.getElementById("placeholder-text").style.display = "none";
     fetch(`/retrieve/list/${listId}`, {
         method: "GET",
         headers: {

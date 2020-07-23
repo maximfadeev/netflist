@@ -251,9 +251,13 @@ app.get("/list/:listId", (req, res) => {
         if (err) {
             console.log(err);
         } else {
+            let user;
+            if (req.user) {
+                user = req.user.toJSON();
+            }
             data = data.toJSON();
             console.log(data);
-            res.render("list", { data });
+            res.render("list", { data, user });
         }
     });
 });

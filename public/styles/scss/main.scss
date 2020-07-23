@@ -63,6 +63,25 @@ input[type="submit"] {
     // height: 100%;
 }
 
-.error {
-    font-size: 20px;
+.errors {
+    position: absolute;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    left: 0;
+    right: 0;
+    text-align: left;
+    width: 400px;
+
+    .error {
+        border: 2px solid $primary-color;
+        border-radius: 4px;
+
+        margin-top: 10px;
+        font-size: 18px;
+        font-weight: 200;
+        padding: 2px;
+        padding-left: 50px;
+    }
 }

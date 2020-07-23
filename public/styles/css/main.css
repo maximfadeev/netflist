@@ -225,7 +225,7 @@ nav a {
   position: relative;
   display: block;
   margin: auto;
-  margin-top: 60px;
+  margin-top: 100px;
   width: 400px;
   background-color: black;
   padding: 10px 20px;
@@ -589,6 +589,7 @@ nav a {
 }
 
 #edit-list {
+  padding-top: 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -764,6 +765,17 @@ nav a {
 #list-titles .list-title .list-episode {
   background-color: #3c3c3c;
   position: relative;
+}
+
+#placeholder-text {
+  font-size: 20px;
+  margin-top: 200px;
+  margin-left: 90px;
+  opacity: 0.5;
+}
+
+.icon {
+  font-size: 200px;
 }
 
 #left {
@@ -1004,6 +1016,24 @@ input[type="submit"] {
   padding: 0;
 }
 
-.error {
-  font-size: 20px;
+.errors {
+  position: absolute;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+  left: 0;
+  right: 0;
+  text-align: left;
+  width: 400px;
+}
+
+.errors .error {
+  border: 2px solid #db202c;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 200;
+  padding: 2px;
+  padding-left: 50px;
 }

@@ -304,6 +304,7 @@ $list-background-color: rgb(20, 20, 20);
 }
 
 #edit-list {
+    padding-top: 10px;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -456,4 +457,15 @@ $list-background-color: rgb(20, 20, 20);
             position: relative;
         }
     }
+}
+
+#placeholder-text {
+    font-size: 20px;
+    margin-top: 200px;
+    margin-left: 90px;
+    opacity: 0.5;
+}
+
+.icon {
+    font-size: 200px;
 }
