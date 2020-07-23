@@ -44,15 +44,31 @@ function generateList(listId) {
                 listNameWrap.appendChild(listName);
                 listTitles.appendChild(listNameWrap);
 
+                // buttons wrap
+                const listButtons = document.createElement("div");
+                listButtons.setAttribute("id", "buttons-wrap");
+
                 // edit button
                 const editBtnLink = document.createElement("a");
                 editBtnLink.setAttribute("href", `/edit/list/${data._id}`);
                 const editBtn = document.createElement("input");
                 editBtn.setAttribute("type", "button");
                 editBtn.value = "edit list";
-                editBtn.setAttribute("id", "edit-list-button");
+                editBtn.classList.add("list-button");
                 editBtnLink.appendChild(editBtn);
-                listTitles.appendChild(editBtnLink);
+                listButtons.appendChild(editBtnLink);
+
+                // list page button
+                const listPageLink = document.createElement("a");
+                listPageLink.setAttribute("href", `/list/${data._id}`);
+                const listPage = document.createElement("input");
+                listPage.setAttribute("type", "button");
+                listPage.value = "list page";
+                listPage.classList.add("list-button");
+                listPageLink.appendChild(listPage);
+                listButtons.appendChild(listPageLink);
+
+                listTitles.appendChild(listButtons);
 
                 for (let title of data.titles) {
                     // div for list title

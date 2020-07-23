@@ -132,7 +132,13 @@
     }
 }
 
-#edit-list-button {
+#buttons-wrap {
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+}
+
+.list-button {
     font-size: 14px;
     border: 1px solid white;
     background-color: rgb(20, 20, 20);

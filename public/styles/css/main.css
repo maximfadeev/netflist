@@ -821,7 +821,19 @@ nav a {
   opacity: 0.7;
 }
 
-#edit-list-button {
+#buttons-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-column-gap: 10px;
+          column-gap: 10px;
+}
+
+.list-button {
   font-size: 14px;
   border: 1px solid white;
   background-color: #141414;
@@ -832,7 +844,7 @@ nav a {
   border-radius: 4px;
 }
 
-#edit-list-button:hover {
+.list-button:hover {
   background-color: gray;
 }
 
