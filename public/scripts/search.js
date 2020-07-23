@@ -355,12 +355,14 @@ function addMovieToList(movie) {
 
 function addMovieToDb(movieRaw) {
     let movie = {
-        title: movieRaw.title,
+        title: formatText(movieRaw.title),
         netflixId: movieRaw.nfid,
-        synopsis: movieRaw.synopsis,
+        synopsis: formatText(movieRaw.synopsis),
         type: movieRaw.vtype,
         image: movieRaw.img,
         year: movieRaw.year,
+        imdbId: movieRaw.imdbid,
+        imdbRating: movieRaw.imdbrating,
     };
 
     const options = {
@@ -426,20 +428,22 @@ function addEpisodeToList(show, episode) {
 
 function addEpisodeToDb(episodeRaw, showRaw) {
     let episode = {
-        title: episodeRaw.title,
+        title: formatText(episodeRaw.title),
         netflixId: episodeRaw.epid,
-        synopsis: episodeRaw.synopsis,
+        synopsis: formatText(episodeRaw.synopsis),
         image: episodeRaw.img,
         season: episodeRaw.seasnum,
         episode: episodeRaw.epnum,
     };
     let show = {
-        title: showRaw.title,
+        title: formatText(showRaw.title),
         netflixId: showRaw.nfid,
-        synopsis: showRaw.synopsis,
+        synopsis: formatText(showRaw.synopsis),
         type: showRaw.vtype,
         image: showRaw.img,
         year: showRaw.year,
+        imdbId: showRaw.imdbid,
+        imdbRating: showRaw.imdbrating,
     };
 
     const options = {
@@ -518,7 +522,7 @@ function search(evt) {
                 // image
                 let imageEl = document.createElement("img");
                 imageEl.src = img;
-                imageEl.classList.add("image");
+                imageEl.classList.add("image-search");
                 // imageEl.addEventListener(
                 //     "click",
                 //     (function (movie) {
@@ -724,7 +728,7 @@ function showEpisodes(evt, id, show) {
                         // add episode image
                         let episodeImage = document.createElement("img");
                         episodeImage.src = episode.img;
-                        episodeImage.classList.add("image");
+                        episodeImage.classList.add("image-search");
                         episodeImage.onerror = function (e) {
                             this.src = "/images/no_image.png";
                         };

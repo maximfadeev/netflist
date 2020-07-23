@@ -22,7 +22,8 @@ const ListSchema = new mongoose.Schema({
             year: Number,
             type: { type: String, required: true },
             image: String,
-            imdbid: Number,
+            imdbId: String,
+            imdbRating: Number,
             clist: [String],
             episodes: [
                 {

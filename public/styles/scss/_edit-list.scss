@@ -206,7 +206,7 @@ $list-background-color: rgb(20, 20, 20);
     position: relative;
 }
 
-.image {
+.image-search {
     width: 140px;
 }
 
@@ -274,7 +274,7 @@ $list-background-color: rgb(20, 20, 20);
         margin: 10px;
         margin-left: 0px;
         width: 16vw;
-        .image {
+        img {
             width: auto;
             height: 8vw;
         }

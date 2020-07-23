@@ -10,7 +10,7 @@
 
                 <hr>
                 <div class="all-title-info">
-                    <img src={{this.image}} class="image">
+                    <img src={{this.image}} class="image-search">
                     <div class="right-of-img">
                         <div class="title-info">
                             <p>
@@ -19,7 +19,8 @@
                                 &nbsp;
                                 <span class="year-el">{{this.year}}</span>
                             </p>
-                            {{!-- <a class="rating-el" href="http://imdb.com" target="_blank"><i class="fas fa-star"></i></a> --}}
+                            <a class="rating-el" href="http://imdb.com/title/{{this.imdbId}}" target="_blank"><i
+                                    class="fas fa-star"></i>{{this.imdbRating}}</a>
                             <p class="synopsis">{{this.synopsis}}</p>
 
                         </div>
@@ -29,7 +30,7 @@
                     {{#each this.episodes}}
                         <div class="list-wide-episode">
                             <hr>
-                            <img src={{this.image}} class="image">
+                            <img src={{this.image}} class="image-search">
                             <div class="right-of-img">
                                 <div class="title-info">
                                     <p>
