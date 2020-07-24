@@ -58,96 +58,102 @@
         font-size: 30px;
         font-weight: 700;
     }
-    // #all-lists {
-    //     display: flex;
-    //     flex-direction: column;
-    //     .list-row {
-    //         padding-top: 10px;
-    //         padding-bottom: 10px;
-    //     }
-    // }
 }
 
-.list-landing {
-    width: 220px;
-    position: relative;
-    text-align: left;
-    padding: 10px;
-    // padding-left: 0.5vw;
-    background-color: rgb(80, 80, 80);
-    margin-top: 4px;
-    // height: 14vw;
+#lists-landing {
+    margin-top: 10px;
+    display: flex;
+    // grid-gap: 4%;
+    // grid-template-columns: repeat(4, minmax(80px, 1fr));
+    // grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    width: 100%;
+    padding-right: 2%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .list-landing {
+        margin-bottom: 20px;
+        margin-right: 20px;
 
-    .delete-btn {
-        position: absolute;
-        top: -15px;
-        left: -10px;
-        z-index: 5;
-        font-size: 25px;
-        display: none;
-        border: none;
-        background-color: transparent;
-        outline: none;
-        cursor: pointer;
-        .fa-times-circle {
-            color: $primary-color;
-        }
-    }
+        width: 220px;
+        position: relative;
+        text-align: left;
+        padding: 10px;
+        // padding-left: 0.5vw;
+        background-color: rgb(80, 80, 80);
+        margin-top: 4px;
+        // height: 14vw;
 
-    a {
-        text-decoration: none;
-    }
-
-    div.p {
-        padding-top: 5px;
-        // font-size: 1.2vw;
-        font-size: 16px;
-        font-weight: 700;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-
-        width: 13vw;
-    }
-
-    .image-preview {
-        display: flex;
-        direction: row;
-
-        .wrapper {
-            background-color: gray;
-            z-index: 2;
-            height: 130px;
-            // height: 200px;
-            border-radius: 0 5px 5px 0;
+        .delete-btn {
+            position: absolute;
+            top: -15px;
+            left: -10px;
+            z-index: 5;
+            font-size: 25px;
+            display: none;
+            border: none;
+            background-color: transparent;
+            outline: none;
+            cursor: pointer;
+            .fa-times-circle {
+                color: $primary-color;
+            }
         }
 
-        .first {
-            z-index: 3;
+        a {
+            text-decoration: none;
         }
 
-        .second {
-            z-index: 2;
-            opacity: 0.7;
-            background: black;
-        }
-        .third {
-            z-index: 1;
-            opacity: 0.4;
+        div.p {
+            padding-top: 5px;
+            // font-size: 1.2vw;
+            font-size: 16px;
+            font-weight: 700;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+
+            width: 13vw;
         }
 
-        .overlap {
-            margin-left: -40px;
-        }
-        img {
-            border-radius: 5px;
-            // height: 9vw;
-            height: 130px;
-            border-right: 2px solid rgb(60, 60, 60);
-        }
-    }
+        .image-preview {
+            display: flex;
+            direction: row;
 
-    &:hover {
-        background-color: rgb(20, 20, 20);
+            .wrapper {
+                background-color: gray;
+                z-index: 2;
+                height: 130px;
+                // height: 200px;
+                border-radius: 0 5px 5px 0;
+            }
+
+            .first {
+                z-index: 3;
+            }
+
+            .second {
+                z-index: 2;
+                opacity: 0.7;
+                background: black;
+            }
+            .third {
+                z-index: 1;
+                opacity: 0.4;
+            }
+
+            .overlap {
+                margin-left: -40px;
+            }
+            img {
+                border-radius: 5px;
+                // height: 9vw;
+                height: 130px;
+                border-right: 2px solid rgb(60, 60, 60);
+            }
+        }
+
+        &:hover {
+            background-color: rgb(20, 20, 20);
+        }
     }
 }

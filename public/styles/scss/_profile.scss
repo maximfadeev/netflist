@@ -15,12 +15,18 @@
 
 #lists {
     margin-top: 10px;
-    display: grid;
-    grid-gap: 4%;
+    display: flex;
+    // grid-gap: 4%;
     // grid-template-columns: repeat(4, minmax(80px, 1fr));
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    // grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     width: 100%;
-    padding-right: 6%;
+    padding-right: 2%;
+    flex-wrap: wrap;
+
+    .list-box {
+        margin-bottom: 20px;
+        margin-right: 20px;
+    }
 }
 
 .list {

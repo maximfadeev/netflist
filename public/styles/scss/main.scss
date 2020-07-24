@@ -75,13 +75,14 @@ input[type="submit"] {
     width: 400px;
 
     .error {
-        border: 2px solid $primary-color;
+        border: 1px solid $primary-color;
         border-radius: 4px;
-
+        background-color: black;
+        text-align: center;
         margin-top: 10px;
         font-size: 18px;
         font-weight: 200;
         padding: 2px;
-        padding-left: 50px;
+        // padding-left: 50px;
     }
 }

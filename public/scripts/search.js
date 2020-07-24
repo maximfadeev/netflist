@@ -179,7 +179,6 @@ function generateListContent(titles) {
 
 // create element for a title
 function createListElement(title) {
-    console.log(title);
     const listTitle = document.createElement("div");
     listTitle.classList.add("list-title");
     listTitle.setAttribute("id", title.netflixId);
@@ -494,7 +493,6 @@ function search(evt) {
             searchResults.setAttribute("id", "searchResults");
             // each result
             for (const result of data.results) {
-                console.log(result);
                 const {
                     imdbrating,
                     img,
@@ -774,7 +772,6 @@ function showEpisodes(evt, id, show) {
     } else if (parentEl.querySelector("#seasons").style.display === "none") {
         parentEl.querySelector("#seasons").style.display = "block";
         evt.path[1].childNodes[0].textContent = "hide episodes";
-        console.log(evt.path);
         evt.path[0].style.transform = "rotate(180deg)";
     } else {
         parentEl.querySelector("#seasons").style.display = "none";
