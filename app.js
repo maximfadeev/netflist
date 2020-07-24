@@ -35,7 +35,9 @@ app.use(express.urlencoded({ extended: true }));
 //     },
 // });
 // app.engine("handlebars", hbs.engine);
-app.engine("handlebars", exphbs({ handlebars: allowInsecurePrototypeAccess(Handlebars) }));
+// app.engine("handlebars", exphbs({ handlebars: allowInsecurePrototypeAccess(Handlebars) }));
+app.engine("handlebars", exphbs());
+
 app.set("view engine", "handlebars");
 
 // database
