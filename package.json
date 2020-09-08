@@ -1,34 +1,45 @@
 {
-    "name": "netflist",
-    "version": "1.0.0",
-    "description": "",
-    "main": "app.js",
-    "engines": {
-        "node": "12.18.0"
-    },
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "@handlebars/allow-prototype-access": "^1.0.3",
-        "bcryptjs": "^2.4.3",
-        "connect-flash": "^0.1.1",
-        "express": "^4.17.1",
-        "express-handlebars": "^4.0.6",
-        "express-session": "^1.17.1",
-        "hbs": "^4.1.1",
-        "install": "^0.13.0",
-        "mongoose": "^5.9.25",
-        "node-fetch": "^2.6.0",
-        "nodemon": "^2.0.4",
-        "npm": "^6.14.7",
-        "passport": "^0.4.1",
-        "passport-local": "^1.0.0",
-        "handlebars": "^4.7.6"
-    },
-    "devDependencies": {
-        "handlebars": "^4.7.6"
-    }
+  "name": "netflist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "engines": {
+    "node": "12.18.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@handlebars/allow-prototype-access": "^1.0.3",
+    "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
+    "express": "^4.17.1",
+    "express-handlebars": "^4.0.6",
+    "express-session": "^1.17.1",
+    "hbs": "^4.1.1",
+    "install": "^0.13.0",
+    "mongoose": "^5.9.25",
+    "node-fetch": "^2.6.0",
+    "nodemon": "^2.0.4",
+    "npm": "^6.14.7",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "handlebars": "^4.7.6"
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-node": "^4.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "handlebars": "^4.7.6",
+    "prettier": "^2.1.1"
+  }
 }
