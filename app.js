@@ -1,4 +1,3 @@
-// const fetch = require("node-fetch");
 const bcrypt = require('bcryptjs');
 const flash = require('connect-flash');
 const session = require('express-session');
@@ -24,26 +23,12 @@ app.use(express.static(publicPath));
 // body parser
 app.use(express.urlencoded({ extended: true }));
 
-// handlebars
-// const hbs = exphbs.create({
-//     helpers: {
-//         isMovie: function (value, options) {
-//             if (value.vtype === "movie") {
-//                 return options.fn(this);
-//             } else {
-//                 return options.inverse(this);
-//             }
-//         },
-//     },
-// });
-// app.engine("handlebars", hbs.engine);
 app.engine('handlebars', exphbs({ handlebars: allowInsecurePrototypeAccess(Handlebars) }));
-// app.engine("handlebars", exphbs());
-
 app.set('view engine', 'handlebars');
 
 // database
 const mongoose = require('mongoose');
+const { errorMonitor } = require('stream');
 
 const User = mongoose.model('User');
 const List = mongoose.model('List');
@@ -85,6 +70,7 @@ const ensureAuthenticated = function (req, res, next) {
   req.flash('error', 'Please log in to view this resource');
   res.redirect('/login');
 };
+
 const ensureUnauthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
     res.redirect('/profile');
@@ -93,16 +79,12 @@ const ensureUnauthenticated = function (req, res, next) {
   }
 };
 
-/// ///////////////////////////////
-/// ///////////////////////////////
-
+// routes
 app.get('/', (req, res) => {
   let user;
   if (req.user) {
     user = req.user.toJSON();
   }
-  // const lists = List.find({}).lean();
-  // console.log(lists);
   List.find({}, function (err, lists) {
     if (err) console.log(err);
     res.render('landing', { user, lists });
@@ -143,8 +125,8 @@ app.post('/register', (req, res) => {
 
         // Hash password
         bcrypt.genSalt(10, (err, salt) =>
-          bcrypt.hash(newUser.password, salt, (err, hash) => {
-            if (err) throw err;
+          bcrypt.hash(newUser.password, salt, (error, hash) => {
+            if (error) throw error;
             newUser.password = hash;
             newUser
               .save()
@@ -153,7 +135,7 @@ app.post('/register', (req, res) => {
 
                 res.redirect('/login');
               })
-              .catch((err) => console.log(err));
+              .catch((errorr) => console.log(errorr));
           })
         );
       }
@@ -187,11 +169,11 @@ app.get('/profile', ensureAuthenticated, (req, res) => {
           data = data.toObject();
           if (data.titles.length === 0) {
             List.deleteOne({ _id: listId }, function (err) {
-              if (err) return handleError(err);
+              if (err) return console.log(err);
               User.updateOne({ _id: user._id }, { $pull: { lists: { $in: [listId] } } }, function (
                 err
               ) {
-                if (err) return handleError(err);
+                if (err) return console.log(err);
               });
             });
           } else {
@@ -285,9 +267,9 @@ app.delete('/delete/list/:listId', (req, res) => {
   const { listId } = req.params;
   const userId = req.user._id;
   List.deleteOne({ _id: listId }, function (err) {
-    if (err) return handleError(err);
+    if (err) return console.log(err);
     User.updateOne({ _id: userId }, { $pull: { lists: { $in: [listId] } } }, function (err) {
-      if (err) return handleError(err);
+      if (err) return console.log(err);
       res.send({ message: 'complete' });
     });
   });
@@ -357,11 +339,11 @@ app.post('/edit/list/:listId/addEpisode', (req, res) => {
               titles: req.body.show,
             },
           },
-          function (err, data) {
-            if (err) {
-              console.log('err', err);
+          function (error, newData) {
+            if (error) {
+              console.log('error', error);
               res.send({ message: 'error' });
-            } else if (data === null) {
+            } else if (newData === null) {
               console.log('no list exists');
               res.send({ message: 'error' });
             } else {
@@ -376,11 +358,11 @@ app.post('/edit/list/:listId/addEpisode', (req, res) => {
                   },
                 },
 
-                function (err, data) {
-                  if (err) {
-                    console.log('err', err);
+                function (errorr, newerData) {
+                  if (errorr) {
+                    console.log('errorr', errorr);
                     res.send({ message: 'error' });
-                  } else if (data === null) {
+                  } else if (newerData === null) {
                     console.log('no list exists');
                     res.send({ message: 'error' });
                   } else {
@@ -403,17 +385,9 @@ app.delete('/delete/:listId/:title', (req, res) => {
   const delTitle = req.params.title;
 
   List.updateOne({ _id: listId }, { $pull: { titles: { netflixId: [delTitle] } } }, function (err) {
-    if (err) return handleError(err);
+    if (err) return console.log(err);
     res.send({ message: 'complete' });
   });
-
-  // List.deleteOne({ _id: listId }, function (err) {
-  //     if (err) return handleError(err);
-  //     User.updateOne({ _id: userId }, { $pull: { lists: { $in: [listId] } } }, function (err) {
-  //         if (err) return handleError(err);
-  //         res.send({ message: "complete" });
-  //     });
-  // });
 });
 
 app.delete('/delete/:listId/:title/:episode', (req, res) => {
@@ -439,9 +413,9 @@ app.delete('/delete/:listId/:title/:episode', (req, res) => {
       }
     }
     list.titles[titleIndex].episodes.splice(episodeIndex, 1);
-    list.save(function (err) {
-      if (err) {
-        console.log(err);
+    list.save(function (error) {
+      if (error) {
+        console.log(error);
       }
     });
     res.send({ message: 'complete' });
