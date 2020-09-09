@@ -13,4 +13,3 @@ ___
  - Uses Fetch API for AJAX requests
  ___
  
-__Currently in the stage of refactoring code according to the Airbnb styleguide__
